@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\BrandController;
 use App\Http\Controllers\API\TypeController;
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,10 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout']);
 
 // Public API
-Route::resource('brands', BrandController::class)->except(['create', 'edit']);
-Route::resource('types', TypeController::class)->except(['create', 'edit']);
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::resource('brands', BrandController::class)->except(['create', 'edit']);
+    Route::resource('types', TypeController::class)->except(['create', 'edit']);
+});
