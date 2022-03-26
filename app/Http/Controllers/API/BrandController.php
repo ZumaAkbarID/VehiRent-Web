@@ -37,7 +37,7 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'brand_name' => 'required|string'
+            'brand_name' => 'required|string|unique:brands'
         ]);
         $validated['updated_at'] = null;
 
@@ -89,10 +89,12 @@ class BrandController extends Controller
 
         if (!$brand) {
             return "Not Found";
+        } else if (Brand::where('brand_name', $request->brand_name)->first()) {
+            return response(['message' => 'The given data was invalid.', 'errors' => ['brand_name' => ['The brand name has already been taken.']]]);
         }
 
         $validated = $request->validate([
-            'brand_name' => 'required|string|unique:brands,id,' . $id
+            'brand_name' => 'required|string'
         ]);
 
         if (Brand::where('id', $id)->update($validated)) {
