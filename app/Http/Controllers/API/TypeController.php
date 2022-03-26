@@ -92,9 +92,15 @@ class TypeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!Type::find($id)) {
+            return "Not Found";
+        } else if (Type::where('type_name', $request->type_name)->first()) {
+            return response(['message' => 'The given data was invalid.', 'errors' => ['type_name' => ['The type name has already been taken.']]]);
+        }
+
         $validated = $request->validate([
             'brand_id' => 'required',
-            'type_name' => 'required|string|unique:types,id,' . $id
+            'type_name' => 'required|string'
         ]);
 
         if (!Brand::find($request->brand_id)) {
