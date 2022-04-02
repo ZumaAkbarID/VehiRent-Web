@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\BrandController;
 use App\Http\Controllers\API\TypeController;
+use App\Http\Controllers\API\VehicleSpecsController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,24 +23,33 @@ header('Accept: application/json');
 Route::post('register', [AuthController::class, 'register']);
 Route::post('token', [AuthController::class, 'token']);
 
-// Public API
+// Member API
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    // Logout URL if User has been logged in
     Route::post('logout', [AuthController::class, 'logout']);
 
     Route::get('brands', [BrandController::class, 'index']);
-    Route::get('brands/{brand}', [BrandController::class, 'show']);
+    Route::get('brand/{brand}', [BrandController::class, 'show']);
 
     Route::get('types', [TypeController::class, 'index']);
-    Route::get('types/{type}', [TypeController::class, 'show']);
+    Route::get('type/{type}', [TypeController::class, 'show']);
+
+    Route::get('vehicles', [VehicleSpecsController::class, 'index']);
+    Route::get('vehicle/{vehicle}', [VehicleSpecsController::class, 'show']);
 });
 
+// Admin API
 Route::group(['middleware' => ['auth:sanctum', 'isAdmin']], function () {
     Route::post('brands', [BrandController::class, 'store']);
-    Route::put('brands/{brand}', [BrandController::class, 'update']);
-    Route::delete('brands/{brand}', [BrandController::class, 'destroy']);
+    Route::put('brand/{brand}', [BrandController::class, 'update']);
+    Route::delete('brand/{brand}', [BrandController::class, 'destroy']);
 
 
     Route::post('types', [TypeController::class, 'store']);
-    Route::put('types/{type}', [TypeController::class, 'update']);
-    Route::delete('types/{type}', [TypeController::class, 'destroy']);
+    Route::put('type/{type}', [TypeController::class, 'update']);
+    Route::delete('type/{type}', [TypeController::class, 'destroy']);
+
+    Route::post('vehicles', [VehicleSpecsController::class, 'store']);
+    Route::put('vehicle/{vehicle}', [VehicleSpecsController::class, 'update']);
+    Route::delete('vehicle/{vehicle}', [VehicleSpecsController::class, 'destroy']);
 });

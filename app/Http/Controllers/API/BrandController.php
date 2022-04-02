@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Brand;
+use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
 {
@@ -19,16 +20,6 @@ class BrandController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        // none
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -37,9 +28,16 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'brand_name' => 'required|string|unique:brands'
+            'brand_name' => 'required|string|unique:brands',
+            'brand_image' => 'required|file|image|mimes:png|max:2048'
         ]);
         $validated['updated_at'] = null;
+
+        if ($request->hasFile('brand_image')) {
+            $validated['brand_image'] = $request->file('brand_image')->store('brand-logo');
+        } else {
+            return response(['message' => 'The given data was invalid.', 'errors' => ['brand_image' => ['Failed to upload image.']]], 401);
+        }
 
         if (Brand::create($validated)) {
             return True;
@@ -59,21 +57,10 @@ class BrandController extends Controller
         $brand = Brand::where('id', $id)->with('type')->first();
 
         if (!$brand) {
-            return "Not Found";
+            return response(['message' => 'The given data was not found.'], 401);
         }
 
         return $brand;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        // none
     }
 
     /**
@@ -85,19 +72,28 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $brand = Brand::where('id', $id)->first();
+        $brand = Brand::where('id', $id);
+        $oldImagePath = $brand->first()->brand_image;
 
-        if (!$brand) {
-            return "Not Found";
+        if (!$brand->first()) {
+            return response(['message' => 'The given data was not found.'], 401);
         } else if (Brand::where('brand_name', $request->brand_name)->first()) {
-            return response(['message' => 'The given data was invalid.', 'errors' => ['brand_name' => ['The brand name has already been taken.']]]);
+            return response(['message' => 'The given data was invalid.', 'errors' => ['brand_name' => ['The brand name has already been taken.']]], 401);
         }
 
         $validated = $request->validate([
-            'brand_name' => 'required|string'
+            'brand_name' => 'required|string',
+            'brand_image' => 'file|image|mimes:png|max:2048'
         ]);
 
-        if (Brand::where('id', $id)->update($validated)) {
+        if ($request->hasFile('brand_image')) {
+            $validated['brand_image'] = $request->file('brand_image')->store('brand-logo');
+            Storage::delete($oldImagePath);
+        } else {
+            $validated['brand_image'] = $oldImagePath;
+        }
+
+        if ($brand->update($validated)) {
             return True;
         } else {
             return False;
@@ -115,7 +111,11 @@ class BrandController extends Controller
         $brand = Brand::where('id', $id)->first();
 
         if (!$brand) {
-            return "Not Found";
+            return response(['message' => 'The given data was not found.'], 401);
+        }
+
+        if ($brand->brand_image !== 'default.png') {
+            Storage::delete($brand->brand_image);
         }
 
         if ($brand->delete()) {
