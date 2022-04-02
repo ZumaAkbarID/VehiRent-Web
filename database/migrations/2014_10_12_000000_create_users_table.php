@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('phone_number');
             $table->text('address');
             $table->enum('role', ['Admin', 'Member']);
+            $table->string('avatar');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -43,7 +43,7 @@ class TypeController extends Controller
         ]);
 
         if (!Brand::find($request->brand_id)) {
-            return "Brand Not Found";
+            return response(['message' => 'Data Brand was not found.'], 401);
         }
 
         $validated['updated_at'] = null;
@@ -66,21 +66,10 @@ class TypeController extends Controller
         $type = Type::where('id', $id)->with('brand')->first();
 
         if (!$type) {
-            return "Not Found";
+            return response(['message' => 'The given data was not found.'], 401);
         }
 
         return $type;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        // none
     }
 
     /**
@@ -93,7 +82,7 @@ class TypeController extends Controller
     public function update(Request $request, $id)
     {
         if (!Type::find($id)) {
-            return "Not Found";
+            return response(['message' => 'The given data was not found.'], 401);
         } else if (Type::where('type_name', $request->type_name)->first()) {
             return response(['message' => 'The given data was invalid.', 'errors' => ['type_name' => ['The type name has already been taken.']]]);
         }
@@ -104,7 +93,7 @@ class TypeController extends Controller
         ]);
 
         if (!Brand::find($request->brand_id)) {
-            return "Brand Not Found";
+            return response(['message' => 'Data brand was not found.'], 401);
         }
 
         if (Type::where('id', $id)->update($validated)) {
@@ -125,7 +114,7 @@ class TypeController extends Controller
         $type = Type::where('id', $id)->first();
 
         if (!$type) {
-            return "Not Found";
+            return response(['message' => 'The given data was not found.'], 401);
         }
 
         if ($type->delete()) {
