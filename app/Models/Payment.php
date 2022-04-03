@@ -13,6 +13,6 @@ class Payment extends Model
 
     public function rental()
     {
-        return $this->belongsTo(Rental::class);
+        return $this->belongsTo(Rental::class, 'id_rental', 'id');
     }
 }
