@@ -18,7 +18,7 @@ class RentalController extends Controller
      */
     public function index()
     {
-        return VehicleSpec::with('type')->get();
+        return Rental::with(['vehiclespec'])->get();
     }
 
     /**
@@ -33,13 +33,9 @@ class RentalController extends Controller
             return response(['message' => 'Data vehicle was not found.'], 401);
         }
 
-        if (!User::find($request->id_user)) {
-            return response(['message' => 'Data user was not found.'], 401);
-        }
-
         $validated = $request->validate([
             'id_vehicle' => 'required|numeric',
-            'id_user' => 'required|numeric',
+            'rent_name' => 'required|string',
             'start_rent_date' => 'required',
             'end_rent_date' => 'required',
             'guarante_rent_1' => 'required|file',
@@ -50,19 +46,19 @@ class RentalController extends Controller
         $validated['updated_at'] = null;
 
         if ($request->hasFile('guarante_rent_1')) {
-            $validated['guarante_rent_1'] = $request->file('guarante_rent_1')->storeAs('guarante-file', 'guarante_1_' . date('YMd_His') . User::where('id', $validated['id_user'])->first()->name);
+            $validated['guarante_rent_1'] = $request->file('guarante_rent_1')->storeAs('guarante-file', 'guarante_1_' . date('YMd_His') . $validated['rent_name']);
         } else {
             return response(['message' => 'The given data was invalid.', 'errors' => ['guarante_rent_1' => ['Failed to upload image.']]], 401);
         }
 
         if ($request->hasFile('guarante_rent_2')) {
-            $validated['guarante_rent_2'] = $request->file('guarante_rent_2')->storeAs('guarante-file', 'guarante_2_' . date('YMd_His') . User::where('id', $validated['id_user'])->first()->name);
+            $validated['guarante_rent_2'] = $request->file('guarante_rent_2')->storeAs('guarante-file', 'guarante_2_' . date('YMd_His') . $validated['rent_name']);
         } else {
             $validated['guarante_rent_2'] = null;
         }
 
         if ($request->hasFile('guarante_rent_3')) {
-            $validated['guarante_rent_3'] = $request->file('guarante_rent_3')->storeAs('guarante-file', 'guarante_3_' . date('YMd_His') . User::where('id', $validated['id_user'])->first()->name);
+            $validated['guarante_rent_3'] = $request->file('guarante_rent_3')->storeAs('guarante-file', 'guarante_3_' . date('YMd_His') . $validated['rent_name']);
         } else {
             $validated['guarante_rent_3'] = null;
         }
@@ -115,7 +111,7 @@ class RentalController extends Controller
 
         $validated = $request->validate([
             'id_vehicle' => 'required|numeric',
-            'id_user' => 'required|numeric',
+            'rent_name' => 'required|string',
             'start_rent_date' => 'required',
             'end_rent_date' => 'required',
             'guarante_rent_1' => 'file',
@@ -125,21 +121,21 @@ class RentalController extends Controller
         ]);
 
         if ($request->hasFile('guarante_rent_1')) {
-            $validated['guarante_rent_1'] = $request->file('guarante_rent_1')->storeAs('guarante-file', 'guarante_1_' . date('YMd_His') . User::where('id', $validated['id_user'])->first()->name);
+            $validated['guarante_rent_1'] = $request->file('guarante_rent_1')->storeAs('guarante-file', 'guarante_1_' . date('YMd_His') . $validated['rent_name']);
             Storage::delete($oldGuarante1);
         } else {
             $validated['guarante_rent_1'] = $oldGuarante1;
         }
 
         if ($request->hasFile('guarante_rent_2')) {
-            $validated['guarante_rent_2'] = $request->file('guarante_rent_2')->storeAs('guarante-file', 'guarante_2_' . date('YMd_His') . User::where('id', $validated['id_user'])->first()->name);
+            $validated['guarante_rent_2'] = $request->file('guarante_rent_2')->storeAs('guarante-file', 'guarante_2_' . date('YMd_His') . $validated['rent_name']);
             Storage::delete($oldGuarante2);
         } else {
             $validated['guarante_rent_2'] = $oldGuarante2;
         }
 
         if ($request->hasFile('guarante_rent_3')) {
-            $validated['guarante_rent_3'] = $request->file('guarante_rent_3')->storeAs('guarante-file', 'guarante_3_' . date('YMd_His') . User::where('id', $validated['id_user'])->first()->name);
+            $validated['guarante_rent_3'] = $request->file('guarante_rent_3')->storeAs('guarante-file', 'guarante_3_' . date('YMd_His') . $validated['rent_name']);
             Storage::delete($oldGuarante3);
         } else {
             $validated['guarante_rent_3'] = $oldGuarante3;

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Brand;
+use App\Models\Rental;
 use App\Models\Type;
 use App\Models\User;
 use App\Models\VehicleSpec;
@@ -118,6 +119,15 @@ class DatabaseSeeder extends Seeder
             'vehicle_status' => 'Available',
             'rent_price' => 250000,
             'vehicle_description' => 'None'
+        ]);
+
+        Rental::create([
+            'rent_name' => 'Member 1',
+            'id_vehicle' => 2,
+            'start_rent_date' => date('Y-m-d H:i:s'),
+            'end_rent_date' => date('Y-m-d H:i:s'),
+            'guarante_rent_1' => 'guarante-rent/default.pdf',
+            'rent_price' => 900000
         ]);
     }
 }

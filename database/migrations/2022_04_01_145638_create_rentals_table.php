@@ -15,7 +15,7 @@ class CreateRentalsTable extends Migration
     {
         Schema::create('rentals', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_user')->unsigned();
+            $table->string('rent_name');
             $table->bigInteger('id_vehicle')->unsigned();
             $table->dateTime('start_rent_date');
             $table->dateTime('end_rent_date');
@@ -27,7 +27,6 @@ class CreateRentalsTable extends Migration
         });
 
         Schema::table('rentals', function ($table) {
-            $table->foreign('id_user')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('id_vehicle')->references('id')->on('vehicle_specs')->cascadeOnDelete();
         });
     }

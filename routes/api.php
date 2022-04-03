@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\BrandController;
+use App\Http\Controllers\API\PaymentController;
+use App\Http\Controllers\API\RentalController;
 use App\Http\Controllers\API\TypeController;
 use App\Http\Controllers\API\VehicleSpecsController;
 use App\Http\Controllers\Auth\AuthController;
@@ -36,6 +38,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('vehicles', [VehicleSpecsController::class, 'index']);
     Route::get('vehicle/{vehicle}', [VehicleSpecsController::class, 'show']);
+
+    Route::get('rentals', [RentalController::class, 'index']);
+    Route::get('rental/{rental}', [RentalController::class, 'show']);
+
+    Route::get('payments', [PaymentController::class, 'index']);
+    Route::get('payment/{payment}', [PaymentController::class, 'show']);
 });
 
 // Admin API
@@ -52,4 +60,12 @@ Route::group(['middleware' => ['auth:sanctum', 'isAdmin']], function () {
     Route::post('vehicles', [VehicleSpecsController::class, 'store']);
     Route::put('vehicle/{vehicle}', [VehicleSpecsController::class, 'update']);
     Route::delete('vehicle/{vehicle}', [VehicleSpecsController::class, 'destroy']);
+
+    Route::post('rentals', [RentalController::class, 'store']);
+    Route::put('rental/{rental}', [RentalController::class, 'update']);
+    Route::delete('rental/{rental}', [RentalController::class, 'destroy']);
+
+    Route::post('payments', [PaymentController::class, 'store']);
+    Route::put('payment/{payment}', [PaymentController::class, 'update']);
+    Route::delete('payment/{payment}', [PaymentController::class, 'destroy']);
 });
