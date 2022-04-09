@@ -5,7 +5,7 @@ use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\RentalController;
 use App\Http\Controllers\API\TypeController;
 use App\Http\Controllers\API\VehicleSpecsController;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\APIAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,13 +22,13 @@ header('Accept: application/json');
 |
 */
 
-Route::post('register', [AuthController::class, 'register']);
-Route::post('token', [AuthController::class, 'token']);
+Route::post('register', [APIAuthController::class, 'register']);
+Route::post('token', [APIAuthController::class, 'token']);
 
 // Member API
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // Logout URL if User has been logged in
-    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('logout', [APIAuthController::class, 'logout']);
 
     Route::get('brands', [BrandController::class, 'index']);
     Route::get('brand/{brand}', [BrandController::class, 'show']);
