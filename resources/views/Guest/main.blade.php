@@ -1,4 +1,4 @@
-@extends('Layout.default')
+@extends('Layouts.Guest.default')
 
 @section('content')
 <div class="hero-wrap ftco-degree-bg" style="background-image: url('assets/main/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
@@ -379,4 +379,5 @@
       </div>
     </div>
   </section>	    
+  @include('Layouts.Guest.experience')
 @endsection

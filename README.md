@@ -5,23 +5,30 @@
 1. Clone repository ini
 
     ```bash
-    git clone https://github.com/ZumaAkbarID/VehiRent-Web.git / Atau
+    git clone https://github.com/ZumaAkbarID/VehiRent-Web.git
     ```
+    Atau Download di Dropdown Code warna hijau
 
-2. Copy .env.example ke .env
+2. Update composer package
+
+    ```bash
+    composer update
+    ```
+    
+3. Copy .env.example ke .env
 
     ```bash
     cp .env.example .env
     ```
 
-3. Konfigurasikan database pada file `.env`
+4. Konfigurasikan database pada file `.env`
 
-4. Lakukan migrasi dan seeding untuk data dummy
+5. Lakukan migrasi dan seeding untuk data dummy
 
     ```bash
     php artisan migrate
     ```
-5. Jalankan aplikasi
+6. Jalankan aplikasi
 
     ```bash
     php artisan serve
