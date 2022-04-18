@@ -18,9 +18,18 @@ class DashboardController extends Controller
 
     public function index()
     {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://api.quotable.io/random'); // Free quotes API
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
         $data = [
             'title' => 'Dashboard | ' . config('app.name'),
-            'user' => auth()->user()
+            'user' => auth()->user(),
+            'rental' => Rental::where('user_id', auth()->user()->id),
+            'quote' => json_decode($output, true)
         ];
 
         return view('Member.dashboard', $data);

@@ -16,6 +16,8 @@ class UserVerify extends Model
     protected $fillable = [
         'user_id',
         'token',
+        'description',
+        'status'
     ];
 
     /**

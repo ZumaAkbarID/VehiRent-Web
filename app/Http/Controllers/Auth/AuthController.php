@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\UserVerify;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail as FacadesMail;
 use Illuminate\Support\Facades\Session as FacadesSession;
 
@@ -15,7 +16,7 @@ class AuthController extends Controller
     public function login()
     {
         $data = [
-            'title' => 'Auth | ' . config('app.name')
+            'title' => 'Login | ' . config('app.name')
         ];
 
         return view('Auth.login', $data);
@@ -24,10 +25,19 @@ class AuthController extends Controller
     public function register()
     {
         $data = [
-            'title' => 'Auth | ' . config('app.name')
+            'title' => 'Register | ' . config('app.name')
         ];
 
         return view('Auth.register', $data);
+    }
+
+    public function resetPassword()
+    {
+        $data = [
+            'title' => 'Reset Password | ' . config('app.name')
+        ];
+
+        return view('Auth.reset-password', $data);
     }
 
     public function loginProcess(Request $request)
@@ -71,10 +81,12 @@ class AuthController extends Controller
         $userVerify = UserVerify::create([
             'user_id' => $userId,
             'token' => $token,
+            'description' => 'Email Verification',
+            'status' => 'Available',
             'updated_at' => null
         ]);
 
-        FacadesMail::send('Auth.emailVerificationEmail', ['token' => $token], function ($message) use ($request) {
+        FacadesMail::send('Auth.Email.emailVerificationEmail', ['token' => $token], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Email Verification Mail');
         });
@@ -98,9 +110,14 @@ class AuthController extends Controller
     {
         $verifyUser = UserVerify::where('token', $token)->first();
 
+        if ($verifyUser->status == 'Expire') {
+            return redirect('/auth/login')->with('error', 'Token Expired');
+        }
+
         $message = 'Sorry your email cannot be identified.';
 
         if (!is_null($verifyUser)) {
+            $verifyUser->update(['status' => 'Expire']);
             $user = User::find($verifyUser->user_id);
 
             if (!$user->email_verified_at) {
@@ -114,5 +131,84 @@ class AuthController extends Controller
             }
         }
         return redirect('/auth/login')->with('error', $message);
+    }
+
+    public function resetPasswordProcess(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Invalid Credentials');
+        }
+
+        if (is_null($user->email_verified_at)) {
+
+            $token = sha1(mt_rand(1, 90000) . $user->id);
+            UserVerify::create([
+                'user_id' => $user->id,
+                'token' => $token,
+                'description' => 'Email Verification',
+                'status' => 'Available',
+                'updated_at' => null
+            ]);
+
+            FacadesMail::send('Auth.Email.emailVerificationEmail', ['token' => $token], function ($message) use ($request) {
+                $message->to($request->email);
+                $message->subject('Email Verification Mail');
+            });
+
+            return redirect()->back()->with('error', 'You need to verify your email first. A verification email has been sent to ' . $user->email);
+        }
+
+        $token = sha1(mt_rand(1, 90000) . $user->id);
+        UserVerify::create([
+            'user_id' => $user->id,
+            'token' => $token,
+            'description' => 'Reset Password Attempt',
+            'status' => 'Available',
+            'updated_at' => null
+        ]);
+
+        FacadesMail::send('Auth.Email.emailResetPasswordEmail', ['token' => $token], function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject('Resset Password Mail');
+        });
+
+        return redirect()->back()->with('success', 'A password reset confirmation has been sent to your email');
+    }
+
+    public function verifyResetPassword($token)
+    {
+        $verifyUser = UserVerify::where('token', $token)->first();
+
+        $message = 'Sorry your email cannot be identified.';
+
+        if (!is_null($verifyUser)) {
+            $data = [
+                'title' => 'Create New Password',
+                'token' => $token
+            ];
+            return view('Auth.create-password', $data);
+        }
+        return redirect('/auth/login')->with('error', $message);
+    }
+
+    public function savePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:8|confirmed'
+        ]);
+
+        $verifyUser = UserVerify::where('token', $request->tkn)->first();
+
+        if ($verifyUser->status !== 'Expire') {
+            $updatePassword = User::where('id', $verifyUser->user_id)->update(['password' => Hash::make($request->password)]);
+            if ($updatePassword) {
+                $verifyUser->update(['status' => 'Expire',]);
+                return redirect('/auth/login')->with('success', 'Your password has been successfully updated');
+            }
+            return redirect('/auth/login')->with('error', 'Your password failed to update');
+        }
+        return redirect('/auth/login')->with('error', 'Token Expired');
     }
 }
