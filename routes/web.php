@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Guest\MainController;
 use App\Http\Controllers\Member\ProfileController as MemberProfileController;
 use App\Http\Controllers\RedirectsController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +30,7 @@ Route::get('/blog-single', [MainController::class, 'singleBlog']);
 Route::get('/contact', [MainController::class, 'contact']);
 
 Route::get('/account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify');
+Route::get('/account/reset/{token}', [AuthController::class, 'verifyResetPassword']);
 
 Route::group(['middleware' => 'guest'], function () {
 
@@ -39,6 +41,8 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/auth/login', [AuthController::class, 'login'])->name('login');
     Route::get('/auth/register', [AuthController::class, 'register'])->name('register');
     Route::get('/auth/reset-password', [AuthController::class, 'resetPassword'])->name('reset-password');
+    Route::post('/auth/reset-password-process', [AuthController::class, 'resetPasswordProcess'])->name('reset-password-process');
+    Route::post('/auth/save-password', [AuthController::class, 'savePassword'])->name('save-password');
 
     Route::post('/auth/login', [AuthController::class, 'loginProcess'])->name('loginProcess');
     Route::post('/auth/register', [AuthController::class, 'registerProcess'])->name('registerProcess');
@@ -50,6 +54,7 @@ Route::group(['middleware' => ['auth', 'isEmailVerified']], function () {
 });
 
 Route::group(['middleware' => ['auth', 'isEmailVerified', 'isAdmin']], function () {
+    Route::get('/admin/dashboard', [AdminDashboard::class, 'index'])->name('adminDashboard');
 });
 
 Route::group(['middleware' => ['auth', 'isEmailVerified', 'isMember']], function () {
@@ -61,4 +66,9 @@ Route::group(['middleware' => ['auth', 'isEmailVerified', 'isMember']], function
 
     Route::post('/saveProfile', [MemberProfileController::class, 'saveProfile'])->name('saveProfileMember');
     Route::post('/saveLogin', [MemberProfileController::class, 'saveLogin'])->name('saveLoginMember');
+});
+
+// Kepepet Tok
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
 });

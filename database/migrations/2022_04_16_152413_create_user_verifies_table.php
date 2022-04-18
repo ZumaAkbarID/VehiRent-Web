@@ -16,7 +16,9 @@ class CreateUserVerifiesTable extends Migration
         Schema::create('user_verifies', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->string('token');
+            $table->string('token')->unique();
+            $table->string('description');
+            $table->enum('status', ['Expire', 'Available']);
             $table->timestamps();
         });
     }

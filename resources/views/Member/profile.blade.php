@@ -1,144 +1,158 @@
-@extends('Layouts.Guest.default')
-@section('content')
-<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('assets/main/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
-        <div class="col-md-9 ftco-animate pb-5">
-            <p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Dashboard <i class="ion-ios-arrow-forward"></i></span></p>
-          <h1 class="mb-3 bread">Profile</h1>
-        </div>
-      </div>
-    </div>
-  </section>
+@extends('Layouts.Dashboard.dashboard')
+@section('dashboard')    
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dashboard /</span> Account</h4>
+<div class="row">
+  <div class="col-md-12">
+    <ul class="nav nav-pills flex-column flex-md-row mb-3">
+      <li class="nav-item">
+        <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i> Account</a>
+      </li>
+    </ul>
+    <div class="card mb-4">
+      <h5 class="card-header">Profile Details</h5>
+      <!-- Account -->
+      <div class="card-body">
+        <form id="formAccountSettings" method="POST" action="{{ route('saveProfileMember') }}" enctype="multipart/form-data">
+        @csrf
+        <div class="d-flex align-items-start align-items-sm-center gap-4">
+          <img
+            src="/assets/sneat/img/avatars/1.png"
+            alt="user-avatar"
+            class="d-block rounded"
+            height="100"
+            width="100"
+            id="uploadedAvatar"
+          />
+          <div class="button-wrapper">
+            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+              <span class="d-none d-sm-block">Upload new photo</span>
+              <i class="bx bx-upload d-block d-sm-none"></i>
+              <input
+                type="file"
+                id="upload"
+                name="upload"
+                class="account-file-input"
+                hidden
+                accept="image/png, image/jpeg, image/gif"
+              />
+            </label>
+            <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+              <i class="bx bx-reset d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Reset</span>
+            </button>
 
-  <section class="ftco-section contact-section">
-    <div class="container">
-      <div class="col-lg-12">
-          <div class="row">
-              <div class="col-lg-3 mb-4">
-                <div class="list-group">
-                  <a href="{{ route('redirects') }}" class="list-group-item list-group-item-action">Dashboard</a>
-                  <a href="{{ route('profileMember') }}" class="list-group-item list-group-item-action active">Profile</a>
-                  <a href="{{ route('historyMember') }}" class="list-group-item list-group-item-action">History</a>
+                <p class="text-muted mb-0">Allowed JPG, GIF or PNG.</p>
+              </div>
+            </div>
+          </div>
+          <hr class="my-0" />
+          <div class="card-body">
+              <div class="row">
+                <div class="mb-3 col-md-6">
+                  <label for="name" class="form-label">Full Name</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ auth()->user()->name }}"
+                    autofocus
+                    required
+                  />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="email" class="form-label">Email</label>
+                  <input class="form-control" type="email" name="email" id="email" value="{{ auth()->user()->email }}" required/>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="address" class="form-label">Address</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="address"
+                    name="address"
+                    value="{{ auth()->user()->address }}" required
+                  />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="role" class="form-label">Role</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="role"
+                    value="{{ auth()->user()->role }}"
+                    readonly
+                  />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label class="form-label" for="phone_number">Phone Number</label>
+                  <div class="input-group input-group-merge">
+                    <span class="input-group-text">ID </span>
+                    <input
+                      type="number"
+                      id="phone_number"
+                      name="phone_number"
+                      class="form-control"
+                      placeholder="081225389xxx"
+                      value="{{ auth()->user()->phone_number }}"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="password" class="form-label">Password</label>
+                  <input class="form-control" type="password" name="password" id="password" placeholder="Enter your password" required/>
                 </div>
               </div>
-              <div class="col-lg-9">
-                  
-                  <h4>Profile</h4>
-                  <button type="button" class="btn btn-secondary my-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                    Edit Profile
-                  </button>
-
-                  <table>
-                      <tr>
-                          <td>Name</td>
-                          <td> : {{ $user->name }}</td>
-                      </tr>
-                      <tr>
-                          <td>Email</td>
-                          <td> : {{ $user->email }}</td>
-                      </tr>
-                      <tr>
-                          <td>Phone Number</td>
-                          <td> : {{ $user->phone_number }}</td>
-                      </tr>
-                      <tr>
-                          <td>Address</td>
-                          <td> : {{ $user->address }}</td>
-                      </tr>
-                  </table>
-                  
-                  <div class="col-lg-12 mt-4">
-                    <div class="row">
-                      
-                      <div class="col-lg-6 mb-4">
-                        <h6 class="border-bottom text-black">Login Details <button type="button" class="btn btn-secondary my-2" data-bs-toggle="modal" data-bs-target="#editLoginModal">Edit Login</button></h6>
-                        <ul class="list-unstyled">
-                          <li>{{ $user->email }} or {{ $user->phone_number }}</li>
-                          <li>*****</li>
-                        </ul>
-                      </div>
-
-                    </div>
-                  </div>
-
+              <div class="mt-2">
+                <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                <button type="reset" class="btn btn-outline-secondary">Cancel</button>
               </div>
           </div>
+          <!-- /Account -->
+        </div>
+      </form>
+        <div class="card">
+          <h5 class="card-header">Change Password</h5>
+          <div class="card-body">
+            <div class="mb-3 col-12 mb-0">
+              <div class="alert alert-warning">
+                <h6 class="alert-heading fw-bold mb-1">Are you sure you want to change password?</h6>
+                {{-- <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p> --}}
+              </div>
+            </div>
+            <form id="formAccountDeactivation" method="POST" action="{{ route('saveLoginMember') }}">
+              @csrf
+              <div class="row">
+                <div class="mb-3 col-md-12">
+                  <label for="current_password" class="form-label">Current Password</label>
+                  <input class="form-control" type="password" name="current_password" id="current_password" placeholder="Curent Password" required/>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="new_password" class="form-label">New Password</label>
+                  <input class="form-control" type="password" name="new_password" id="new_password" placeholder="*********" required/>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="confirm_new_password" class="form-label">Confirm New Password</label>
+                  <input class="form-control" type="password" name="confirm_new_password" id="confirm_new_password" placeholder="**********" required/>
+                </div>
+              </div>
+              <div class="form-check mb-3">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="accountActivation"
+                  id="accountActivation"
+                  required
+                />
+                <label class="form-check-label" for="accountActivation"
+                  >I confirm to change my password</label
+                >
+              </div>
+              <button type="submit" class="btn btn-danger deactivate-account">Change Password</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
-
-  @include('Partials.alert')
-
-  <!-- Modal -->
-<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="{{ route('saveProfileMember') }}" method="post">
-            @csrf
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="Full Name" value="{{ $user->name }}" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" class="form-control" placeholder="Email Address" value="{{ $user->email }}" required>
-            </div>
-            <div class="form-group">
-                <label for="phone_number">Phone Number</label>
-                <input type="number" name="phone_number" id="phone_number" class="form-control" placeholder="Phone Number" value="{{ $user->phone_number }}" required>
-            </div>
-            <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" name="address" id="address" class="form-control" placeholder="Address" value="{{ $user->address }}" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password Confirmation</label>
-                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Save changes</button>
-        </div>
-    </form>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="editLoginModal" tabindex="-1" aria-labelledby="editLoginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Login Details</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="{{ route('saveLoginMember') }}" method="post">
-            @csrf
-            <div class="form-group">
-                <label for="current_password">Current Password</label>
-                <input type="password" name="current_password" id="current_password" class="form-control" placeholder="Current Password" required>
-            </div>
-            <div class="form-group">
-                <label for="new_password">New Password</label>
-                <input type="password" name="new_password" id="new_password" class="form-control" placeholder="New Password" required>
-            </div>
-            <div class="form-group">
-                <label for="confirm_new_password">Confirm New</label>
-                <input type="password" name="confirm_new_password" id="confirm_new_password" class="form-control" placeholder="Confirm New Password" required>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Save changes</button>
-        </div>
-    </form>
-      </div>
-    </div>
-  </div>
 @endsection

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -18,8 +19,19 @@ class ProfileController extends Controller
             'address' => 'required|string|min:8'
         ]);
 
+        if ($request->hasFile('upload')) {
+            $request->validate([
+                'upload' => 'required|image|mimes:jpg,png,jpeg,gif|max:2048',
+            ]);
+            $path = $request->file('upload')->store('user-avatar');
+            return Storage::url($path);
+        } else {
+            return redirect()->back()->with('info', 'GadaAda File');
+        }
+
         if (Hash::check($request->password, auth()->user()->password)) {
-            User::find(auth()->user()->id)->update($validation);
+
+            // User::find(auth()->user()->id)->update($validation);
             return redirect()->back()->with('success', 'Information updated');
         } else {
             return redirect()->back()->with('error', 'Credentials Incorret');
