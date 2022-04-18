@@ -14,7 +14,7 @@ class Type extends Model
 
     public function brand()
     {
-        return $this->belongsTo(Brand::class);
+        return $this->hasMany(Brand::class);
     }
 
     public function VehicleSpec()

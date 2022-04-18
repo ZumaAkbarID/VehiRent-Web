@@ -15,13 +15,9 @@ class CreateTypesTable extends Migration
     {
         Schema::create('types', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('brand_id')->unsigned();
-            $table->string('type_name');
+            $table->string('type_name')->unique();
+            $table->string('type_slug')->unique();
             $table->timestamps();
-        });
-
-        Schema::table('types', function ($table) {
-            $table->foreign('brand_id')->references('id')->on('brands')->cascadeOnDelete();
         });
     }
 

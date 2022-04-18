@@ -15,7 +15,7 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('payment_code')->unique();
+            $table->string('transaction_code');
             $table->bigInteger('id_rental')->unsigned();
             $table->string('cashier');
             $table->string('payment_type');
@@ -29,6 +29,7 @@ class CreatePaymentsTable extends Migration
 
         Schema::table('payments', function ($table) {
             $table->foreign('id_rental')->references('id')->on('rentals')->cascadeOnDelete();
+            $table->foreign('transaction_code')->references('transaction_code')->on('rentals')->cascadeOnDelete();
         });
     }
 

@@ -14,6 +14,6 @@ class Brand extends Model
 
     public function type()
     {
-        return $this->hasMany(Type::class);
+        return $this->belongsTo(Type::class);
     }
 }

@@ -16,7 +16,10 @@ class CreateVehicleSpecsTable extends Migration
         Schema::create('vehicle_specs', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_type')->unsigned();
+            $table->bigInteger('id_brand')->unsigned();
             $table->string('vehicle_name')->unique();
+            $table->string('vehicle_slug');
+            $table->string('number_plate')->unique();
             $table->string('vehicle_image');
             $table->integer('vehicle_year');
             $table->string('vehicle_color');
@@ -29,6 +32,7 @@ class CreateVehicleSpecsTable extends Migration
 
         Schema::table('vehicle_specs', function ($table) {
             $table->foreign('id_type')->references('id')->on('types')->cascadeOnDelete();
+            $table->foreign('id_brand')->references('id')->on('brands')->cascadeOnDelete();
         });
     }
 

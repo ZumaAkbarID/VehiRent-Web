@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Brand;
+use App\Models\Payment;
 use App\Models\Rental;
 use App\Models\Type;
 use App\Models\User;
@@ -39,7 +40,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Member 1',
             'email' => 'member1@gmail.com',
-            'phone_number' => '081234567890',
+            'phone_number' => '08123234234',
             'address' => 'Jl. Mencari Cinta Sejati',
             'role' => 'Member',
             'avatar' => 'user-avatar/default.png',
@@ -52,7 +53,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Member 2',
             'email' => 'member2@gmail.com',
-            'phone_number' => '081234567890',
+            'phone_number' => '08123435345',
             'address' => 'Jl. Mencari Cinta Sejati',
             'role' => 'Member',
             'avatar' => 'user-avatar/default.png',
@@ -61,33 +62,40 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
-        // Brand Seeder
-        Brand::create([
-            'brand_name' => 'Toyota',
-            'brand_image' => 'brand-logo/default.png'
-        ]);
-
-        Brand::create([
-            'brand_name' => 'Daihatsu',
-            'brand_image' => 'brand-logo/default.png'
-        ]);
-
         // Type Seeder
 
         Type::create([
-            'brand_id' => 1,
-            'type_name' => 'Car'
+            'type_name' => 'Car',
+            'type_slug' => 'car'
         ]);
 
         Type::create([
-            'brand_id' => 2,
-            'type_name' => 'Car'
+            'type_name' => 'Motorcycle',
+            'type_slug' => 'motorcycle'
+        ]);
+
+        // Brand Seeder
+        Brand::create([
+            'type_id' => 1,
+            'brand_name' => 'Toyota',
+            'brand_slug' => 'toyota',
+            'brand_image' => 'brand-logo/default.png'
+        ]);
+
+        Brand::create([
+            'type_id' => 1,
+            'brand_name' => 'Daihatsu',
+            'brand_slug' => 'daihatsu',
+            'brand_image' => 'brand-logo/default.png'
         ]);
 
         // Specs Seeder
         VehicleSpec::create([
             'id_type' => 1,
+            'id_brand' => 1,
             'vehicle_name' => 'Toyota Supra 1000cc',
+            'vehicle_slug' => 'toyota-supra-1000cc',
+            'number_plate' => 'K 6066 KIB',
             'vehicle_image' => 'vehicle-image/default.png',
             'vehicle_year' => 2016,
             'vehicle_color' => 'white',
@@ -99,7 +107,10 @@ class DatabaseSeeder extends Seeder
 
         VehicleSpec::create([
             'id_type' => 1,
+            'id_brand' => 1,
             'vehicle_name' => 'Toyota Alphard',
+            'vehicle_slug' => 'toyota-alphard',
+            'number_plate' => 'K 8932 OAS',
             'vehicle_image' => 'vehicle-image/default.png',
             'vehicle_year' => 2017,
             'vehicle_color' => 'white',
@@ -111,7 +122,10 @@ class DatabaseSeeder extends Seeder
 
         VehicleSpec::create([
             'id_type' => 2,
+            'id_brand' => 2,
             'vehicle_name' => 'Daihatsu Sigra',
+            'vehicle_slug' => 'daihatsu-sigra',
+            'number_plate' => 'K 5229 UB',
             'vehicle_image' => 'vehicle-image/default.png',
             'vehicle_year' => 2020,
             'vehicle_color' => 'red',
@@ -122,12 +136,26 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Rental::create([
-            'rent_name' => 'Member 1',
+            'transaction_code' => 'TRX000000001',
+            'user_id' => 3,
             'id_vehicle' => 2,
-            'start_rent_date' => date('Y-m-d H:i:s'),
-            'end_rent_date' => date('Y-m-d H:i:s'),
+            'start_rent_date' => now(),
+            'end_rent_date' => now(),
+            'status' => 'Not Picked',
             'guarante_rent_1' => 'guarante-rent/default.pdf',
             'rent_price' => 900000
+        ]);
+
+        Payment::create([
+            'transaction_code' => 'TRX000000001',
+            'id_rental' => 1,
+            'cashier' => 'Midtrans',
+            'payment_type' => 'transfer_bank',
+            'paid_date' => now(),
+            'payer_name' => 'Member 2',
+            'bank' => 'BNI',
+            'no_rek' => '03929409234',
+            'paid_total' => 900000
         ]);
     }
 }
