@@ -1,4 +1,3 @@
-<img src="https://1.bp.blogspot.com/-5-diQBxI_X8/XecNF-3mqHI/AAAAAAAAAEQ/Y0mgjoK7W2I7cNppWpIoXMND32oqknMQACEwYBhgL/s1600/3.jpg" alt="Kang Adit" style="zoom:50%;" />
 
 ## Installation
 
@@ -9,10 +8,10 @@
     ```
     Atau Download di Dropdown Code warna hijau
 
-2. Update composer package
+2. Install composer package
 
     ```bash
-    composer update
+    composer install
     ```
     
 3. Copy .env.example ke .env
