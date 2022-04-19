@@ -20,4 +20,9 @@ class VehicleSpec extends Model
     {
         return $this->hasMany(Rental::class, 'id', 'id_vehicle');
     }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'id_brand', 'id');
+    }
 }

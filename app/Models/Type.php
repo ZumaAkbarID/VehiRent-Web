@@ -19,6 +19,6 @@ class Type extends Model
 
     public function VehicleSpec()
     {
-        return $this->hasMany(VehicleSpec::class);
+        return $this->hasMany(VehicleSpec::class, 'id_type', 'id');
     }
 }

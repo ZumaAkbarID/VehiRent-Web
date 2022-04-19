@@ -130,14 +130,9 @@
     <script src="/assets/sneat/vendor/js/menu.js"></script>
     <!-- endbuild -->
 
-    <!-- Vendors JS -->
-    <script src="/assets/sneat/vendor/libs/apex-charts/apexcharts.js"></script>
-
     <!-- Main JS -->
     <script src="/assets/sneat/js/main.js"></script>
-
-    <!-- Page JS -->
-    <script src="/assets/sneat/js/dashboards-analytics.js"></script>
+    
     <!-- Page JS -->
     <script src="/assets/sneat/js/pages-account-settings-account.js"></script>
 

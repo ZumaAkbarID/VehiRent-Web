@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Member\DashboardController as MemberDashboard;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Guest\MainController;
-use App\Http\Controllers\Member\ProfileController as MemberProfileController;
+use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\RedirectsController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -64,8 +64,8 @@ Route::group(['middleware' => ['auth', 'isEmailVerified', 'isMember']], function
     Route::get('/history', [MemberDashboard::class, 'history'])->name('historyMember');
     Route::get('/history/{history}', [MemberDashboard::class, 'historyDetail']);
 
-    Route::post('/saveProfile', [MemberProfileController::class, 'saveProfile'])->name('saveProfileMember');
-    Route::post('/saveLogin', [MemberProfileController::class, 'saveLogin'])->name('saveLoginMember');
+    Route::post('/saveProfile', [ProfileController::class, 'saveProfile'])->name('saveProfile');
+    Route::post('/saveLogin', [ProfileController::class, 'saveLogin'])->name('saveLogin');
 });
 
 // Kepepet Tok

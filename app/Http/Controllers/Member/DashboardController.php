@@ -28,7 +28,8 @@ class DashboardController extends Controller
         $data = [
             'title' => 'Dashboard | ' . config('app.name'),
             'user' => auth()->user(),
-            'rental' => Rental::where('user_id', auth()->user()->id),
+            'rentalSuccess' => Rental::where('user_id', auth()->user()->id)->where('status', 'Completed')->count(),
+            'rentalOngoing' => Rental::where('user_id', auth()->user()->id)->where('status', '!=', 'Completed')->count(),
             'quote' => json_decode($output, true)
         ];
 

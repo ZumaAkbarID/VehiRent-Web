@@ -12,17 +12,19 @@
       <h5 class="card-header">Profile Details</h5>
       <!-- Account -->
       <div class="card-body">
-        <form id="formAccountSettings" method="POST" action="{{ route('saveProfileMember') }}" enctype="multipart/form-data">
+        <form id="formAccountSettings" method="POST" action="{{ route('saveProfile') }}" enctype="multipart/form-data">
         @csrf
         <div class="d-flex align-items-start align-items-sm-center gap-4">
           <img
-            src="/assets/sneat/img/avatars/1.png"
+            src="{{ asset('/storage/'.auth()->user()->avatar) }}"
             alt="user-avatar"
             class="d-block rounded"
             height="100"
             width="100"
             id="uploadedAvatar"
+            name="uploadedAvatar"
           />
+          <input type="hidden" name="oldImage" value="{{ auth()->user()->avatar }}">
           <div class="button-wrapper">
             <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
               <span class="d-none d-sm-block">Upload new photo</span>
@@ -41,7 +43,7 @@
               <span class="d-none d-sm-block">Reset</span>
             </button>
 
-                <p class="text-muted mb-0">Allowed JPG, GIF or PNG.</p>
+                <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max file 2MB. Better Aspec Ratio 1:1</p>
               </div>
             </div>
           </div>
@@ -121,7 +123,7 @@
                 {{-- <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p> --}}
               </div>
             </div>
-            <form id="formAccountDeactivation" method="POST" action="{{ route('saveLoginMember') }}">
+            <form id="formAccountDeactivation" method="POST" action="{{ route('saveLogin') }}">
               @csrf
               <div class="row">
                 <div class="mb-3 col-md-12">

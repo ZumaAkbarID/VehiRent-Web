@@ -20,4 +20,9 @@ class Rental extends Model
     {
         return $this->hasOne(Payment::class, 'id_rental', 'id');
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }

@@ -43,4 +43,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function rental()
+    {
+        return $this->belongsTo(Rental::class, 'user_id', 'id');
+    }
 }

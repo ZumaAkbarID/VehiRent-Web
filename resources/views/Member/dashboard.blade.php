@@ -6,7 +6,7 @@
           <div class="d-flex align-items-end row">
             <div class="col-sm-7">
               <div class="card-body">
-                <h5 class="card-title text-primary">Welcome back, {{ auth()->user()->name }}! 🎉</h5>
+                <h5 class="card-title text-primary">Welcome back, {{ auth()->user()->name }}! 👋</h5>
                 <p class="mb-4">
                   <i>{{ $quote['content'] }}</i>
                   ~ {{ $quote['author'] }}
@@ -43,7 +43,7 @@
                   </div>
                 </div>
                 <span>Rental Success</span>
-                <h3 class="card-title mb-2">{{ $rental->where('status', 'Completed')->count() }}</h3>
+                <h3 class="card-title mb-2">{{ $rentalSuccess }}</h3>
                 <small class="text-secondary fw-semibold">All time</small>
               </div>
             </div>
@@ -61,7 +61,7 @@
                   </div>
                 </div>
                 <span>Rental Ongoing</span>
-                <h3 class="card-title text-nowrap mb-1">{{ $rental->where('status', '!=', 'Completed')->count() }}</h3>
+                <h3 class="card-title text-nowrap mb-1">{{ $rentalOngoing }}</h3>
                 <small class="text-secondary fw-semibold">All time</small>
               </div>
             </div>
