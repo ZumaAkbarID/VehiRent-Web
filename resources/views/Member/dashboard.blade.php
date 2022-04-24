@@ -8,8 +8,8 @@
               <div class="card-body">
                 <h5 class="card-title text-primary">Welcome back, {{ auth()->user()->name }}! 👋</h5>
                 <p class="mb-4">
-                  <i>{{ $quote['content'] }}</i>
-                  ~ {{ $quote['author'] }}
+                  <i>{{ @$quote['content'] }}</i>
+                  ~ {{ @$quote['author'] }}
                 </p>
 
               </div>

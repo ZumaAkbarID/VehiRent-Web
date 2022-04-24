@@ -17,7 +17,7 @@ class CreateVehicleSpecsTable extends Migration
             $table->id();
             $table->bigInteger('id_type')->unsigned();
             $table->bigInteger('id_brand')->unsigned();
-            $table->string('vehicle_name')->unique();
+            $table->string('vehicle_name');
             $table->string('vehicle_slug');
             $table->string('number_plate')->unique();
             $table->string('vehicle_image');

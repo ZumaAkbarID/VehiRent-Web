@@ -17,6 +17,7 @@
     <title>{{ $title }}</title>
 
     <meta name="description" content="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/assets/sneat/img/favicon/favicon.ico" />
@@ -47,6 +48,7 @@
 
     <!-- Helpers -->
     <script src="/assets/sneat/vendor/js/helpers.js"></script>
+    <script src="/assets/sneat/vendor/libs/jquery/jquery.js"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
@@ -122,7 +124,6 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     @include('Partials.alert')
-    <script src="/assets/sneat/vendor/libs/jquery/jquery.js"></script>
     <script src="/assets/sneat/vendor/libs/popper/popper.js"></script>
     <script src="/assets/sneat/vendor/js/bootstrap.js"></script>
     <script src="/assets/sneat/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>

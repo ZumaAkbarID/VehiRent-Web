@@ -68,39 +68,103 @@
   
             <ul class="menu-inner py-1">
               <!-- Dashboard -->
-              <li class="menu-item active">
+              <li class="menu-item {{ Route::currentRouteName() == 'adminDashboard' ? 'active' : '' }}">
                 <a href="{{ route('redirects') }}" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                  <div data-i18n="Analytics">Dashboard</div>
+                  <div data-i18n="Dashboard">Dashboard</div>
                 </a>
               </li>
+              
+              @can('isAdmin')
+              <li class="menu-header small text-uppercase">
+                <span class="menu-header-text">Admin</span>
+              </li>
+
+              <li class="menu-item {{ Route::currentRouteName() == 'AdminTypes' ? 'active' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <i class="menu-icon tf-icons bx bx-category"></i>
+                  <div data-i18n="Manage Type">Manage Type</div>
+                </a>
+                <ul class="menu-sub">
+                  <li class="menu-item">
+                    <a href="{{ route('AdminTypes') }}" class="menu-link">
+                      <div data-i18n="View Types">View Types</div>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              
+              <li class="menu-item {{ Route::currentRouteName() == 'AdminBrands' ? 'active' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <i class="menu-icon tf-icons bx bx-git-compare"></i>
+                  <div data-i18n="Manage Brand">Manage Brand</div>
+                </a>
+                <ul class="menu-sub">
+                  <li class="menu-item">
+                    <a href="{{ route('AdminBrands') }}" class="menu-link">
+                      <div data-i18n="View Brands">View Brands</div>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              
+              <li class="menu-item {{ Route::currentRouteName() == 'AdminVehicles' ? 'active' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <i class="menu-icon tf-icons bx bx-car"></i>
+                  <div data-i18n="Manage Vehicle">Manage Vehicle</div>
+                </a>
+                <ul class="menu-sub">
+                  <li class="menu-item">
+                    <a href="{{ route('AdminVehicles') }}" class="menu-link">
+                      <div data-i18n="View Vehicles">View Vehicles</div>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              
+              <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <i class="menu-icon tf-icons bx bx-wallet"></i>
+                  <div data-i18n="Manage Transaction">Manage Transaction</div>
+                </a>
+                <ul class="menu-sub">
+                  <li class="menu-item">
+                    <a href="{{ route('profile') }}" class="menu-link">
+                      <div data-i18n="View Transactions">View Transactions</div>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              @endcan
   
               <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Information</span>
               </li>
-              <li class="menu-item">
+              <li class="menu-item {{ Route::currentRouteName() == 'profile' ? 'active' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                  <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                  <i class="menu-icon tf-icons bx bx-cog"></i>
                   <div data-i18n="Account Settings">Account Settings</div>
                 </a>
                 <ul class="menu-sub">
                   <li class="menu-item">
-                    <a href="{{ route('profileMember') }}" class="menu-link">
+                    <a href="{{ route('profile') }}" class="menu-link">
                       <div data-i18n="Account">Account</div>
                     </a>
                   </li>
                 </ul>
               </li>
               
+              @can('isMember')
               <!-- Components -->
               <li class="menu-header small text-uppercase"><span class="menu-header-text">Transaction</span></li>
               <!-- Cards -->
-              <li class="menu-item">
+              <li class="menu-item {{ Route::currentRouteName() == 'historyMember' ? 'active' : '' }} {{ Route::currentRouteName() == 'historyDetail' ? 'active' : '' }}">
                 <a href="{{ route('historyMember') }}" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-collection"></i>
                   <div data-i18n="History">History</div>
                 </a>
               </li>
+              @endcan
               
               <!-- Misc -->
               <li class="menu-header small text-uppercase"><span class="menu-header-text">Other</span></li>

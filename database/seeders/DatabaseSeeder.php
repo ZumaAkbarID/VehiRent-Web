@@ -74,6 +74,36 @@ class DatabaseSeeder extends Seeder
             'type_slug' => 'motorcycle'
         ]);
 
+        Type::create([
+            'type_name' => 'Bicyle',
+            'type_slug' => 'bicyle'
+        ]);
+
+        Type::create([
+            'type_name' => 'mboh1',
+            'type_slug' => 'mboh1'
+        ]);
+
+        Type::create([
+            'type_name' => 'mboh2',
+            'type_slug' => 'mboh2'
+        ]);
+
+        Type::create([
+            'type_name' => 'mboh3',
+            'type_slug' => 'mboh3'
+        ]);
+
+        Type::create([
+            'type_name' => 'mboh4',
+            'type_slug' => 'mboh4'
+        ]);
+
+        Type::create([
+            'type_name' => 'mboh5',
+            'type_slug' => 'mboh5'
+        ]);
+
         // Brand Seeder
         Brand::create([
             'type_id' => 1,

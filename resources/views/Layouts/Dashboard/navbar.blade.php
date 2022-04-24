@@ -22,7 +22,7 @@
                 <li class="nav-item lh-1 me-3">
                   <a
                     class="github-button"
-                    href="https://github.com/ZumaAkbarID/VehiRent"
+                    href="https://github.com/ZumaAkbarID/VehiRent-Web"
                     data-icon="octicon-star"
                     data-size="large"
                     data-show-count="true"
@@ -58,13 +58,13 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="{{ route('profileMember') }}">
+                      <a class="dropdown-item" href="{{ route('profile') }}">
                         <i class="bx bx-user me-2"></i>
                         <span class="align-middle">My Profile</span>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="{{ route('profileMember') }}">
+                      <a class="dropdown-item" href="{{ route('profile') }}">
                         <i class="bx bx-cog me-2"></i>
                         <span class="align-middle">Settings</span>
                       </a>

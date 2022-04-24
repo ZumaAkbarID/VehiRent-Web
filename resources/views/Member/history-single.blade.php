@@ -3,7 +3,7 @@
     <!-- Inline text elements -->
     <div class="col">
         <div class="card mb-4">
-          <h5 class="card-header">Detail #{{ $transaction->transaction_code }}</h5>
+          <h5 class="card-header">Detail #{{ $transaction->transaction_code }} <small><a href="{{ route('historyMember') }}">Back</a></small></h5>
           <div class="card-body">
             <table class="table table-bordered">
               <tbody>
@@ -93,4 +93,5 @@
           </div>
         </div>
       </div>
+    </div>
 @endsection

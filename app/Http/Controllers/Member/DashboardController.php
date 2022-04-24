@@ -36,16 +36,6 @@ class DashboardController extends Controller
         return view('Member.dashboard', $data);
     }
 
-    public function profile()
-    {
-        $data = [
-            'title' => 'Profile | ' . config('app.name'),
-            'user' => auth()->user()
-        ];
-
-        return view('Member.profile', $data);
-    }
-
     public function history()
     {
         $data = [

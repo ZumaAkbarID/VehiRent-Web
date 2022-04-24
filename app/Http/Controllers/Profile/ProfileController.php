@@ -5,12 +5,24 @@ namespace App\Http\Controllers\Profile;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail as FacadesMail;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
+
+    public function profile()
+    {
+        $data = [
+            'title' => 'Profile | ' . config('app.name'),
+            'user' => auth()->user()
+        ];
+
+        return view('Profile.profile', $data);
+    }
+
     public function saveProfile(Request $request)
     {
         $data = $request->validate([
@@ -24,7 +36,7 @@ class ProfileController extends Controller
             $request->validate([
                 'upload' => 'required|image|mimes:jpg,png,jpeg,gif|max:2048',
             ]);
-            $data['avatar'] = $request->file('upload')->store('user-avatar');
+            $data['avatar'] = $request->file('upload')->storeAs('user-avatar', Str::slug($data['name'] . '-' . date('d-m-Y')));
             if (!$request->oldImage == 'user-avatar/default.png') {
                 Storage::delete($request->oldImage);
             }

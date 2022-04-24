@@ -12,6 +12,19 @@ class Brand extends Model
     // Guard
     protected $guarded = ['brand_id'];
 
+    // Query Scope
+    public function scopeFilter($query, array $filter)
+    {
+        $query->when(
+            $filter['search'] ?? false,
+            fn ($query, $search) =>
+            $query->where(
+                fn ($query) =>
+                $query->where('brand_name', 'like', '%' . $search . '%')
+            )
+        );
+    }
+
     public function type()
     {
         return $this->belongsTo(Type::class);
@@ -19,6 +32,6 @@ class Brand extends Model
 
     public function vehicleSpec()
     {
-        return $this->hasMany(VehicleSpec::class, 'id', 'id_brand');
+        return $this->hasMany(VehicleSpec::class, 'id_brand', 'id');
     }
 }

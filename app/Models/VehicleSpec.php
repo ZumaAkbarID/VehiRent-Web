@@ -11,6 +11,20 @@ class VehicleSpec extends Model
 
     protected $guarded = ['id'];
 
+    // Query Scope
+    public function scopeFilter($query, array $filter)
+    {
+        $query->when(
+            $filter['search'] ?? false,
+            fn ($query, $search) =>
+            $query->where(
+                fn ($query) =>
+                $query->where('vehicle_name', 'like', '%' . $search . '%')
+                    ->orWhere('number_plate', 'like', '%' . $search . '%')
+            )
+        );
+    }
+
     public function type()
     {
         return $this->belongsTo(Type::class, 'id_type', 'id');

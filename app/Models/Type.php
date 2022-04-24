@@ -12,6 +12,19 @@ class Type extends Model
     // Guard
     protected $guarded = ['id'];
 
+    // Query Scope
+    public function scopeFilter($query, array $filter)
+    {
+        $query->when(
+            $filter['search'] ?? false,
+            fn ($query, $search) =>
+            $query->where(
+                fn ($query) =>
+                $query->where('type_name', 'like', '%' . $search . '%')
+            )
+        );
+    }
+
     public function brand()
     {
         return $this->hasMany(Brand::class);

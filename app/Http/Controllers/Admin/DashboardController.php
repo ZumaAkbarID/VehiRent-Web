@@ -39,7 +39,7 @@ class DashboardController extends Controller
             'title' => 'Admin Dashboard | ' . config('app.name'),
             'user' => auth()->user(),
             'rentalSuccess' => Rental::where('status', 'Completed')->count(),
-            'rentalOngoing' => Rental::where('status', '!=', 'Completed')->count(),
+            'rentalOngoing' => Rental::where('status', '!=', 'Completed')->where('status', '!=', 'Rejected')->count(),
             'allRental' => $allRental,
             'brand' => $brands,
             'vehicleSpec' => $vehicleSpec,
