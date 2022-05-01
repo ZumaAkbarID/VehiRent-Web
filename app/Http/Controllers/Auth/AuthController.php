@@ -108,6 +108,10 @@ class AuthController extends Controller
 
     public function verifyAccount($token)
     {
+        if (request()->redirect == 'mobile') {
+            $token = $token . '?redirect=mobile';
+        }
+
         $verifyUser = UserVerify::where('token', $token)->first();
 
         if ($verifyUser->status == 'Expire') {

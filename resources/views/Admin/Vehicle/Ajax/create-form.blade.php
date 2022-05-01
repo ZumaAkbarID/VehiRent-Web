@@ -2,7 +2,7 @@
     <form class="modal-content" method="POST" enctype="multipart/form-data" id="createForm">
       @csrf
       <div class="modal-header">
-        <h5 class="modal-title" id="modalDialogTitle">Create New Brand</h5>
+        <h5 class="modal-title" id="modalDialogTitle">Create New Vehicle</h5>
         <button
           type="button"
           class="btn-close"
@@ -12,31 +12,113 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col mb-3">
-            <label for="type_id" class="form-label">Type Name</label>
-            <select name="type_id" id="type_id" class="form-control" required>
-              <option value="">-- Select Type --</option>
-              @if (sizeof($types) == 0)
-                <option value="">No data record found</option>  
+          <div class="col-12 mb-3">
+            <label for="brand_id" class="form-label">Brand & Type</label>
+            <select name="brand_id" id="brand_id" class="form-control" required>
+              <option value="">-- Select Brand & Type --</option>
+              @if (sizeof($brands) == 0)
+                <option value="">No brand record found</option>  
               @else
-                @foreach ($types as $item)
-                  <option value="{{ $item->id }}">{{ $item->type_name }}</option>
+                @foreach ($brands as $brand)
+                  @foreach ($types as $type)
+                      @if ($brand->type_id == $type->id)
+                          <option value="{{ $brand->id }}"><b>{{ $brand->brand_name }}</b> type <b>{{ $type->type_name }}</b></option>
+                      @endif
+                  @endforeach
                 @endforeach
               @endif
             </select>
           </div>
-          <div class="col mb-3">
-            <label for="brand_name" class="form-label">Brand Name</label>
+          <div class="col-12 mb-3">
+            <label for="vehicle_name" class="form-label">Vehicle Name</label>
             <input
               type="text"
               class="form-control"
-              placeholder="Brand Name"
-              name="brand_name" 
-              id="brand_name" 
+              placeholder="Vehicle Name"
+              name="vehicle_name" 
+              id="vehicle_name" 
               required
               autofocus
             />
           </div>
+          
+          <div class="col-6 mb-3">
+            <label for="number_plate" class="form-label">Number Plate</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Plate Number"
+              name="number_plate" 
+              id="number_plate" 
+              required
+              autofocus
+            />
+          </div>
+          
+          <div class="col-6 mb-3">
+            <label for="vehicle_year" class="form-label">Vehicle Year</label>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Vehicle Year"
+              name="vehicle_year" 
+              id="vehicle_year" 
+              required
+              autofocus
+            />
+          </div>
+          
+          <div class="col-6 mb-3">
+            <label for="vehicle_color" class="form-label">Vehicle Color</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Vehicle Color"
+              name="vehicle_color" 
+              id="vehicle_color" 
+              required
+              autofocus
+            />
+          </div>
+          
+          <div class="col-6 mb-3">
+            <label for="vehicle_seats" class="form-label">Vehicle Seats</label>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Vehicle Seats"
+              name="vehicle_seats" 
+              id="vehicle_seats" 
+              required
+              autofocus
+            />
+          </div>
+          
+          <div class="col-12 mb-3">
+            <label for="rent_price" class="form-label">Rental Price /day</label>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Rental Price /day (Rp.)"
+              name="rent_price" 
+              id="rent_price" 
+              required
+              autofocus
+            />
+          </div>
+          
+          <div class="col-12 mb-3">
+            <label for="vehicle_description" class="form-label">Vehicle Description</label>
+            <textarea
+              class="form-control"
+              name="vehicle_description" 
+              id="vehicle_description" 
+              required
+              placeholder="HTML Support"
+              autofocus
+            ></textarea>
+          </div>
+
           <div class="d-flex align-items-start align-items-sm-center gap-4">
             <img
               src="/assets/sneat/img/avatars/1.png"
@@ -48,7 +130,7 @@
             />
             <div class="button-wrapper">
               <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                <span class="d-none d-sm-block">Select Image</span>
+                <span class="d-none d-sm-block">Select Vehicle Image</span>
                 <i class="bx bx-upload d-block d-sm-none"></i>
                 <input
                   type="file"

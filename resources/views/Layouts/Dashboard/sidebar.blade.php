@@ -75,6 +75,15 @@
                 </a>
               </li>
               
+              @can('isMember')
+              <li class="menu-item">
+                <a href="/rental" class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-car"></i>
+                  <div data-i18n="Rental">Rental</div>
+                </a>
+              </li>
+              @endcan
+              
               @can('isAdmin')
               <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Admin</span>

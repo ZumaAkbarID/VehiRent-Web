@@ -41,7 +41,7 @@
                     </button>
                     <div class="dropdown-menu">
                         <button class="dropdown-item" onclick="viewDetail({{ $item->id }})">
-                            <i class="bx bx-eye me-1"></i> Detail
+                            <i class="bx bx-detail me-1"></i> Detail
                         </button>
                         <button class="dropdown-item" onclick="editForm({{ $item->id }})">
                             <i class="bx bx-edit-alt me-1"></i> Edit

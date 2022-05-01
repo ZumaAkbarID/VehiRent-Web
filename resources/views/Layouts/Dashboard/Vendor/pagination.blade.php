@@ -13,7 +13,7 @@
       
         @foreach ($elements as $element)
             @if (is_string($element))
-                <li class="page-item disabled">{{ $element }}s</li>
+                <li class="page-item disabled">{{ $element }}</li>
             @endif
 
             @if (is_array($element))
