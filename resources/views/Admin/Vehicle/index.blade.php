@@ -386,6 +386,14 @@
         });
 
         // Create
+        function viewDetail(id) {
+            $.get("/admin/vehicle/view/"+id, {}, function(data, status) {
+                $('#modal-section').empty().html(data);
+                $('#modalDialog').modal('show');
+            });
+        };
+        
+        // Create
         function createForm() {
             $.get("{{ route('AdminCreateVehicleForm') }}", {}, function(data, status) {
                 $('#modal-section').empty().html(data);
@@ -411,7 +419,7 @@
           event.preventDefault();
           
           var formData = new FormData($('#createForm')[0]);
-          var brand_name = $('#brand_name').val();
+          var vehicle_name = $('#vehicle_name').val();
 
           $("#btn-submit").html('Please Wait...');
           $("#btn-submit"). attr("disabled", true);
@@ -431,8 +439,8 @@
                 });
 
                 Swal.fire({
-                    title: 'Brand Created!',
-                    text: "Success create brand : " + brand_name,
+                    title: 'Vehicle Created!',
+                    text: "Success create vehicle : " + vehicle_name,
                     icon: 'success',
                 });
 
@@ -444,7 +452,7 @@
 
         // Edit
         function editForm(id) {
-            $.get("/admin/brand/edit/"+id, {}, function(data, status) {
+            $.get("/admin/vehicle/edit/"+id, {}, function(data, status) {
                 $('#modal-section').empty().html(data);
                 $('#modalDialog').modal('show');
             });
@@ -454,7 +462,7 @@
           event.preventDefault();
           
           var formData = new FormData($('#updateForm')[0]);
-          var brand_name = $('#brand_name').val();
+          var vehicle_name = $('#vehicle_name').val();
 
           $("#btn-save").html('Please Wait...');
           $("#btn-save"). attr("disabled", true);
@@ -462,7 +470,7 @@
         // ajax
         $.ajax({
             type:"POST",
-            url: "{{ route('AdminEditBrand') }}",
+            url: "{{ route('AdminEditVehicle') }}",
             data: formData,
             processData: false,
             contentType: false,
@@ -474,8 +482,8 @@
                     });
 
                     Swal.fire({
-                        title: 'Type Edited!',
-                        text: "Success save brand : " + brand_name,
+                        title: 'Vehicle Edited!',
+                        text: "Success save vehicle : " + vehicle_name,
                         icon: 'success',
                     });
 
@@ -488,7 +496,7 @@
         function deleteItem(id) {
             Swal.fire({
                 title: 'Are you sure?',
-                text: "You won't be able to revert this! Brand id : " + id,
+                text: "You won't be able to revert this! Vehicle id : " + id,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -500,17 +508,17 @@
                         type:"POST",
                         url: "{{ route('AdminDeleteVehicle') }}",
                         data: {
-                            brand_id:id,
+                            vehicle_id:id,
                         },
                             success: function(res)  {
 
-                                $.get("{{ route('AdminFetchBrand') }}", {}, function(data, status) {
+                                $.get("{{ route('AdminFetchVehicle') }}", {}, function(data, status) {
                                     $('#table-section').html(data);
                                 });
 
                                 Swal.fire(
                                     'Deleted!',
-                                    'Brand with id '+ id +' has been deleted.',
+                                    'Vehicle with id '+ id +' has been deleted.',
                                     'success'
                                 )
                             }

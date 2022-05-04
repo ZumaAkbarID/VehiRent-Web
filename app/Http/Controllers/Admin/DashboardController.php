@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\Payment;
 use App\Models\Rental;
 use App\Models\Type;
 use App\Models\VehicleSpec;
@@ -45,6 +46,7 @@ class DashboardController extends Controller
             'vehicleSpec' => $vehicleSpec,
             'quote' => json_decode($output, true),
             'AdminDashboard' => true,
+            'lastTransaction' => Payment::with('rental')->latest()->limit(5)->get(),
             'topCustomer' => Rental::select('user_id', DB::raw('COUNT(id) as counter'))->groupBy('user_id')->orderBy(DB::raw('COUNT(id)', 'DESC'))->take(5)->get()
         ];
         // dd(Rental::select('user_id', DB::raw('COUNT(id) as counter'))->groupBy('user_id')->orderBy(DB::raw('COUNT(id)', 'DESC'))->take(5)->get());

@@ -22,7 +22,7 @@ class CreatePaymentsTable extends Migration
             $table->dateTime('paid_date');
             $table->string('payer_name');
             $table->string('bank');
-            $table->string('no_rek');
+            $table->string('no_ref')->nullable();
             $table->bigInteger('paid_total');
             $table->timestamps();
         });

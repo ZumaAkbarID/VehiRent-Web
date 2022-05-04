@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserVerify;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class APIAuthController extends Controller
 {
@@ -21,18 +23,44 @@ class APIAuthController extends Controller
         ]);
 
         $validated['role'] = 'Member';
-        $validated['password'] = bcrypt($validated['password']);
+        $validated['avatar'] = 'user-avatar/default.png';
+        $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create($validated);
-
         $token = $user->createToken('authToken')->plainTextToken;
 
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
+        $token = sha1(mt_rand(1, 90000) . $user->id) . '?redirect=mobile';
+        $userVerify = UserVerify::create([
+            'user_id' => $user->id,
+            'token' => $token,
+            'description' => 'Email Verification',
+            'status' => 'Available',
+            'updated_at' => null
+        ]);
 
-        return response($response, 201);
+        Mail::send('Auth.Email.emailVerificationEmail', ['token' => $token], function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject('Email Verification Mail');
+        });
+
+        if ($userVerify) {
+            $response = [
+                'message' => 'Email verification has been sent to your mail account'
+            ];
+            $status = 200;
+        } else {
+            $response = [
+                'message' => 'Failed to sent email verification to your mail account'
+            ];
+            $status = 401;
+        }
+
+        // $response = [
+        //     'user' => $user,
+        //     'token' => $token
+        // ];
+
+        return response($response, $status);
     }
 
     public function token(Request $request)

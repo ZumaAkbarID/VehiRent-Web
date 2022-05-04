@@ -58,7 +58,7 @@ class VehicleController extends Controller
      */
     public function create()
     {
-        return view('Admin.Vehicle.Ajax.create-form', ['types' => Type::all()]);
+        return view('Admin.Vehicle.Ajax.create-form', ['types' => Type::all(), 'brands' => Brand::all()]);
     }
 
     /**
@@ -70,17 +70,27 @@ class VehicleController extends Controller
     public function store(Request $request)
     {
         $validation = $request->validate([
-            'type_id' => 'required',
-            'brand_name' => 'required|string|unique:brands,brand_name',
+            'brand_id' => 'required',
+            'vehicle_name' => 'required|string',
+            'number_plate' => 'required|string|unique:vehicle_specs,number_plate',
+            'vehicle_year' => 'required|numeric',
+            'vehicle_color' => 'required|string',
+            'vehicle_seats' => 'required|numeric',
+            'rent_price' => 'required|numeric',
+            'vehicle_description' => 'required',
             'upload' => 'required|image|mimes:jpg,png,gif,jpeg|max:2048'
         ]);
 
-        if ($request->hasFile('upload')) {
-            $validation['brand_image'] = $request->file('upload')->storeAs('brand-logo', Str::slug($validation['brand_name']));
-        }
-        $validation['brand_slug'] = Str::slug($request->brand_name);
+        $validation['id_type'] = Brand::with('type')->where('id', $request->brand_id)->first()->type->id;
+        $validation['id_brand'] = $validation['brand_id'];
+        $validation['vehicle_slug'] = Str::slug($validation['vehicle_name']);
+        $validation['vehicle_status'] = 'Available';
 
-        Brand::create($validation);
+        if ($request->hasFile('upload')) {
+            $validation['vehicle_image'] = $request->file('upload')->storeAs('vehicle-image', $validation['vehicle_slug']);
+        }
+
+        VehicleSpec::create($validation);
     }
 
     /**
@@ -91,7 +101,11 @@ class VehicleController extends Controller
      */
     public function show($id)
     {
-        //
+        $vehicle = VehicleSpec::find($id);
+        return view('Admin.Vehicle.Ajax.view-detail', [
+            'vehicle' => $vehicle,
+            'brand' => Brand::with('type')->where('id', $vehicle->id_brand)->first()
+        ]);
     }
 
     /**
@@ -102,7 +116,7 @@ class VehicleController extends Controller
      */
     public function edit($id)
     {
-        return view('Admin.Brand.Ajax.edit-form', ['brand' => Brand::find($id), 'types' => Type::all()]);
+        return view('Admin.Vehicle.Ajax.edit-form', ['brands' => Brand::all(), 'types' => Type::all(), 'vehicle' => VehicleSpec::find($id)]);
     }
 
     /**
@@ -114,33 +128,52 @@ class VehicleController extends Controller
      */
     public function update(Request $request)
     {
-        if (Brand::where('brand_name', $request->brand_name)->where('id', '!=', $request->brand_id)->first()) {
+        if (VehicleSpec::where('number_plate', $request->number_plate)->where('id', '!=', $request->vehicle_id)->first()) {
             abort(403);
         }
 
         $validation = $request->validate([
+            'vehicle_id' => 'required',
+            'oldImage' => 'required',
             'brand_id' => 'required',
-            'type_id' => 'required',
-            'brand_name' => 'required|string'
+            'vehicle_name' => 'required|string',
+            'number_plate' => 'required|string',
+            'vehicle_year' => 'required|numeric',
+            'vehicle_color' => 'required|string',
+            'vehicle_seats' => 'required|numeric',
+            'rent_price' => 'required|numeric',
+            'vehicle_description' => 'required',
+            'vehicle_status' => 'required'
         ]);
-        $validation['brand_slug'] = Str::slug($request->brand_name);
+
+        $validation['id_type'] = Brand::with('type')->where('id', $request->brand_id)->first()->type->id;
+        $validation['id_brand'] = $validation['brand_id'];
+        $validation['vehicle_slug'] = Str::slug($validation['vehicle_name']);
 
         if ($request->hasFile('upload')) {
             $request->validate(['upload' => 'required|image|mimes:jpg,png,gif,jpeg|max:2048']);
-            $validation['brand_image'] = $request->file('upload')->storeAs('brand-logo', $validation['brand_name']);
+            $validation['vehicle_image'] = $request->file('upload')->storeAs('vehicle-image', $validation['vehicle_slug']);
             Storage::delete($request->oldImage);
         } else {
-            $validation['brand_image'] = $request->oldImage;
+            $validation['vehicle_image'] = $request->oldImage;
         }
 
         $data = [
-            'type_id' => $validation['type_id'],
-            'brand_name' => $validation['brand_name'],
-            'brand_slug' => $validation['brand_slug'],
-            'brand_image' => $validation['brand_image'],
+            'id_type' => $validation['id_type'],
+            'id_brand' => $validation['id_brand'],
+            'vehicle_name' => $validation['vehicle_name'],
+            'vehicle_slug' => $validation['vehicle_slug'],
+            'vehicle_image' => $validation['vehicle_image'],
+            'number_plate' => $validation['number_plate'],
+            'vehicle_year' => $validation['vehicle_year'],
+            'vehicle_color' => $validation['vehicle_color'],
+            'vehicle_seats' => $validation['vehicle_seats'],
+            'rent_price' => $validation['rent_price'],
+            'vehicle_description' => $validation['vehicle_description'],
+            'vehicle_status' => $validation['vehicle_status'],
         ];
 
-        Brand::where('id', $request->brand_id)->update($data);
+        VehicleSpec::where('id', $request->vehicle_id)->update($data);
     }
 
     /**
@@ -151,11 +184,11 @@ class VehicleController extends Controller
      */
     public function destroy(Request $request)
     {
-        $brand = Brand::find($request->brand_id);
-        if (is_null($brand)) {
+        $vehicle = VehicleSpec::find($request->vehicle_id);
+        if (is_null($vehicle)) {
             abort(403);
         }
-        Storage::delete($brand->brand_image);
-        $brand->delete();
+        Storage::delete($vehicle->vehicle_image);
+        $vehicle->delete();
     }
 }

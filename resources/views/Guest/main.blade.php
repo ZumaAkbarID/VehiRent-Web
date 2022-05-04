@@ -28,43 +28,13 @@
           <div class="row no-gutters">
               <div class="col-md-12	featured-top">
                   <div class="row no-gutters">
-                        <div class="col-md-4 d-flex align-items-center">
-                            <form action="#" class="request-form ftco-animate bg-primary">
-                        <h2>Make your trip</h2>
-                              <div class="form-group">
-                                  <label for="" class="label">Pick-up location</label>
-                                  <input type="text" class="form-control" placeholder="City, Airport, Station, etc">
-                              </div>
-                              <div class="form-group">
-                                  <label for="" class="label">Drop-off location</label>
-                                  <input type="text" class="form-control" placeholder="City, Airport, Station, etc">
-                              </div>
-                              <div class="d-flex">
-                                  <div class="form-group mr-2">
-                          <label for="" class="label">Pick-up date</label>
-                          <input type="text" class="form-control" id="book_pick_date" placeholder="Date">
-                        </div>
-                        <div class="form-group ml-2">
-                          <label for="" class="label">Drop-off date</label>
-                          <input type="text" class="form-control" id="book_off_date" placeholder="Date">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="" class="label">Pick-up time</label>
-                      <input type="text" class="form-control" id="time_pick" placeholder="Time">
-                    </div>
-                      <div class="form-group">
-                        <input type="submit" value="Rent A Car Now" class="btn btn-secondary py-3 px-4">
-                      </div>
-                          </form>
-                        </div>
-                        <div class="col-md-8 d-flex align-items-center">
+                        <div class="col-md-12 d-flex align-items-center">
                             <div class="services-wrap rounded-right w-100">
                                 <h3 class="heading-section mb-4">Better Way to Rent Your Perfect Cars</h3>
                                 <div class="row d-flex mb-4">
                             <div class="col-md-4 d-flex align-self-stretch ftco-animate">
                               <div class="services w-100 text-center">
-                                <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
+                                <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-car"></span></div>
                                 <div class="text w-100">
                                   <h3 class="heading mb-2">Choose Your Pickup Location</h3>
                               </div>
@@ -87,7 +57,6 @@
                               </div>      
                             </div>
                           </div>
-                          <p><a href="#" class="btn btn-primary py-3 px-4">Reserve Your Perfect Car</a></p>
                             </div>
                         </div>
                     </div>
@@ -107,62 +76,24 @@
           <div class="row">
               <div class="col-md-12">
                   <div class="carousel-car owl-carousel">
-                      <div class="item">
-                          <div class="car-wrap rounded ftco-animate">
-                              <div class="img rounded d-flex align-items-end" style="background-image: url(assets/main/images/car-1.jpg);">
-                              </div>
-                              <div class="text">
-                                  <h2 class="mb-0"><a href="#">Mercedes Grand Sedan</a></h2>
-                                  <div class="d-flex mb-3">
-                                      <span class="cat">Cheverolet</span>
-                                      <p class="price ml-auto">$500 <span>/day</span></p>
-                                  </div>
-                                  <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a href="#" class="btn btn-secondary py-2 ml-1">Details</a></p>
-                              </div>
+
+                    @foreach ($featuredVehicle as $item)
+                    <div class="item">
+                      <div class="car-wrap rounded ftco-animate">
+                        <div class="img rounded d-flex align-items-end" style="background-image: url({{ asset('/storage/'.$item->vehicle_image) }});">
+                        </div>
+                        <div class="text">
+                          <h2 class="mb-0"><a href="{{ route('vehicleSingle', $item->vehicle_slug) }}">{{ $item->vehicle_name }}</a></h2>
+                          <div class="d-flex mb-3">
+                            <span class="cat">{{ $item->brand->brand_name }}</span>
+                            <p class="price ml-auto">Rp.{{ number_format($item->rent_price, 2, ',', '.') }} <span>/day</span></p>
                           </div>
+                          <p class="d-flex mb-0 d-block"><a href="{{ route('rentalNow', $item->vehicle_slug) }}" class="btn btn-primary py-2 mr-1">Book now</a> <a href="{{ route('vehicleSingle', $item->vehicle_slug) }}" class="btn btn-secondary py-2 ml-1">Details</a></p>
+                        </div>
                       </div>
-                      <div class="item">
-                          <div class="car-wrap rounded ftco-animate">
-                              <div class="img rounded d-flex align-items-end" style="background-image: url(assets/main/images/car-2.jpg);">
-                              </div>
-                              <div class="text">
-                                  <h2 class="mb-0"><a href="#">Mercedes Grand Sedan</a></h2>
-                                  <div class="d-flex mb-3">
-                                      <span class="cat">Cheverolet</span>
-                                      <p class="price ml-auto">$500 <span>/day</span></p>
-                                  </div>
-                                  <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a href="#" class="btn btn-secondary py-2 ml-1">Details</a></p>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="item">
-                          <div class="car-wrap rounded ftco-animate">
-                              <div class="img rounded d-flex align-items-end" style="background-image: url(assets/main/images/car-3.jpg);">
-                              </div>
-                              <div class="text">
-                                  <h2 class="mb-0"><a href="#">Mercedes Grand Sedan</a></h2>
-                                  <div class="d-flex mb-3">
-                                      <span class="cat">Cheverolet</span>
-                                      <p class="price ml-auto">$500 <span>/day</span></p>
-                                  </div>
-                                  <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a href="#" class="btn btn-secondary py-2 ml-1">Details</a></p>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="item">
-                          <div class="car-wrap rounded ftco-animate">
-                              <div class="img rounded d-flex align-items-end" style="background-image: url(assets/main/images/car-4.jpg);">
-                              </div>
-                              <div class="text">
-                                  <h2 class="mb-0"><a href="#">Mercedes Grand Sedan</a></h2>
-                                  <div class="d-flex mb-3">
-                                      <span class="cat">Cheverolet</span>
-                                      <p class="price ml-auto">$500 <span>/day</span></p>
-                                  </div>
-                                  <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a href="#" class="btn btn-secondary py-2 ml-1">Details</a></p>
-                              </div>
-                          </div>
-                      </div>
+                    </div>
+                    @endforeach
+                      
                   </div>
               </div>
           </div>

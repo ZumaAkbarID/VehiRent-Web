@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\ActionController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\TypeController as AdminTypeController;
 use App\Http\Controllers\Admin\BrandController as AdminBrandController;
+use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Admin\VehicleController as AdminVehicleController;
+use App\Http\Controllers\Member\PaymentController as MemberPayment;
 use App\Http\Controllers\Member\DashboardController as MemberDashboard;
+use App\Http\Controllers\Member\RentalController as MemberRental;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Guest\MainController;
 use App\Http\Controllers\Profile\ProfileController;
@@ -26,11 +30,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [MainController::class, 'index']);
 Route::get('/about', [MainController::class, 'about']);
 Route::get('/services', [MainController::class, 'services']);
+
 Route::get('/rental', [MainController::class, 'rental']);
-Route::get('/vehicle-single', [MainController::class, 'vehicleSingle']);
-Route::get('/blog', [MainController::class, 'blog']);
-Route::get('/blog-single', [MainController::class, 'singleBlog']);
+Route::get('/rental/query', [MainController::class, 'queryRental'])->name('queryRental');
+Route::get('/detail/{vehicle}', [MemberRental::class, 'vehicleSingle'])->name('vehicleSingle');
+
 Route::get('/contact', [MainController::class, 'contact']);
+Route::get('/developer', [MainController::class, 'contact']);
 
 Route::get('/account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify');
 Route::get('/account/reset/{token}', [AuthController::class, 'verifyResetPassword']);
@@ -90,6 +96,7 @@ Route::group(['middleware' => ['auth', 'isEmailVerified', 'isAdmin']], function 
     // [Admin] Vehicle
     Route::get('/admin/vehicles', [AdminVehicleController::class, 'index'])->name('AdminVehicles');
     Route::get('/admin/vehicles/query', [AdminVehicleController::class, 'fetch'])->name('AdminFetchVehicle');
+    Route::get('/admin/vehicle/view/{vehicle}', [AdminVehicleController::class, 'show'])->name('AdminViewVehicle');
 
     Route::get('/admin/vehicle/createForm', [AdminVehicleController::class, 'create'])->name('AdminCreateVehicleForm');
     Route::post('/admin/vehicles/create', [AdminVehicleController::class, 'store'])->name('AdminCreateVehicle');
@@ -98,13 +105,28 @@ Route::group(['middleware' => ['auth', 'isEmailVerified', 'isAdmin']], function 
     Route::post('/admin/vehicle/edit', [AdminVehicleController::class, 'update'])->name('AdminEditVehicle');
 
     Route::post('/admin/vehicle/delete', [AdminVehicleController::class, 'destroy'])->name('AdminDeleteVehicle');
+
+    // [Admin] Transaction
+    Route::get('/admin/transaction', [AdminTransactionController::class, 'index'])->name('transaction');
+    Route::get('/admin/transaction/{code}', [AdminTransactionController::class, 'transaction'])->name('AdminCekHistory');
+
+    // [Admin] Rental Action
+    Route::get('/admin/rental-action', [ActionController::class, 'index'])->name('rentalAction');
+    Route::get('/admin/get-rental-action', [ActionController::class, 'getRental'])->name('getRentalAction');
+    Route::get('/admin/edit-rental-action/{id}', [ActionController::class, 'edit'])->name('rentalActionEdit');
+    Route::post('/admin/save-rental-action', [ActionController::class, 'update'])->name('rentalActionSave');
 });
 
 Route::group(['middleware' => ['auth', 'isEmailVerified', 'isMember']], function () {
-    Route::get('/dashboard', [MemberDashboard::class, 'index'])->name('memberDashboard');
+    Route::get('/rental/form/{vehicle}', [MemberRental::class, 'rentalForm'])->name('rentalNow');
+    Route::post('/invoice', [MemberRental::class, 'createInvoice'])->name('createInvoice');
+    Route::get('/invoice/{code}', [MemberRental::class, 'viewInvoice'])->name('viewInvoice');
+    Route::get('/pay/{code}', [MemberPayment::class, 'pay'])->name('pay');
+    Route::post('/pay-process', [MemberPayment::class, 'payProcess'])->name('payProcess');
 
+    Route::get('/dashboard', [MemberDashboard::class, 'index'])->name('memberDashboard');
     Route::get('/history', [MemberDashboard::class, 'history'])->name('historyMember');
-    Route::get('/history/{history}', [MemberDashboard::class, 'historyDetail']);
+    Route::get('/history/{history}', [MemberDashboard::class, 'historyDetail'])->name('historyDetail');
 });
 
 // Kepepet Tok

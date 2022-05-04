@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Models\Type;
+use App\Models\VehicleSpec;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -10,10 +12,11 @@ class MainController extends Controller
     public function index()
     {
         $data = [
-            'title' => config('app.name') . ' | Rental Your Best Vehicle'
+            'title' => config('app.name') . ' | Rental Your Best Vehicle',
+            'featuredVehicle' => VehicleSpec::with('brand')->where('vehicle_status', 'Available')->inRandomOrder()->limit(6)->get()
         ];
 
-        return view('guest.main', $data);
+        return view('Guest.main', $data);
     }
 
     public function about()
@@ -22,7 +25,7 @@ class MainController extends Controller
             'title' => 'About | ' . config('app.name')
         ];
 
-        return view('guest.about', $data);
+        return view('Guest.about', $data);
     }
 
     public function services()
@@ -31,43 +34,38 @@ class MainController extends Controller
             'title' => 'Services | ' . config('app.name')
         ];
 
-        return view('guest.services', $data);
+        return view('Guest.services', $data);
     }
 
     public function rental()
     {
         $data = [
-            'title' => 'Rental | ' . config('app.name')
+            'title' => 'Rental | ' . config('app.name'),
+            'vehicles' => VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_status', 'Available')->paginate(10),
+            'types' => Type::all()
         ];
 
-        return view('guest.rental', $data);
+        return view('Guest.rental', $data);
     }
 
-    public function vehicleSingle()
+    public function queryRental(Request $request)
     {
-        $data = [
-            'title' => 'Single Vehicle | ' . config('app.name')
-        ];
+        if (!$request->ajax()) {
+            return redirect('/rental');
+        }
 
-        return view('guest.vehicle-single', $data);
-    }
+        $paginate = 10;
 
-    public function blog()
-    {
-        $data = [
-            'title' => 'Blog | ' . config('app.name')
-        ];
+        if (request()->filter) {
+            $type = Type::where('type_slug', request()->filter)->first();
+            return view('Guest.Ajax.main-rental', ['vehicles' => VehicleSpec::with(['type', 'rental', 'brand'])->where('id_type', $type->id)->paginate($paginate)]);
+        } else if (request()->search) {
+            return view('Guest.Ajax.main-rental', ['vehicles' => VehicleSpec::with(['type', 'rental', 'brand'])->filter(request(['search']))->paginate($paginate)]);
+        }
 
-        return view('guest.blog', $data);
-    }
-
-    public function singleBlog()
-    {
-        $data = [
-            'title' => 'Single Blog | ' . config('app.name')
-        ];
-
-        return view('guest.blog-single', $data);
+        return view('Guest.Ajax.main-rental', [
+            'vehicles' => VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_status', 'Available')->paginate($paginate)
+        ]);
     }
 
     public function contact()
@@ -76,6 +74,6 @@ class MainController extends Controller
             'title' => 'Contact | ' . config('app.name')
         ];
 
-        return view('guest.contact', $data);
+        return view('Guest.contact', $data);
     }
 }

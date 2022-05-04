@@ -33,7 +33,7 @@
                   <tr>
                     <td>Vehicle Picture</td>
                     <td class="py-3">
-                      <img src="{{ asset('/'.$vehicle->vehicle_image) }}" alt="" class="image">
+                      <img src="{{ asset('/storage/'.$vehicle->vehicle_image) }}" alt="{{ $vehicle->vehicle_name }}" class="img-fluid" width="250px">
                     </td>
                   </tr>
                   <tr>
@@ -74,19 +74,29 @@
                     <td>Guarante</td>
                     <td class="py-3">
                       <ul class="list-unstyled">
-                        <li><a href="{{ asset('/'.$transaction->guarante_rent_1) }}">Guarante 1</a></li>
+                        <li><a href="{{ asset('/storage/'.$transaction->guarante_rent_1) }}">Guarante 1</a></li>
                         @if (!is_null($transaction->guarante_rent_2))
-                        <li><a href="{{ asset('/'.$transaction->guarante_rent_2) }}">Guarante 2</a></li>
+                        <li><a href="{{ asset('/storage/'.$transaction->guarante_rent_2) }}">Guarante 2</a></li>
                         @endif
                         @if (!is_null($transaction->guarante_rent_3))
-                        <li><a href="{{ asset('/'.$transaction->guarante_rent_3) }}">Guarante 3</a></li>
+                        <li><a href="{{ asset('/storage/'.$transaction->guarante_rent_3) }}">Guarante 3</a></li>
                         @endif
                       </ul>
                     </td>
                   </tr>
                   <tr>
                     <td>Rental Price</td>
-                    <td class="py-3">Rp.{{ number_format($transaction->rent_price,2,',','.') }}</td>
+                    <td class="py-3">Rp.{{ number_format($vehicle->rent_price,2,',','.') }}/day</td>
+                  </tr>
+                  <tr>
+                    <td>Total Rental Price</td>
+                    <td class="py-3">Rp.{{ number_format($transaction->rent_price,2,',','.') }} 
+                    @if(isset($transaction->payment->transaction_code))
+                      <p class="btn btn-success">Paid</p>
+                      @else
+                      <p class="btn btn-success">Unpaid</p> <a href="{{ route('pay', $transaction->transaction_code) }}">Click here to pay</a>
+                    @endif
+                    </td>
                   </tr>
               </tbody>
             </table>

@@ -115,6 +115,7 @@ class ComposerStaticInit5744552f203135958d24532ffeaee7c7
         'M' => 
         array (
             'Monolog\\' => 8,
+            'Midtrans\\' => 9,
         ),
         'L' => 
         array (
@@ -371,6 +372,10 @@ class ComposerStaticInit5744552f203135958d24532ffeaee7c7
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Midtrans\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans',
+        ),
         'League\\MimeTypeDetection\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/mime-type-detection/src',
@@ -528,13 +533,16 @@ class ComposerStaticInit5744552f203135958d24532ffeaee7c7
         'App\\Http\\Controllers\\API\\RentalController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/RentalController.php',
         'App\\Http\\Controllers\\API\\TypeController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/TypeController.php',
         'App\\Http\\Controllers\\API\\VehicleSpecsController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/VehicleSpecsController.php',
+        'App\\Http\\Controllers\\Admin\\BrandController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/BrandController.php',
         'App\\Http\\Controllers\\Admin\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/DashboardController.php',
         'App\\Http\\Controllers\\Admin\\TypeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/TypeController.php',
+        'App\\Http\\Controllers\\Admin\\VehicleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/VehicleController.php',
         'App\\Http\\Controllers\\Auth\\APIAuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/APIAuthController.php',
         'App\\Http\\Controllers\\Auth\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/AuthController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\Guest\\MainController' => __DIR__ . '/../..' . '/app/Http/Controllers/Guest/MainController.php',
         'App\\Http\\Controllers\\Member\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Member/DashboardController.php',
+        'App\\Http\\Controllers\\Member\\RentalController' => __DIR__ . '/../..' . '/app/Http/Controllers/Member/RentalController.php',
         'App\\Http\\Controllers\\Profile\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/Profile/ProfileController.php',
         'App\\Http\\Controllers\\RedirectsController' => __DIR__ . '/../..' . '/app/Http/Controllers/RedirectsController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
@@ -561,6 +569,8 @@ class ComposerStaticInit5744552f203135958d24532ffeaee7c7
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Services\\Midtrans\\CreateSnapTokenService' => __DIR__ . '/../..' . '/app/Services/Midtrans/CreateSnapTokenService.php',
+        'App\\Services\\Midtrans\\Midtrans' => __DIR__ . '/../..' . '/app/Services/Midtrans/Midtrans.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/CorsService.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
@@ -3172,6 +3182,14 @@ class ComposerStaticInit5744552f203135958d24532ffeaee7c7
         'League\\MimeTypeDetection\\GeneratedExtensionToMimeTypeMap' => __DIR__ . '/..' . '/league/mime-type-detection/src/GeneratedExtensionToMimeTypeMap.php',
         'League\\MimeTypeDetection\\MimeTypeDetector' => __DIR__ . '/..' . '/league/mime-type-detection/src/MimeTypeDetector.php',
         'League\\MimeTypeDetection\\OverridingExtensionToMimeTypeMap' => __DIR__ . '/..' . '/league/mime-type-detection/src/OverridingExtensionToMimeTypeMap.php',
+        'Midtrans\\ApiRequestor' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/ApiRequestor.php',
+        'Midtrans\\Config' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Config.php',
+        'Midtrans\\CoreApi' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/CoreApi.php',
+        'Midtrans\\Notification' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Notification.php',
+        'Midtrans\\Sanitizer' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Sanitizer.php',
+        'Midtrans\\Snap' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Snap.php',
+        'Midtrans\\SnapApiRequestor' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/SnapApiRequestor.php',
+        'Midtrans\\Transaction' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Transaction.php',
         'Mockery' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegrationAssertPostConditions' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php',
