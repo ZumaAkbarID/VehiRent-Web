@@ -12,7 +12,8 @@ class MainController extends Controller
     public function index()
     {
         $data = [
-            'title' => config('app.name') . ' | Rental Your Best Vehicle'
+            'title' => config('app.name') . ' | Rental Your Best Vehicle',
+            'featuredVehicle' => VehicleSpec::with('brand')->where('vehicle_status', 'Available')->inRandomOrder()->limit(6)->get()
         ];
 
         return view('Guest.main', $data);
@@ -65,24 +66,6 @@ class MainController extends Controller
         return view('Guest.Ajax.main-rental', [
             'vehicles' => VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_status', 'Available')->paginate($paginate)
         ]);
-    }
-
-    public function blog()
-    {
-        $data = [
-            'title' => 'Blog | ' . config('app.name')
-        ];
-
-        return view('Guest.blog', $data);
-    }
-
-    public function singleBlog()
-    {
-        $data = [
-            'title' => 'Single Blog | ' . config('app.name')
-        ];
-
-        return view('Guest.blog-single', $data);
     }
 
     public function contact()

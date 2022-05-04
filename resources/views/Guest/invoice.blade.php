@@ -221,34 +221,19 @@
 
                         <div class="row mt-3">
                             <div class="col-12 col-sm-7 text-grey-d2 text-95 mt-2 mt-lg-0">
-                                Extra note such as company or payment information...
+                                <ul class="list-unstyled">
+                                    <li>After paying, you can pick up the car at the nearest {{ config('app.name') }} company in your city.</li>
+                                </ul>
                             </div>
 
                             <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
-                                <div class="row my-2">
-                                    <div class="col-7 text-right">
-                                        SubTotal
-                                    </div>
-                                    <div class="col-5">
-                                        <span class="text-120 text-secondary-d1">$2,250</span>
-                                    </div>
-                                </div>
-
-                                <div class="row my-2">
-                                    <div class="col-7 text-right">
-                                        Tax (10%)
-                                    </div>
-                                    <div class="col-5">
-                                        <span class="text-110 text-secondary-d1">$225</span>
-                                    </div>
-                                </div>
 
                                 <div class="row my-2 align-items-center bgc-primary-l3 p-2">
                                     <div class="col-7 text-right">
                                         Total Amount
                                     </div>
                                     <div class="col-5">
-                                        <span class="text-150 text-success-d3 opacity-2">$2,475</span>
+                                        <span class="text-150 text-success-d3 opacity-2">Rp.{{ number_format($rental->rent_price,2,',','.') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -257,8 +242,18 @@
                         <hr />
 
                         <div>
-                            <span class="text-secondary-d1 text-105">Thank you for your business</span>
-                            <a href="#" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Pay Now</a>
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="text-secondary-d1 text-105">Thank you for your business</span>
+                                </div>
+                                <div class="col-6">
+                                    @if($status == 'Unpaid')
+                                    <div class="text-end">
+                                        <a href="{{ route('pay', $transaction_code) }}" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Pay Now</a>
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

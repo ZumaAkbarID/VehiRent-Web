@@ -131,15 +131,29 @@
                 </ul>
               </li>
               
-              <li class="menu-item">
+              <li class="menu-item {{ Route::currentRouteName() == 'transaction' ? 'active' : '' }} {{ request()->segment(2) == 'transaction' ? 'active' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                   <i class="menu-icon tf-icons bx bx-wallet"></i>
                   <div data-i18n="Manage Transaction">Manage Transaction</div>
                 </a>
                 <ul class="menu-sub">
                   <li class="menu-item">
-                    <a href="{{ route('profile') }}" class="menu-link">
+                    <a href="{{ route('transaction') }}" class="menu-link">
                       <div data-i18n="View Transactions">View Transactions</div>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="menu-item {{ Route::currentRouteName() == 'rentalAction' ? 'active' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <i class='menu-icon tf-icons bx bx-toggle-right'></i>
+                  <div data-i18n="Rental Action">Rental Action</div>
+                </a>
+                <ul class="menu-sub">
+                  <li class="menu-item">
+                    <a href="{{ route('rentalAction') }}" class="menu-link">
+                      <div data-i18n="Change Vehicle Status">Change Vehicle Status</div>
                     </a>
                   </li>
                 </ul>

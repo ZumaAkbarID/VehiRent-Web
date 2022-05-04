@@ -123,9 +123,11 @@
 
                         </div>
                         <div class="row justify-content-center">
+                            @can('isMember')
                             <div class="col-lg-4">
-                                <a href="{{ route('rentalNow', $vehicle->vehicle_slug) }}" class="btn btn-lg btn-primary w-100 fw-bolder">Rental</a>
-                            </div>
+                              <a href="{{ route('rentalNow', $vehicle->vehicle_slug) }}" class="btn btn-lg btn-primary w-100 fw-bolder">Rental</a>
+                          </div>   
+                            @endcan
                         </div>
                       </div>
             </div>
@@ -146,10 +148,10 @@
         @foreach ($related as $item)
         <div class="col-md-4">
             <div class="car-wrap rounded ftco-animate">
-                <div class="img rounded d-flex align-items-end" style="background-image: url(/assets/main/images/car-2.jpg);">
+                <div class="img rounded d-flex align-items-end" style="background-image: url({{ asset('/storage/'.$vehicle->vehicle_image) }});">
                 </div>
                 <div class="text">
-                    <h2 class="mb-0"><a href="car-single.html">{{ $item->vehicle_name }}</a></h2>
+                    <h2 class="mb-0"><a href="{{ route('vehicleSingle', $vehicle->vehicle_slug) }}">{{ $item->vehicle_name }}</a></h2>
                     <div class="d-flex mb-3">
                         <span class="cat">{{ $item->brand->brand_name }}</span>
                         <p class="price ml-auto">Rp.{{ number_format($item->rent_price,2,',','.') }} <span>/day</span></p>

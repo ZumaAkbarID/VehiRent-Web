@@ -3,7 +3,7 @@
     <!-- Inline text elements -->
     <div class="col">
         <div class="card mb-4">
-          <h5 class="card-header">Detail #{{ $transaction->transaction_code }} <small><a href="{{ route('historyMember') }}">Back</a></small></h5>
+          <h5 class="card-header">Detail #{{ $transaction->transaction_code }} <small><a href="{{ route('transaction') }}">Back</a></small></h5>
           <div class="card-body">
             <table class="table table-bordered">
               <tbody>
@@ -94,7 +94,7 @@
                     @if(isset($transaction->payment->transaction_code))
                       <p class="btn btn-success">Paid</p>
                       @else
-                      <p class="btn btn-success">Unpaid</p> <a href="{{ route('pay', $transaction->transaction_code) }}">Click here to pay</a>
+                      <p class="btn btn-success">Unpaid</p>
                     @endif
                     </td>
                   </tr>

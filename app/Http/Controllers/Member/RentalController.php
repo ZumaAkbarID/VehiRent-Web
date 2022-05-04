@@ -14,7 +14,7 @@ class RentalController extends Controller
 
     public function vehicleSingle($slug)
     {
-        $vehicle = VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_slug', $slug)->first();
+        $vehicle = VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_slug', $slug)->where('vehicle_status', 'Available')->first();
 
         $data = [
             'title' => $vehicle->vehicle_name . ' | ' . config('app.name'),
@@ -27,6 +27,10 @@ class RentalController extends Controller
 
     public function rentalForm($slug)
     {
+        if (auth()->user()->role == 'Admin') {
+            return redirect()->to(route('vehicleSingle', $slug))->with('error', 'You are Admin!');
+        }
+
         $vehicle = VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_slug', $slug)->first();
 
         $data = [
@@ -62,6 +66,8 @@ class RentalController extends Controller
         }
         $query->rent_price = $request->totalAmount;
         $query->save();
+
+        VehicleSpec::where('id', $request->id_vehicle)->update(['vehicle_status' => 'Not Available']);
 
         return redirect()->to(route('viewInvoice', $trxCode));
     }

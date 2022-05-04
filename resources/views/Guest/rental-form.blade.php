@@ -263,12 +263,16 @@ hr {
 
         start_rent_date.on('change', function() {
             end_rent_date.removeAttr('disabled');
+            end_rent_date.attr('min', start_rent_date.val());
         });
 
         end_rent_date.on('change', function() {
             $('#startDate').val(start_rent_date.val());
             start_rent_date.attr('disabled', 'disabled');
             var days = daysdifference(start_rent_date.val(), end_rent_date.val());
+            if (days == 0) {
+                days = 1;
+            }
             $('#rentDays').empty().html(days);
             $('#rentalDaysForm').val(days);
 

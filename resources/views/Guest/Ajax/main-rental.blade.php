@@ -4,7 +4,7 @@
     <div class="car-wrap rounded">
         <img src="{{ asset('/storage/'.$vehicle->vehicle_image) }}" alt="" class="img rounded d-flex align-items-end">
         <div class="text">
-            <h2 class="mb-0"><a href="vehicle-single">{{ $vehicle->vehicle_name }}</a></h2>
+            <h2 class="mb-0"><a href="{{ route('vehicleSingle', $vehicle->vehicle_slug) }}">{{ $vehicle->vehicle_name }}</a></h2>
             <div class="d-flex mb-3">
                 <span class="cat">{{ $vehicle->brand->brand_name }}</span>
                 <p class="price ml-auto">Rp.{{ number_format($vehicle->rent_price,2,',','.') }} <span>/day</span></p>

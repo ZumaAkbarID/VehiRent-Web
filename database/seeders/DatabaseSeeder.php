@@ -184,7 +184,7 @@ class DatabaseSeeder extends Seeder
             'paid_date' => now(),
             'payer_name' => 'Member 2',
             'bank' => 'BNI',
-            'no_rek' => '03929409234',
+            'no_ref' => '03929409234',
             'paid_total' => 900000
         ]);
     }
