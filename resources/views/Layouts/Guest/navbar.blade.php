@@ -1,6 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
+<<<<<<< HEAD
+      <img src="assets/main/images/Cyan.png" width="100px">
+=======
       <a class="navbar-brand" href="/">Vehi<span>Rent</span></a>
+>>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="oi oi-menu"></span> Menu
       </button>
