@@ -23,7 +23,11 @@ header('Accept: application/json');
 */
 
 Route::post('register', [APIAuthController::class, 'register']);
+Route::post('verify/{token}', [APIAuthController::class, 'verifyAccount']);
 Route::post('token', [APIAuthController::class, 'token']);
+Route::post('reset', [APIAuthController::class, 'resetPassword']);
+Route::post('reset-check/{token}', [APIAuthController::class, 'resetPasswordCheck']);
+Route::post('reset-password/{token}', [APIAuthController::class, 'savePassword']);
 
 // Member API
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -39,10 +43,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('vehicles', [VehicleSpecsController::class, 'index']);
     Route::get('vehicle/{vehicle}', [VehicleSpecsController::class, 'show']);
 
-    Route::get('rentals', [RentalController::class, 'index']);
-    Route::get('rental/{rental}', [RentalController::class, 'show']);
+    // Route::get('rentals', [RentalController::class, 'index']); // gabole
+    // Route::get('rental/{rental}', [RentalController::class, 'show']); // old
 
-    Route::get('payments', [PaymentController::class, 'index']);
+    Route::post('rental/{rental}', [RentalController::class, 'store']);
+
+    Route::get('invoice/{invoice_code}', [PaymentController::class, 'invoice']); // new
+    Route::post('invoice/{payment}', [PaymentController::class, 'update']);
+
+    Route::get('payments', [PaymentController::class, 'get_user_invoice']);
     Route::get('payment/{payment}', [PaymentController::class, 'show']);
 });
 

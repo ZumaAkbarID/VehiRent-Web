@@ -1,5 +1,9 @@
 <div class="row">
-@foreach ($vehicles as $vehicle)
+    @php
+    $name = array();
+    @endphp
+    @foreach ($vehicles as $vehicle)
+       @if (!in_array($vehicle->vehicle_slug, $name))
 <div class="col-md-4">
     <div class="car-wrap rounded">
         <img src="{{ asset('/storage/'.$vehicle->vehicle_image) }}" alt="" class="img rounded d-flex align-items-end">
@@ -13,14 +17,18 @@
         </div>
     </div>
 </div>
-@endforeach
+@php
+        array_push($name,$vehicle->vehicle_slug)
+        @endphp
+        @endif
+        @endforeach
 </div>
 
 </div>
 
 <div class="row mt-5">
   <div class="mt-2">
-      Displaying {{$vehicles->count()}} of {{ $vehicles->total() }} vehicle(s).
+      Displaying {{sizeof($name)}} of {{ $vehicles->total() }} vehicle(s).
   </div>
 <div class="col text-center">
   <div class="block-27">

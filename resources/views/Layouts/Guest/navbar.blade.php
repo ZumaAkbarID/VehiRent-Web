@@ -1,21 +1,17 @@
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-<<<<<<< HEAD
-      <img src="assets/main/images/Cyan.png" width="100px">
-=======
-      <a class="navbar-brand" href="/">Vehi<span>Rent</span></a>
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
+      <img src="/assets/main/images/Cyan.png" width="100px">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="oi oi-menu"></span> Menu
       </button>
 
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
-          <li class="nav-item"><a href="/services" class="nav-link">Services</a></li>
-          <li class="nav-item"><a href="/rental" class="nav-link">Rental</a></li>
-          <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+          <li class="nav-item @if(Request::segment(1) == 'home' || is_null(Request::segment(1))) active @endif"><a href="/" class="nav-link">Home</a></li>
+          <li class="nav-item @if(Request::segment(1) == 'about') active @endif"><a href="/about" class="nav-link">About</a></li>
+          <li class="nav-item @if(Request::segment(1) == 'services') active @endif"><a href="/services" class="nav-link">Services</a></li>
+          <li class="nav-item @if(Request::segment(1) == 'rental') active @endif"><a href="/rental" class="nav-link">Rental</a></li>
+          <li class="nav-item @if(Request::segment(1) == 'contact') active @endif"><a href="/contact" class="nav-link">Contact</a></li>
         </ul>
         <ul class="navbar-nav mr-auto">
           @auth   

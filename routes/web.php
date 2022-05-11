@@ -133,3 +133,10 @@ Route::group(['middleware' => ['auth', 'isEmailVerified', 'isMember']], function
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
 });
+
+Route::get('/symlink', function () {
+    $targetFolder = $_SERVER['DOCUMENT_ROOT'].'/storage/app/public';
+$linkFolder = $_SERVER['DOCUMENT_ROOT'].'/public/storage';
+symlink($targetFolder,$linkFolder);
+echo 'Symlink completed';
+});

@@ -16,7 +16,11 @@ class TypeController extends Controller
      */
     public function index()
     {
-        return Type::with('brand')->get();
+        if (request()->limit) {
+            return Type::with(['brand', 'VehicleSpec'])->limit(request()->limit)->get();
+        } else {
+            return Type::with(['brand', 'VehicleSpec'])->get();
+        }
     }
 
     /**

@@ -1,6 +1,6 @@
 @extends('Layouts.Guest.default')
 @section('content')
-<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('/assets/main/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('/assets/main/images/ferrari.jpg');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
       <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
@@ -123,11 +123,11 @@
 
                         </div>
                         <div class="row justify-content-center">
-                            @can('isMember')
+                            @if(auth()->check() && auth()->user()->role !== 'Admin')
                             <div class="col-lg-4">
                               <a href="{{ route('rentalNow', $vehicle->vehicle_slug) }}" class="btn btn-lg btn-primary w-100 fw-bolder">Rental</a>
                           </div>   
-                            @endcan
+                            @endif
                         </div>
                       </div>
             </div>
@@ -145,21 +145,29 @@
       </div>
       <div class="row">
 
+        @php
+        $name = array();
+        @endphp
         @foreach ($related as $item)
-        <div class="col-md-4">
-            <div class="car-wrap rounded ftco-animate">
-                <div class="img rounded d-flex align-items-end" style="background-image: url({{ asset('/storage/'.$vehicle->vehicle_image) }});">
-                </div>
-                <div class="text">
-                    <h2 class="mb-0"><a href="{{ route('vehicleSingle', $vehicle->vehicle_slug) }}">{{ $item->vehicle_name }}</a></h2>
-                    <div class="d-flex mb-3">
-                        <span class="cat">{{ $item->brand->brand_name }}</span>
-                        <p class="price ml-auto">Rp.{{ number_format($item->rent_price,2,',','.') }} <span>/day</span></p>
-                    </div>
-                    <p class="d-flex mb-0 d-block"><a href="{{ route('rentalNow', $vehicle->vehicle_slug) }}" class="btn btn-primary py-2 mr-1">Rental now</a> <a href="{{ route('vehicleSingle', $vehicle->vehicle_slug) }}" class="btn btn-secondary py-2 ml-1">Details</a></p>
-                </div>
-            </div>
-        </div>
+           @if (!in_array($item->vehicle_slug, $name) && $item->vehicle_slug !== $vehicle->vehicle_slug)
+          <div class="col-md-4">
+              <div class="car-wrap rounded ftco-animate">
+                  <div class="img rounded d-flex align-items-end" style="background-image: url({{ asset('/storage/'.$item->vehicle_image) }});">
+                  </div>
+                  <div class="text">
+                      <h2 class="mb-0"><a href="{{ route('vehicleSingle', $vehicle->vehicle_slug) }}">{{ $item->vehicle_name }}</a></h2>
+                      <div class="d-flex mb-3">
+                          <span class="cat">{{ $item->brand->brand_name }}</span>
+                          <p class="price ml-auto">Rp.{{ number_format($item->rent_price,2,',','.') }} <span>/day</span></p>
+                      </div>
+                      <p class="d-flex mb-0 d-block"><a href="{{ route('rentalNow', $vehicle->vehicle_slug) }}" class="btn btn-primary py-2 mr-1">Rental now</a> <a href="{{ route('vehicleSingle', $vehicle->vehicle_slug) }}" class="btn btn-secondary py-2 ml-1">Details</a></p>
+                  </div>
+              </div>
+          </div>
+        @php
+        array_push($name,$item->vehicle_slug)
+        @endphp
+        @endif
         @endforeach
               
       </div>

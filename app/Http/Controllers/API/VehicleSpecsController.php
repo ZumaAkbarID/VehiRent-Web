@@ -17,7 +17,11 @@ class VehicleSpecsController extends Controller
      */
     public function index()
     {
-        return VehicleSpec::with('type')->get();
+        if (request()->limit) {
+            return VehicleSpec::with('type')->limit(request()->limit)->get();
+        } else {
+            return VehicleSpec::with('type')->get();
+        }
     }
 
     /**

@@ -90,7 +90,7 @@
                                 </label> <input type="text" name="payer_name" placeholder="Card Owner Name" required class="form-control "> </div>
                                 <div class="form-group"> <label for="username">
                                     <h6>Reference Code</h6>
-                                </label> <input type="text" name="no_ref" value="{{ rand() }}" readonly required class="form-control "> </div>
+                                </label> <input type="text" name="no_ref" value="{{ time() }}" readonly required class="form-control "> </div>
                                 <div class="form-group"> <label for="username">
                                     <h6>Total Amount</h6>
                                 </label> <input type="text" value="Rp.{{ number_format($rental->rent_price,2,',','.') }}" readonly required class="form-control "> </div>

@@ -69,11 +69,6 @@
               </a>
             </div>
             <!-- /Logo -->
-<<<<<<< HEAD
-=======
-            <h4 class="mb-2">Adventure starts here 🚀</h4>
-            <p class="mb-4">Make your app management easy and fun!</p>
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
 
             <form id="formAuthentication" class="mb-3" action="{{ route('registerProcess') }}" method="POST">
               @csrf

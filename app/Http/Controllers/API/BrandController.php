@@ -16,7 +16,11 @@ class BrandController extends Controller
      */
     public function index()
     {
-        return Brand::with('type')->get();
+        if (request()->limit) {
+            return Brand::with(['type', 'vehicleSpec'])->limit(request()->limit)->get();
+        } else {
+            return Brand::with(['type', 'vehicleSpec'])->get();
+        }
     }
 
     /**

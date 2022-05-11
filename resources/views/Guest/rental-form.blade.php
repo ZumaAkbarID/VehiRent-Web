@@ -114,11 +114,7 @@ hr {
     vertical-align: bottom!important;
 }
 </style>
-<<<<<<< HEAD
-<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('/assets/main/images/ferrari.jpg');" data-stellar-background-ratio="0.5">
-=======
-<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('/assets/main/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url({{ asset('/storage/'.$vehicle->vehicle_image.'?height=1024') }});" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
       <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">

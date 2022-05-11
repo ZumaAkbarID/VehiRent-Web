@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
+use App\Models\Payment;
 use App\Models\Type;
 use App\Models\VehicleSpec;
 use Illuminate\Http\Request;
@@ -13,7 +15,10 @@ class MainController extends Controller
     {
         $data = [
             'title' => config('app.name') . ' | Rental Your Best Vehicle',
-            'featuredVehicle' => VehicleSpec::with('brand')->where('vehicle_status', 'Available')->inRandomOrder()->limit(6)->get()
+            'featuredVehicle' => VehicleSpec::with('brand')->where('vehicle_status', 'Available')->inRandomOrder()->limit(6)->get(),
+            'total_brand' => Brand::all()->count(),
+            'total_vehicle' => VehicleSpec::all()->count(),
+            'total_payment' => Payment::all()->count(),
         ];
 
         return view('Guest.main', $data);
@@ -22,7 +27,10 @@ class MainController extends Controller
     public function about()
     {
         $data = [
-            'title' => 'About | ' . config('app.name')
+            'title' => 'About | ' . config('app.name'),
+            'total_brand' => Brand::all()->count(),
+            'total_vehicle' => VehicleSpec::all()->count(),
+            'total_payment' => Payment::all()->count(),
         ];
 
         return view('Guest.about', $data);

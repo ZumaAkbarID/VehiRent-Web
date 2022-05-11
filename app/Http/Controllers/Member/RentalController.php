@@ -14,11 +14,17 @@ class RentalController extends Controller
 
     public function vehicleSingle($slug)
     {
-        $vehicle = VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_slug', $slug)->where('vehicle_status', 'Available')->first();
+        $vehicle = VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_slug', $slug)->where('vehicle_status', 'Available');
+
+        if (!$vehicle->first()) {
+            return redirect()->to('/rental')->with('error', 'Vehicle not found!');
+        } else if (!$vehicle->where('vehicle_status', 'Available')->first()) {
+            return redirect()->to('/rental')->with('error', 'Vehicle not available!');
+        }
 
         $data = [
-            'title' => $vehicle->vehicle_name . ' | ' . config('app.name'),
-            'vehicle' => $vehicle,
+            'title' => $vehicle->first()->vehicle_name . ' | ' . config('app.name'),
+            'vehicle' => $vehicle->first(),
             'related' => VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_status', 'Available')->inRandomOrder()->limit(3)->get()
         ];
 
@@ -27,15 +33,21 @@ class RentalController extends Controller
 
     public function rentalForm($slug)
     {
+        $vehicle = VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_slug', $slug);
+
+        if (!$vehicle->first()) {
+            return redirect()->to('/rental')->with('error', 'Vehicle not found!');
+        } else if (!$vehicle->where('vehicle_status', 'Available')->first()) {
+            return redirect()->to('/rental')->with('error', 'Vehicle not available!');
+        }
+
         if (auth()->user()->role == 'Admin') {
             return redirect()->to(route('vehicleSingle', $slug))->with('error', 'You are Admin!');
         }
 
-        $vehicle = VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_slug', $slug)->first();
-
         $data = [
-            'title' => $vehicle->vehicle_name . ' | ' . config('app.name'),
-            'vehicle' => $vehicle,
+            'title' => $vehicle->first()->vehicle_name . ' | ' . config('app.name'),
+            'vehicle' => $vehicle->first(),
         ];
 
         return view('Guest.rental-form', $data);
@@ -43,6 +55,14 @@ class RentalController extends Controller
 
     public function createInvoice(Request $request)
     {
+        $vehicle = VehicleSpec::where('id', $request->id_vehicle);
+
+        if (!$vehicle->first()) {
+            return redirect()->to('/rental')->with('error', 'Vehicle not found!');
+        } else if (!$vehicle->where('vehicle_status', 'Available')->first()) {
+            return redirect()->to('/rental')->with('error', 'Vehicle not available!');
+        }
+
         // Create Code
         $lastMaxCode = Rental::all()->max('transaction_code');
         $transaction_code = (int) substr($lastMaxCode, 3, 9);
