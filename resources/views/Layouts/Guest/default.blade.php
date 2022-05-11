@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+<<<<<<< HEAD
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+=======
+>>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
 
     <link rel="stylesheet" href="/assets/main/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="/assets/main/css/animate.css">
@@ -68,6 +72,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js" integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="/assets/main/js/google-map.js"></script>
   <script src="/assets/main/js/main.js"></script>
+<<<<<<< HEAD
+  <script scr="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"></script>
+=======
+>>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
     
   </body>
 </html>

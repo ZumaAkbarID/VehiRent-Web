@@ -70,7 +70,11 @@
             </div>
             <!-- /Logo -->
             <h4 class="mb-2">Welcome to {{ config('app.name') }}! 👋</h4>
+<<<<<<< HEAD
+            <p class="mb-4">Please sign-in to your account</p>
+=======
             <p class="mb-4">Please sign-in to your account and start the adventure</p>
+>>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
 
             <form id="formAuthentication" class="mb-3" action="{{ route('loginProcess') }}" method="POST">
               @csrf

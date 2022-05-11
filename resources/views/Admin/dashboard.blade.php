@@ -75,7 +75,11 @@
       <div class="col-md-6 col-lg-8 order-2 mb-4">
         <div class="card h-100">
           <div class="card-header d-flex align-items-center justify-content-between">
+<<<<<<< HEAD
+            <h5 class="card-title m-0 me-2">Latest Transactions</h5>
+=======
             <h5 class="card-title m-0 me-2">Lasted Transactions</h5>
+>>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
             <div class="dropdown">
               <button
                 class="btn p-0"

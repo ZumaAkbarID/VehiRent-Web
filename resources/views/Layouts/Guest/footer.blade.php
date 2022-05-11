@@ -3,8 +3,13 @@
       <div class="row mb-5">
         <div class="col-md">
           <div class="ftco-footer-widget mb-4">
+<<<<<<< HEAD
+            <h2 class="ftco-heading-2"><a href="#" class="logo">Source<span> Of Fortune</span></a></h2>
+            <p>Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking.</p>
+=======
             <h2 class="ftco-heading-2"><a href="#" class="logo">Car<span>book</span></a></h2>
             <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+>>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
             <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
               <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
               <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -41,8 +46,13 @@
               <h2 class="ftco-heading-2">Have a Questions?</h2>
               <div class="block-23 mb-3">
                 <ul>
+<<<<<<< HEAD
+                  <li><span class="icon icon-map-marker"></span><span class="text">JL. KH Achmad Fauzan No.17, 59453, Krsak, Bangsri, Kec. Bangsri, Kabupaten Jepara, Jawa Tengah 59415</span></li>
+                  <li><a href="#"><span class="icon icon-phone"></span><span class="text">+62 392 3929 2108</span></a></li>
+=======
                   <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
                   <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
+>>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
                   <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
                 </ul>
               </div>
