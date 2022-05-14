@@ -82,4 +82,22 @@ class ProfileController extends Controller
             return redirect()->back()->with('error', 'Credentials Incorret');
         }
     }
+
+    public function saveKYC(Request $request)
+    {
+        if (auth()->user()->kyc !== null) {
+            return redirect()->back()->with('info', 'Your account is verified');
+        }
+
+        $this->validate($request, [
+            'ktp' => 'required|file|image|mimes:jpg,png,jpeg,pdf'
+        ]);
+
+        $kycName = $request->file('ktp')->storeAs('user-kyc', Str::slug('kyc ' . auth()->user()->name . ' ' . time()) . '.' . $request->file('ktp')->getClientOriginalExtension());
+        if (User::find(auth()->user()->id)->update(
+            ['kyc' => $kycName]
+        )) {
+            return redirect()->back()->with('success', 'Success upload personal information');
+        }
+    }
 }

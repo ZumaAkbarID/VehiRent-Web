@@ -114,11 +114,7 @@ hr {
     vertical-align: bottom!important;
 }
 </style>
-<<<<<<< HEAD
-<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('/assets/main/images/ferrari.jpg');" data-stellar-background-ratio="0.5">
-=======
-<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('/assets/main/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url({{ asset('/storage/'.$vehicle->vehicle_image.'?height=1024') }});" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
       <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
@@ -132,6 +128,11 @@ hr {
 
   <section class="ftco-section contact-section">
     <div class="page-content container">
+        @if(auth()->user()->kyc == null)
+        <div class="mb-4">
+          @include('Partials.kyc')
+        </div>
+        @endif
         <div class="page-header text-blue-d2">
             <h1 class="page-title text-secondary-d1">
                 Rental
@@ -244,7 +245,11 @@ hr {
     
                         <div>
                             <span class="text-secondary-d1 text-105">Thank you for your business</span>
+                            @if(auth()->user()->kyc == null)
+                            <button class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0" disabled>Rental Now</button>
+                            @elseif(auth()->user()->kyc !== null)
                             <button type="submit" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0" id="rentalNow">Rental Now</button>
+                            @endif
                         </div>
                     </form>
                     </div>

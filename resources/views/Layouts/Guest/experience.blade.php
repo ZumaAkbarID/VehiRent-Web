@@ -5,7 +5,7 @@
   <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
     <div class="block-18">
       <div class="text text-border d-flex align-items-center">
-        <strong class="number" data-number="60">0</strong>
+        <strong class="number" data-number="{{ (date('Y')-2020 == 0) ? 1 : 0 }}">0</strong>
         <span>Year <br>Experienced</span>
       </div>
     </div>
@@ -13,24 +13,24 @@
   <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
     <div class="block-18">
       <div class="text text-border d-flex align-items-center">
-        <strong class="number" data-number="1090">0</strong>
-        <span>Total <br>Cars</span>
+        <strong class="number" data-number="{{ $total_brand }}">0</strong>
+        <span>Total <br>Brand</span>
       </div>
     </div>
   </div>
   <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
     <div class="block-18">
       <div class="text text-border d-flex align-items-center">
-        <strong class="number" data-number="2590">0</strong>
-        <span>Happy <br>Customers</span>
+        <strong class="number" data-number="{{ $total_vehicle }}">0</strong>
+        <span>Total <br>Vehicle</span>
       </div>
     </div>
   </div>
   <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
     <div class="block-18">
       <div class="text d-flex align-items-center">
-        <strong class="number" data-number="67">0</strong>
-        <span>Total <br>Branches</span>
+        <strong class="number" data-number="{{ $total_payment }}">0</strong>
+        <span>Total <br>Rental</span>
       </div>
     </div>
   </div>

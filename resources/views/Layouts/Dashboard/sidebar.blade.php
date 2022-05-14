@@ -56,11 +56,7 @@
                     </g>
                   </svg>
                 </span>
-<<<<<<< HEAD
                 <span class="fs-3 demo menu-text fw-bolder ms-2">{{ config('app.name') }}</span>
-=======
-                <span class="app-brand-text demo menu-text fw-bolder ms-2">{{ config('app.name') }}</span>
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
               </a>
   
               <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -72,7 +68,7 @@
   
             <ul class="menu-inner py-1">
               <!-- Dashboard -->
-              <li class="menu-item {{ Route::currentRouteName() == 'adminDashboard' ? 'active' : '' }}">
+              <li class="menu-item {{ Route::currentRouteName() == 'adminDashboard' ? 'active' : '' }} {{ (Request::segment(1) == 'dashboard') ? 'active' : '' }}">
                 <a href="{{ route('redirects') }}" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-home-circle"></i>
                   <div data-i18n="Dashboard">Dashboard</div>

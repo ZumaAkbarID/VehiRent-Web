@@ -40,6 +40,7 @@
             />
           </div>
           <div class="d-flex align-items-start align-items-sm-center gap-4">
+          <input type="hidden" name="brand_slug" id="brand_slug" value="t">
             <input type="hidden" name="oldImage" id="oldImage" value="{{ $brand->brand_image }}">
             <img
               src="{{ asset('/storage/'.$brand->brand_image) }}"

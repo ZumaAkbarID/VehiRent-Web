@@ -16,11 +16,15 @@ class BrandController extends Controller
      */
     public function index()
     {
-        return Brand::with('type')->get();
+        if (request()->limit) {
+            return Brand::with(['type', 'vehicleSpec'])->limit(request()->limit)->get();
+        } else {
+            return Brand::with(['type', 'vehicleSpec'])->get();
+        }
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage. a
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

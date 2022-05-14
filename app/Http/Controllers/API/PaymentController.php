@@ -15,9 +15,44 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function get_user_invoice()
     {
-        return Payment::with('rental')->get();
+        if (request()->limit) {
+            return Rental::with(['payment', 'vehicleSpec'])->where('user_id', auth('sanctum')->user()->id)->limit(request()->limit)->get();
+        } else {
+            return Rental::with(['payment', 'vehicleSpec'])->where('user_id', auth('sanctum')->user()->id)->get();
+        }
+    }
+
+    public function invoice(Request $request, $trxCode)
+    {
+        $rental = Rental::with(['vehicleSpec', 'payment'])->where('transaction_code', $trxCode)->first();
+        if (!$rental) {
+            return response(['message' => 'Invoice with code ' . $trxCode . ' not found!'], 401);
+        }
+
+        if (isset($rental->payment->transaction_code)) {
+            $status = 'Paid';
+        } else {
+            $status = 'Unpaid';
+        }
+
+        $startDate = strtotime($rental->start_rent_date);
+        $endDate = strtotime($rental->end_rent_date);
+
+        $timeDiff = abs($startDate - $endDate);
+        $numberDays = $timeDiff / 86400;
+        $numberDays = intval($numberDays);
+
+        $data = [
+            'transaction_code' => $trxCode,
+            'rental' => $rental,
+            'status' => $status,
+            'vehicle' => $rental->vehicleSpec,
+            'numberDays' => $numberDays
+        ];
+
+        return response(['message' => 'Success', 'data' => $data]);
     }
 
     /**
@@ -63,9 +98,9 @@ class PaymentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($paymentCode)
+    public function show($trxCode)
     {
-        $payment = Payment::where('payment_code', $paymentCode)->with('rental')->first();
+        $payment = Rental::where('transaction_code', $trxCode)->where('user_id', auth('sanctum')->user()->id)->with('payment')->first();
 
         if (!$payment) {
             return response(['message' => 'The given data was not found.'], 401);
@@ -81,31 +116,36 @@ class PaymentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $transaction_code)
     {
-        if (!Rental::find($request->id_rental)) {
-            return response(['message' => 'Data rental was not found.'], 401);
+        if (Payment::where('transaction_code', $transaction_code)->first()) {
+            return response(['message' => 'Invoice has been payed'], 401);
         }
 
-        if (!Payment::where('payment_code', $request->payment_code)) {
-            return response(['message' => 'Data payment was not found.'], 401);
-        }
-
-        $validated = $request->validate([
-            'id_rental' => 'required|numeric',
-            'cashier' => 'required|string',
-            'payment_type' => 'required|string',
-            'paid_date' => 'required',
-            'payer_name' => 'required|string',
-            'bank' => 'required|string',
-            'no_rek' => 'required',
-            'paid_total' => 'required|numeric',
+        $validation = $request->validate([
+            'payer_name' => 'required',
+            'bank' => 'required',
+            'amount' => 'required',
         ]);
 
-        if (Payment::where('payment_code', $request->payment_code)->update($validated)) {
-            return True;
-        } else {
-            return False;
+        $rental = Rental::where('transaction_code', $transaction_code)->first();
+
+        $validation['id_rental'] = $rental->id;
+        $validation['cashier'] = 'Secure Mobile Payment';
+        $validation['payment_type'] = 'Mobile';
+        $validation['no_ref'] = time();
+        $validation['paid_date'] = now();
+        $validation['transaction_code'] = $transaction_code;
+        $validation['paid_total'] = $rental->rent_price;
+
+        if ($rental->rent_price > $request->amount) {
+            return response(['status' => 'Failed', 'message' => 'Your money is not enough', 'required' => $rental->rent_price, 'your_money' => $request->amount, 'cashback' => 0]);
+        } else if ($rental->rent_price < $request->amount) {
+            return response(['status' => 'Success', 'message' => 'Your money is to much', 'required' => $rental->rent_price, 'your_money' => $request->amount, 'cashback' => $request->amount - $rental->rent_price]);
+        }
+
+        if (Payment::create($validation)) {
+            return response(['status' => 'Success', 'message' => 'Thank You', 'required' => $rental->rent_price, 'your_money' => $request->amount, 'cashback' => 0]);
         }
     }
 

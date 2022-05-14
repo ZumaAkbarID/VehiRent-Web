@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             'address' => 'Jl. Mencari Cinta Sejati',
             'role' => 'Admin',
             'avatar' => 'user-avatar/default.png',
+            'kyc' => 'user-kyc/default.png',
             'email_verified_at' => now(),
             'password' => bcrypt('12345'),
             'remember_token' => Str::random(10),
@@ -44,6 +45,7 @@ class DatabaseSeeder extends Seeder
             'address' => 'Jl. Mencari Cinta Sejati',
             'role' => 'Member',
             'avatar' => 'user-avatar/default.png',
+            'kyc' => 'user-kyc/default.png',
             'email_verified_at' => now(),
             'password' => bcrypt('12345'),
             'remember_token' => Str::random(10),
@@ -57,6 +59,7 @@ class DatabaseSeeder extends Seeder
             'address' => 'Jl. Mencari Cinta Sejati',
             'role' => 'Member',
             'avatar' => 'user-avatar/default.png',
+            'kyc' => null,
             'email_verified_at' => now(),
             'password' => bcrypt('12345'),
             'remember_token' => Str::random(10),
@@ -108,14 +111,14 @@ class DatabaseSeeder extends Seeder
         Brand::create([
             'type_id' => 1,
             'brand_name' => 'Toyota',
-            'brand_slug' => 'toyota',
+            'brand_slug' => 'toyota-car',
             'brand_image' => 'brand-logo/default.png'
         ]);
 
         Brand::create([
             'type_id' => 1,
             'brand_name' => 'Daihatsu',
-            'brand_slug' => 'daihatsu',
+            'brand_slug' => 'daihatsu-car',
             'brand_image' => 'brand-logo/default.png'
         ]);
 

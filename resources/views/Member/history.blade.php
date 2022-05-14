@@ -1,6 +1,11 @@
 @extends('Layouts.Dashboard.dashboard')
 @section('dashboard')
     <!-- Responsive Table -->
+    @if(auth()->user()->kyc == null)
+        <div class="mb-4">
+          @include('Partials.kyc')
+        </div>
+        @endif
     <div class="card">
         <h5 class="card-header">History</h5>
         <div class="table-responsive text-nowrap p-3">

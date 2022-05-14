@@ -69,11 +69,6 @@
               </a>
             </div>
             <!-- /Logo -->
-<<<<<<< HEAD
-=======
-            <h4 class="mb-2">Adventure starts here 🚀</h4>
-            <p class="mb-4">Make your app management easy and fun!</p>
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
 
             <form id="formAuthentication" class="mb-3" action="{{ route('registerProcess') }}" method="POST">
               @csrf
@@ -102,7 +97,7 @@
                 <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="Password Confirmation" required>
               </div>
 
-              <div class="mb-3">
+              {{-- <div class="mb-3">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" required/>
                   <label class="form-check-label" for="terms-conditions">
@@ -110,7 +105,7 @@
                     <a href="javascript:void(0);">privacy policy & terms</a>
                   </label>
                 </div>
-              </div>
+              </div> --}}
               <button class="btn btn-primary d-grid w-100" type="submit">Sign up</button>
             </form>
 

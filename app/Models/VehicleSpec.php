@@ -19,7 +19,8 @@ class VehicleSpec extends Model
             fn ($query, $search) =>
             $query->where(
                 fn ($query) =>
-                $query->where('vehicle_name', 'like', '%' . $search . '%')
+                $query
+                    ->where('vehicle_name', 'like', '%' . $search . '%')
                     ->orWhere('number_plate', 'like', '%' . $search . '%')
             )
         );

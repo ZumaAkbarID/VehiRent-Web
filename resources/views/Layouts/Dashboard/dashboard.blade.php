@@ -113,14 +113,6 @@
     </div>
     <!-- / Layout wrapper -->
 
-    <div class="buy-now">
-      <a
-        href="/developer"
-        class="btn btn-danger btn-buy-now"
-        >Contact us</a
-      >
-    </div>
-
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     @include('Partials.alert')

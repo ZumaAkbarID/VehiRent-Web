@@ -23,7 +23,7 @@
                 @foreach ($brands as $brand)
                   @foreach ($types as $type)
                       @if ($brand->type_id == $type->id)
-                          <option value="{{ $brand->id }}" @if($type->id == $vehicle->id_type) selected @endif><b>{{ $brand->brand_name }}</b> type <b>{{ $type->type_name }}</b></option>
+                          <option value="{{ $brand->id }}" @if($type->id == $vehicle->id_type && $brand->id == $vehicle->id_brand) selected @endif><b>{{ $brand->brand_name }}</b> type <b>{{ $type->type_name }}</b></option>
                       @endif
                   @endforeach
                 @endforeach
@@ -136,7 +136,7 @@
           </div>
 
           <div class="d-flex align-items-start align-items-sm-center gap-4">
-            <input type="hidden" name="oldImage" value="{{ asset('/storage/'.$vehicle->vehicle_image) }}">
+            <input type="hidden" name="oldImage" value="{{ $vehicle->vehicle_image }}">
             <img
               src="{{ asset('/storage/'.$vehicle->vehicle_image) }}"
               alt="user-avatar"

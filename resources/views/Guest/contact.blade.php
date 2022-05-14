@@ -1,10 +1,6 @@
 @extends('Layouts.Guest.default')
 @section('content')
-<<<<<<< HEAD
 <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('assets/main/images/ferrari.jpg');" data-stellar-background-ratio="0.5">
-=======
-<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('assets/main/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
     <div class="overlay"></div>
     <div class="container">
       <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
@@ -26,11 +22,7 @@
                         <div class="icon mr-3">
                             <span class="icon-map-o"></span>
                         </div>
-<<<<<<< HEAD
                       <p><span>Address:</span> 	JL. KH Achmad Fauzan No.17, Krasak, Bangsri, Kabupaten Jepara </p>
-=======
-                      <p><span>Address:</span> 198 West 21th Street, Suite 721 New York NY 10016</p>
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -38,11 +30,7 @@
                         <div class="icon mr-3">
                             <span class="icon-mobile-phone"></span>
                         </div>
-<<<<<<< HEAD
                       <p><span>Phone:</span> <a href="tel://1234567920">+62 392 3929 2108</a></p>
-=======
-                      <p><span>Phone:</span> <a href="tel://1234567920">+ 1235 2355 98</a></p>
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -75,11 +63,6 @@
           </form>
         
         </div>
-      </div>
-      <div class="row justify-content-center">
-          <div class="col-md-12">
-              <div id="map" class="bg-white"></div>
-          </div>
       </div>
     </div>
   </section>

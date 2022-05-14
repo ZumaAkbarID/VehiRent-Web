@@ -19,6 +19,7 @@ class PaymentController extends Controller
         if (Payment::where('transaction_code', $trxCode)->first()) {
             return redirect()->to(route('historyDetail', $trxCode))->with('info', 'Invoice has been payed');
         }
+
         $data = [
             'title' => 'Payment | ' . $trxCode,
             'rental' => Rental::where('transaction_code', $trxCode)->first()
@@ -32,6 +33,7 @@ class PaymentController extends Controller
         if (Payment::where('transaction_code', $request->transaction_code)->first()) {
             return redirect()->to(route('historyDetail', $request->transaction_code))->with('info', 'Invoice has been payed');
         }
+
         $validation = $request->validate([
             'transaction_code' => 'required',
             'id_rental' => 'required',

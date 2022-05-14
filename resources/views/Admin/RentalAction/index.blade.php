@@ -89,8 +89,12 @@
             }).done(function(data){
                 $("#table-section").empty().html(data);
                 // location.hash = page;
-            }).fail(function(jqXHR, ajaxOptions, thrownError){
-                alert('No response from server');
+            }).fail(function(data){
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: "[Page Error] Please reload this page.",
+                })
             });
         }
 
@@ -99,6 +103,12 @@
             $.get("/admin/edit-rental-action/"+id, {}, function(data, status) {
                 $('#modal-section').empty().html(data);
                 $('#modalDialog').modal('show');
+            }).fail(function(data){
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: "[Page Error] Please reload this page.",
+                })
             });
         };
 
@@ -129,6 +139,20 @@
 
                     $("#btn-save").html('Save');
                     $("#btn-save"). attr("disabled", false);
+                },
+            error: function(data) {
+                var errors = data.responseJSON;
+                errorsHtml = '<ul class= "list-unstyled text-left">';
+                  $.each(errors.errors,function (k,v) {
+                         errorsHtml += '<li>'+ v + '</li>';
+                  });
+                  errorsHtml += '</ul>';
+                  $("#closeModalDialog").trigger("click");
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: errorsHtml,
+                })
                 }
             });
         });

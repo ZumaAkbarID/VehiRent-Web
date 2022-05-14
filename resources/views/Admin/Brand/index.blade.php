@@ -100,6 +100,12 @@
 
             $.get("{{ route('AdminFetchBrand') }}", {}, function(data, status) {
                 $('#table-section').html(data);
+            }).fail(function(data){
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: "[Page Error] Please reload this page.",
+                })
             });
             
             $(document).on('click', '.pagination a',function(event) {
@@ -368,8 +374,12 @@
             }).done(function(data){
                 $("#table-section").empty().html(data);
                 // location.hash = page;
-            }).fail(function(jqXHR, ajaxOptions, thrownError){
-                alert('No response from server');
+            }).fail(function(data){
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: "[Page Error] Please reload this page.",
+                })
             });
         }
 
@@ -390,6 +400,12 @@
             $.get("{{ route('AdminCreateBrandForm') }}", {}, function(data, status) {
                 $('#modal-section').empty().html(data);
                 $('#modalDialog').modal('show');
+            }).fail(function(data){
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: "[Page Error] Please reload this page.",
+                })
             });
         };
 
@@ -438,7 +454,21 @@
 
                 $("#btn-submit").html('Create');
                 $("#btn-submit"). attr("disabled", false);
-            }
+            },
+            error: function(data) {
+                var errors = data.responseJSON;
+                errorsHtml = '<ul class= "list-unstyled text-left">';
+                  $.each(errors.errors,function (k,v) {
+                         errorsHtml += '<li>'+ v + '</li>';
+                  });
+                  errorsHtml += '</ul>';
+                  $("#closeModalDialog").trigger("click");
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: errorsHtml,
+                })
+                }
             });
         });
 
@@ -447,6 +477,12 @@
             $.get("/admin/brand/edit/"+id, {}, function(data, status) {
                 $('#modal-section').empty().html(data);
                 $('#modalDialog').modal('show');
+            }).fail(function(data){
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: "[Page Error] Please reload this page.",
+                })
             });
         };
 
@@ -474,13 +510,27 @@
                     });
 
                     Swal.fire({
-                        title: 'Type Edited!',
+                        title: 'Brand Edited!',
                         text: "Success save brand : " + brand_name,
                         icon: 'success',
                     });
 
                     $("#btn-save").html('Save');
                     $("#btn-save"). attr("disabled", false);
+                },
+                error: function(data) {
+                var errors = data.responseJSON;
+                errorsHtml = '<ul class= "list-unstyled text-left">';
+                  $.each(errors.errors,function (k,v) {
+                         errorsHtml += '<li>'+ v + '</li>';
+                  });
+                  errorsHtml += '</ul>';
+                  $("#closeModalDialog").trigger("click");
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: errorsHtml,
+                })
                 }
             });
         });
@@ -513,8 +563,21 @@
                                     'Brand with id '+ id +' has been deleted.',
                                     'success'
                                 )
-                            }
-                        });
+                            },error: function(data) {
+                var errors = data.responseJSON;
+                errorsHtml = '<ul class= "list-unstyled text-left">';
+                  $.each(errors.errors,function (k,v) {
+                         errorsHtml += '<li>'+ v + '</li>';
+                  });
+                  errorsHtml += '</ul>';
+                  $("#closeModalDialog").trigger("click");
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: errorsHtml,
+                })
+                }
+            });
                     }
                 })
             }

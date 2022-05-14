@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /*!5
-=======
-/*!
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
  * Copyright 2011-2019 Twitter, Inc.
@@ -1772,11 +1768,7 @@ textarea.form-control {
   font-size: 0.875rem;
   line-height: 1.5;
   color: #fff;
-<<<<<<< HEAD
   background-color: rgba(40, 159, 167, 0.9);
-=======
-  background-color: rgba(40, 167, 69, 0.9);
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
   border-radius: 0.25rem; }
 
 .was-validated .form-control:valid, .form-control.is-valid {
@@ -8977,11 +8969,7 @@ h1, h2, h3, h4, h5,
     right: 0;
     bottom: 0;
     content: '';
-<<<<<<< HEAD
     background: #000035;
-=======
-    background: #01d28e;
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
     z-index: -2;
     width: 63%; }
     @media (max-width: 767.98px) {
@@ -9170,11 +9158,7 @@ textarea.form-control {
     font-weight: 700;
     color: #fff; }
     .ftco-footer .logo span {
-<<<<<<< HEAD
       color: #FFB6C1; }
-=======
-      color: #01d28e; }
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
   .ftco-footer .ftco-footer-widget h2 {
     font-weight: normal;
     color: #fff;
@@ -9303,11 +9287,7 @@ textarea.form-control {
   font-size: 18px;
   display: block;
   margin-bottom: 5px;
-<<<<<<< HEAD
   color: #FFB6C1;
-=======
-  color: #1089ff;
->>>>>>> 3b8ebd402252851968106dd5ba9040141869cb7b
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 2px;

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
+use App\Models\Payment;
 use App\Models\Type;
 use App\Models\VehicleSpec;
 use Illuminate\Http\Request;
@@ -13,7 +15,10 @@ class MainController extends Controller
     {
         $data = [
             'title' => config('app.name') . ' | Rental Your Best Vehicle',
-            'featuredVehicle' => VehicleSpec::with('brand')->where('vehicle_status', 'Available')->inRandomOrder()->limit(6)->get()
+            'featuredVehicle' => VehicleSpec::with('brand')->where('vehicle_status', 'Available')->inRandomOrder()->limit(6)->get(),
+            'total_brand' => Brand::all()->count(),
+            'total_vehicle' => VehicleSpec::all()->count(),
+            'total_payment' => Payment::all()->count(),
         ];
 
         return view('Guest.main', $data);
@@ -22,7 +27,10 @@ class MainController extends Controller
     public function about()
     {
         $data = [
-            'title' => 'About | ' . config('app.name')
+            'title' => 'About | ' . config('app.name'),
+            'total_brand' => Brand::all()->count(),
+            'total_vehicle' => VehicleSpec::all()->count(),
+            'total_payment' => Payment::all()->count(),
         ];
 
         return view('Guest.about', $data);
@@ -58,13 +66,13 @@ class MainController extends Controller
 
         if (request()->filter) {
             $type = Type::where('type_slug', request()->filter)->first();
-            return view('Guest.Ajax.main-rental', ['vehicles' => VehicleSpec::with(['type', 'rental', 'brand'])->where('id_type', $type->id)->paginate($paginate)]);
+            return view('Guest.Ajax.main-rental', ['vehicles' => VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_status', 'Available')->where('id_type', $type->id)->inRandomOrder()->paginate($paginate)]);
         } else if (request()->search) {
-            return view('Guest.Ajax.main-rental', ['vehicles' => VehicleSpec::with(['type', 'rental', 'brand'])->filter(request(['search']))->paginate($paginate)]);
+            return view('Guest.Ajax.main-rental', ['vehicles' => VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_status', 'Available')->filter(request(['search']))->inRandomOrder()->paginate($paginate)]);
         }
 
         return view('Guest.Ajax.main-rental', [
-            'vehicles' => VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_status', 'Available')->paginate($paginate)
+            'vehicles' => VehicleSpec::with(['type', 'rental', 'brand'])->where('vehicle_status', 'Available')->inRandomOrder()->paginate($paginate)
         ]);
     }
 

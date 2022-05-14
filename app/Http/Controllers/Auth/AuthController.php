@@ -92,7 +92,7 @@ class AuthController extends Controller
         });
 
         if ($userVerify) {
-            return redirect('/auth/register')->withInput()->with('success', 'Email verification sent, please check your email');
+            return redirect('/auth/login')->withInput()->with('success', 'Email verification sent, please check your email');
         } else {
             return redirect('/auth/register')->withInput()->with('error', 'Failed to send Email verification');
         }
@@ -108,10 +108,6 @@ class AuthController extends Controller
 
     public function verifyAccount($token)
     {
-        if (request()->redirect == 'mobile') {
-            $token = $token . '?redirect=mobile';
-        }
-
         $verifyUser = UserVerify::where('token', $token)->first();
 
         if ($verifyUser->status == 'Expire') {
@@ -183,9 +179,9 @@ class AuthController extends Controller
 
     public function verifyResetPassword($token)
     {
-        $verifyUser = UserVerify::where('token', $token)->first();
+        $verifyUser = UserVerify::where('token', $token)->where('status', '!=', 'Available')->first();
 
-        $message = 'Sorry your email cannot be identified.';
+        $message = 'Sorry your token cannot be identified.';
 
         if (!is_null($verifyUser)) {
             $data = [

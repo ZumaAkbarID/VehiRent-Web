@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'isAdmin' => \App\Http\Middleware\IsAdmin::class,
         'isMember' => \App\Http\Middleware\IsMember::class,
+        'isIdentVerified' => \App\Http\Middleware\isIdentVerified::class,
         'isEmailVerified' => \App\Http\Middleware\IsEmailVerified::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,

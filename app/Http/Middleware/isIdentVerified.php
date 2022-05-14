@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class IsEmailVerified
+class isIdentVerified
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,10 @@ class IsEmailVerified
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::user()->email_verified_at) {
+        if (!Auth::user()->kyc) {
             auth()->logout();
-            return redirect()->route('login')
-                ->with('error', 'You need to confirm your account. We have sent you an activation code, please check your email. check spam also');
+            return redirect()->route('redirects')
+                ->with('error', 'You need to verify identity!');
         }
 
         return $next($request);
