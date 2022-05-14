@@ -93,7 +93,8 @@ class RentalController extends Controller
 
         VehicleSpec::where('id', $request->id_vehicle)->update(['vehicle_status' => 'Not Available']);
 
-        return redirect()->to(route('viewInvoice', $trxCode));
+        // return redirect()->to(route('viewInvoice', $trxCode));
+        return redirect()->to(route('historyDetail', $trxCode));
     }
 
     public function viewInvoice($trxCode)

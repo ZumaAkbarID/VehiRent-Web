@@ -246,7 +246,9 @@ hr {
                         <div>
                             <span class="text-secondary-d1 text-105">Thank you for your business</span>
                             @if(auth()->user()->kyc == null)
-                            <button class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0" disabled>Rental Now</button>
+                            <div class="text-right">
+                                <button class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0" disabled>Rental Now</button>
+                            </div>
                             @elseif(auth()->user()->kyc !== null)
                             <button type="submit" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0" id="rentalNow">Rental Now</button>
                             @endif
@@ -268,6 +270,7 @@ hr {
         $(document).on('ready', function() {
             end_rent_date.attr('disabled', 'disabled');
             rentalNowBtn.attr('disabled', 'disabled');
+            $('[data-toggle="tooltip"]').tooltip();
         });
 
         start_rent_date.on('change', function() {

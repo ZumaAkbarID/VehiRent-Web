@@ -108,10 +108,10 @@
                   <div class="col-md-6 wrap-about ftco-animate">
             <div class="heading-section heading-section-white pl-md-5">
                 <span class="subheading">About us</span>
-              <h2 class="mb-4">Welcome to Source of Fortune</h2>
+              <h2 class="mb-4">Welcome to {{ config('app.name') }}</h2>
 
-              <p>SoF Rental since 2020 specializing in the rental of cars, motorcyle, bicyle and commercial vehicles in The Java. With offices in The Jepara and Krasak, SoF Rental is one of the larger rental companies in the region. For both individuals and companies SoF Rental offers a solution for almost all (temporary) traffic requirements.</p>
-              <p><a href="#" class="btn btn-primary py-3 px-4">Search Vehicle</a></p>
+              <p>{{ config('app.name') }} since 2020 specializing in the rental of cars, motorcyle, bicyle and commercial vehicles in The Java. With offices in The Jepara and Krasak, {{ config('app.name') }} is one of the larger rental companies in the region. For both individuals and companies {{ config('app.name') }} offers a solution for almost all (temporary) traffic requirements.</p>
+              <p><a href="/rental" class="btn btn-primary py-3 px-4">Search Vehicle</a></p>
             </div>
                   </div>
               </div>
