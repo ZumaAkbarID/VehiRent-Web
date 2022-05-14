@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\Rental;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PaymentController extends Controller
 {
@@ -25,7 +26,8 @@ class PaymentController extends Controller
             'rental' => Rental::where('transaction_code', $trxCode)->first()
         ];
 
-        return view('Guest.pay-form', $data);
+        // return view('Guest.pay-form', $data);
+        return view('Member.pay-form', $data);
     }
 
     public function payProcess(Request $request)
@@ -34,7 +36,15 @@ class PaymentController extends Controller
             return redirect()->to(route('historyDetail', $request->transaction_code))->with('info', 'Invoice has been payed');
         }
 
-        $validation = $request->validate([
+        $request->request->add([
+            'cashier' => config('app.name') . ' Web Payments',
+            'payment_type' => 'Manual',
+            'paid_date' => now(),
+            'bank' => config('app.name') . ' Bank',
+            'no_ref' => time(),
+        ]);
+
+        $validation = $this->validate($request, [
             'transaction_code' => 'required',
             'id_rental' => 'required',
             'cashier' => 'required',
@@ -44,7 +54,10 @@ class PaymentController extends Controller
             'bank' => 'required',
             'no_ref' => 'required',
             'paid_total' => 'required',
+            'payment_proof' => 'required|file|image|mimes:png,jpg,jpeg,pdf',
         ]);
+
+        $validation['payment_proof'] = $request->file('payment_proof')->storeAs('payment_proof', Str::slug(auth()->user()->name . ' ' . time()) . '.' . $request->file('payment_proof')->getClientOriginalExtension());
 
         if (Payment::create($validation)) {
             return redirect()->to(route('historyDetail', $request->transaction_code))->with('success', 'Payment Accepted!');

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\Rental;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PaymentController extends Controller
 {
@@ -122,21 +122,33 @@ class PaymentController extends Controller
             return response(['message' => 'Invoice has been payed'], 401);
         }
 
-        $validation = $request->validate([
+        $request->request->add([
+            'cashier' => config('app.name') . ' Mobile Payments',
+            'payment_type' => 'Mobile',
+            'paid_date' => now(),
+            'bank' => config('app.name') . ' Bank',
+            'no_ref' => time(),
+        ]);
+
+        $validation = $this->validate($request, [
+            'cashier' => 'required',
+            'payment_type' => 'required',
+            'paid_date' => 'required',
             'payer_name' => 'required',
             'bank' => 'required',
+            'no_ref' => 'required',
             'amount' => 'required',
+            'payment_proof' => 'required|file|image|mimes:png,jpg,jpeg,pdf',
         ]);
 
         $rental = Rental::where('transaction_code', $transaction_code)->first();
 
         $validation['id_rental'] = $rental->id;
-        $validation['cashier'] = 'Secure Mobile Payment';
-        $validation['payment_type'] = 'Mobile';
         $validation['no_ref'] = time();
         $validation['paid_date'] = now();
         $validation['transaction_code'] = $transaction_code;
         $validation['paid_total'] = $rental->rent_price;
+        $validation['payment_proof'] = $request->file('payment_proof')->storeAs('payment_proof', Str::slug(auth()->user()->name . ' ' . time()) . '.' . $request->file('payment_proof')->getClientOriginalExtension());
 
         if ($rental->rent_price > $request->amount) {
             return response(['status' => 'Failed', 'message' => 'Your money is not enough', 'required' => $rental->rent_price, 'your_money' => $request->amount, 'cashback' => 0]);

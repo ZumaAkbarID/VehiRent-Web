@@ -27,7 +27,6 @@ Route::post('verify', [APIAuthController::class, 'verifyAccount']);
 Route::post('token', [APIAuthController::class, 'token']);
 Route::post('reset', [APIAuthController::class, 'resetPassword']);
 Route::post('reset-check/{token}', [APIAuthController::class, 'resetPasswordCheck']);
-Route::post('reset-password/{token}', [APIAuthController::class, 'savePassword']);
 
 // Member API
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -45,6 +44,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Route::get('rentals', [RentalController::class, 'index']); // gabole
     // Route::get('rental/{rental}', [RentalController::class, 'show']); // old
+    Route::post('reset-password/{token}', [APIAuthController::class, 'savePassword']);
+    Route::post('kyc', [APIAuthController::class, 'saveKYC']);
 
     Route::post('rental/{rental}', [RentalController::class, 'store']);
 

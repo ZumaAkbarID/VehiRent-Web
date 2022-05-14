@@ -178,17 +178,5 @@ class DatabaseSeeder extends Seeder
             'guarante_rent_1' => 'guarante-rent/default.pdf',
             'rent_price' => 900000
         ]);
-
-        Payment::create([
-            'transaction_code' => 'TRX000000001',
-            'id_rental' => 1,
-            'cashier' => 'Midtrans',
-            'payment_type' => 'transfer_bank',
-            'paid_date' => now(),
-            'payer_name' => 'Member 2',
-            'bank' => 'BNI',
-            'no_ref' => '03929409234',
-            'paid_total' => 900000
-        ]);
     }
 }

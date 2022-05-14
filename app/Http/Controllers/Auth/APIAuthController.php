@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserVerify;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -200,6 +200,30 @@ class APIAuthController extends Controller
             return response(['status' => 'Failed', 'message' => 'Your password failed to update'], 500);
         }
         return response(['status' => 'Failed', 'message' => 'Token Expired'], 403);
+    }
+
+    public function saveKYC(Request $request)
+    {
+        if (auth()->user()->kyc !== null) {
+            return response([
+                'status' => 'Failed',
+                'message' => 'Your account is verified'
+            ], 403);
+        }
+
+        $this->validate($request, [
+            'ktp' => 'required|file|image|mimes:jpg,png,jpeg,pdf'
+        ]);
+
+        $kycName = $request->file('ktp')->storeAs('user-kyc', Str::slug('kyc ' . auth()->user()->name . ' ' . time()) . '.' . $request->file('ktp')->getClientOriginalExtension());
+        if (User::find(auth()->user()->id)->update(
+            ['kyc' => $kycName]
+        )) {
+            return response([
+                'status' => 'Success',
+                'message' => 'Success upload personal information'
+            ]);
+        }
     }
 
     public function logout(Request $request)
