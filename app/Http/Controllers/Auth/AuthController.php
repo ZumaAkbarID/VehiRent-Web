@@ -92,7 +92,7 @@ class AuthController extends Controller
         });
 
         if ($userVerify) {
-            return redirect('/auth/register')->withInput()->with('success', 'Email verification sent, please check your email');
+            return redirect('/auth/login')->withInput()->with('success', 'Email verification sent, please check your email');
         } else {
             return redirect('/auth/register')->withInput()->with('error', 'Failed to send Email verification');
         }

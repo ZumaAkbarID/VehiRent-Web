@@ -37,6 +37,7 @@
               autofocus
             />
           </div>
+          <input type="hidden" name="brand_slug" id="brand_slug" value="t">
           <div class="d-flex align-items-start align-items-sm-center gap-4">
             <img
               src="/assets/sneat/img/avatars/1.png"

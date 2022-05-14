@@ -24,7 +24,7 @@ class ActionController extends Controller
             return redirect()->to(route('rentalAction'));
         }
         return view('Admin.RentalAction.ajax.main-table', [
-            'rental' => Rental::with(['vehicleSpec', 'payment', 'user'])->where('transaction_code', request()->search)->first()
+            'rental' => Rental::with(['vehicleSpec', 'payment', 'user'])->where('transaction_code', str_replace('#', '', urldecode(request()->search)))->first()
         ]);
     }
 

@@ -20,7 +20,7 @@
             <div class="row mx-1">
                 <div class="col-3">
                     <select name="filter" id="filter" class="form-control">
-                        <option value="">Filter Type</option>
+                        <option value="" class="text-secondary">Filter Type</option>
                         @foreach ($types as $type)
                             <option value="{{ $type->type_slug }}" @if(request('filter') == $type->type_slug) selected @endif>{{ $type->type_name }}</option>
                         @endforeach
@@ -30,7 +30,7 @@
                 <div class="col-9 input-group mb-4">
                     <input type="text" class="form-control" placeholder="Search Vehicle" id="search" name="search" value="{{ request('search') }}">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" id="search_btn" onclick="search()" type="button">Search</button>
+                        <button class="btn btn-outline-primary" id="search_btn" onclick="search()" type="button">Search</button>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,19 @@
     }
 
     $('#filter').on('change', function() {
-        filter($('#filter').val());
+        if (!$('#filter').val() == '' || !$('#filter').val() == undefined) {
+            filter($('#filter').val());
+        }else{
+            //get url and make final url for ajax 
+            var href = new URL(window.location.href);
+            var search_params = href.searchParams;
+            search_params.delete('filter');
+            href.search = search_params.toString();
+            var finalURL = href.toString();
+            //set to current url
+            window.history.pushState({}, null, finalURL);
+            getData(finalURL);
+        }
     });
 
     $(document).ready(function($){

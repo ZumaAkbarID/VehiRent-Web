@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth', 'isEmailVerified']], function () {
 
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('/saveProfile', [ProfileController::class, 'saveProfile'])->name('saveProfile');
+    Route::post('/saveKYC', [ProfileController::class, 'saveKYC'])->name('saveKYC');
     Route::post('/saveLogin', [ProfileController::class, 'saveLogin'])->name('saveLogin');
 });
 
@@ -135,8 +136,8 @@ Route::get('/linkstorage', function () {
 });
 
 Route::get('/symlink', function () {
-    $targetFolder = $_SERVER['DOCUMENT_ROOT'].'/storage/app/public';
-$linkFolder = $_SERVER['DOCUMENT_ROOT'].'/public/storage';
-symlink($targetFolder,$linkFolder);
-echo 'Symlink completed';
+    $targetFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage/app/public';
+    $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/public/storage';
+    symlink($targetFolder, $linkFolder);
+    echo 'Symlink completed';
 });

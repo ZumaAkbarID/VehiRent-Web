@@ -29,11 +29,12 @@ class APIAuthController extends Controller
         $user = User::create($validated);
         $token = $user->createToken('authToken')->plainTextToken;
 
-        $token = sha1(mt_rand(1, 90000) . $user->id);
+        $token = mt_rand(1, 9) . mt_rand(1, 9) . mt_rand(1, 9) . mt_rand(1, 9) . mt_rand(1, 9) . mt_rand(1, 9);
+
         $userVerify = UserVerify::create([
             'user_id' => $user->id,
             'token' => $token,
-            'description' => 'Email Verification',
+            'description' => 'Mobile Email Verification',
             'status' => 'Available',
             'updated_at' => null
         ]);
@@ -96,9 +97,12 @@ class APIAuthController extends Controller
         return response($response, 201);
     }
 
-    public function verifyAccount($token)
+    public function verifyAccount()
     {
-        $verifyUser = UserVerify::where('token', $token)->first();
+        $email = request()->email;
+        $token = request()->token;
+
+        $verifyUser = UserVerify::where('token', $token)->where('user_id', User::where('email', $email)->first()->id)->first();
 
         if ($verifyUser->status == 'Expire') {
             return response(['status' => 'Failed', 'message' => 'Token Expired'], 401);
@@ -107,7 +111,7 @@ class APIAuthController extends Controller
         $message = 'Sorry your email cannot be identified.';
 
         if (!is_null($verifyUser)) {
-            $verifyUser->update(['status' => 'Expire']);
+            $verifyUser->update(['token' => time(), 'status' => 'Expire']);
             $user = User::find($verifyUser->user_id);
 
             if (!$user->email_verified_at) {
@@ -133,24 +137,24 @@ class APIAuthController extends Controller
 
         if (is_null($user->email_verified_at)) {
 
-            $token = sha1(mt_rand(1, 90000) . $user->id);
+            $token = mt_rand(1, 9) . mt_rand(1, 9) . mt_rand(1, 9) . mt_rand(1, 9) . mt_rand(1, 9) . mt_rand(1, 9);
             UserVerify::create([
                 'user_id' => $user->id,
                 'token' => $token,
-                'description' => 'Email Verification',
+                'description' => 'Mobile Change Password Verification',
                 'status' => 'Available',
                 'updated_at' => null
             ]);
 
             Mail::send('Auth.Email.emailVerificationEmail', ['token' => $token, 'isMobile' => 1], function ($message) use ($request) {
                 $message->to($request->email);
-                $message->subject('Email Verification Mail');
+                $message->subject('Mobile Change Password Verification');
             });
 
             return response(['status' => 'Failed', 'message' => 'You need to verify your email first. A verification email has been sent to ' . $user->email]);
         }
 
-        $token = sha1(mt_rand(1, 90000) . $user->id);
+        $token = mt_rand(1, 9) . mt_rand(1, 9) . mt_rand(1, 9) . mt_rand(1, 9) . mt_rand(1, 9) . mt_rand(1, 9);
         UserVerify::create([
             'user_id' => $user->id,
             'token' => $token,
@@ -161,7 +165,7 @@ class APIAuthController extends Controller
 
         Mail::send('Auth.Email.emailResetPasswordEmail', ['token' => $token, 'isMobile' => 1], function ($message) use ($request) {
             $message->to($request->email);
-            $message->subject('Resset Password Mail');
+            $message->subject('Mobile Change Password Verification');
         });
 
         return redirect()->back()->with('success', 'A password reset confirmation has been sent to your email');
@@ -190,7 +194,7 @@ class APIAuthController extends Controller
         if ($verifyUser->status !== 'Expire') {
             $updatePassword = User::where('id', $verifyUser->user_id)->update(['password' => Hash::make($request->password)]);
             if ($updatePassword) {
-                $verifyUser->update(['status' => 'Expire',]);
+                $verifyUser->update(['token' => time(), 'status' => 'Expire',]);
                 return response(['status' => 'Success', 'message' => 'Your password has been successfully updated']);
             }
             return response(['status' => 'Failed', 'message' => 'Your password failed to update'], 500);

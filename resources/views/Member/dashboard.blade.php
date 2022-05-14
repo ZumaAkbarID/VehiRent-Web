@@ -29,6 +29,11 @@
         </div>
       </div>
       <div class="col-lg-4 col-md-4 order-1">
+        @if(auth()->user()->kyc == null)
+        <div class="mb-4">
+          @include('Partials.kyc')
+        </div>
+        @endif
         <div class="row">
           <div class="col-lg-6 col-md-12 col-6 mb-4">
             <div class="card">

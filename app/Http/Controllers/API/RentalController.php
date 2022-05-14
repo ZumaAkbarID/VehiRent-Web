@@ -34,6 +34,12 @@ class RentalController extends Controller
      */
     public function store(Request $request, $vehicle_slug)
     {
+        if (auth()->user()->kyc == null) {
+            return response([
+                'status' => 'Failed',
+                'message' => 'You need to identity verify'
+            ], 403);
+        }
         $this->validate($request, [
             'start_rent_date' => 'required',
             'end_rent_date' => 'required',

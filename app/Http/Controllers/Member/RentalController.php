@@ -55,6 +55,10 @@ class RentalController extends Controller
 
     public function createInvoice(Request $request)
     {
+        if (auth()->user()->kyc == null) {
+            return redirect()->to(route('profile'))->with('error', 'You need to identity verify');
+        }
+
         $vehicle = VehicleSpec::where('id', $request->id_vehicle);
 
         if (!$vehicle->first()) {

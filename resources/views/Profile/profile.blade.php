@@ -4,9 +4,21 @@
 <div class="row">
   <div class="col-md-12">
     <ul class="nav nav-pills flex-column flex-md-row mb-3">
-      <li class="nav-item">
+      <li class="nav-item mx-2">
         <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i> Account</a>
       </li>
+      <li class="nav-item mx-2">
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#changePassword">
+          Change Password
+        </button>
+      </li>
+      @if(auth()->user()->kyc == null)
+      <li class="nav-item mx-2">
+        <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#kycModal">
+          Verify Identity
+        </button>
+      </li>
+      @endif
     </ul>
     <div class="card mb-4">
       <h5 class="card-header">Profile Details</h5>
@@ -114,47 +126,81 @@
           <!-- /Account -->
         </div>
       </form>
-        <div class="card">
-          <h5 class="card-header">Change Password</h5>
-          <div class="card-body">
-            <div class="mb-3 col-12 mb-0">
-              <div class="alert alert-warning">
-                <h6 class="alert-heading fw-bold mb-1">Are you sure you want to change password?</h6>
-                {{-- <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p> --}}
+      </div>
+    </div>
+  </div>
+
+    <div class="modal fade" id="kycModal" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <form method="POST" action="{{ route('saveKYC') }}" enctype="multipart/form-data">
+        <div class="modal-content">
+          <div class="card">
+            <h5 class="card-header">Verify Identity</h5>
+            <div class="card-body">
+                @csrf
+              <div class="form-group mb-3">
+                <label for="ktp">KTP</label>
+                <input type="file" name="ktp" id="ktp" class="form-control" required accept=".jpg,.jpeg,.png,.pdf">
+                <small class="text-secondary">jpeg, jpg, png, pdf</small>
               </div>
+
+              <div class="form-group mb-3">
+                <small class="text-warning">We never share your information.</small>
+              </div>
+              
             </div>
-            <form id="formAccountDeactivation" method="POST" action="{{ route('saveLogin') }}">
-              @csrf
-              <div class="row">
-                <div class="mb-3 col-md-12">
-                  <label for="current_password" class="form-label">Current Password</label>
-                  <input class="form-control" type="password" name="current_password" id="current_password" placeholder="Curent Password" required/>
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="new_password" class="form-label">New Password</label>
-                  <input class="form-control" type="password" name="new_password" id="new_password" placeholder="*********" required/>
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="confirm_new_password" class="form-label">Confirm New Password</label>
-                  <input class="form-control" type="password" name="confirm_new_password" id="confirm_new_password" placeholder="**********" required/>
-                </div>
-              </div>
-              <div class="form-check mb-3">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="accountActivation"
-                  id="accountActivation"
-                  required
-                />
-                <label class="form-check-label" for="accountActivation"
-                  >I confirm to change my password</label
-                >
-              </div>
-              <button type="submit" class="btn btn-danger deactivate-account">Change Password</button>
-            </form>
-          </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Upload KTP</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
+    </div>
+    
+    <div class="modal fade" id="changePassword" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <form id="formAccountDeactivation" method="POST" action="{{ route('saveLogin') }}">
+          <div class="modal-content">
+            <div class="card">
+              <h5 class="card-header">Change Password</h5>
+              <div class="card-body">
+                  @csrf
+                  <div class="row">
+                    <div class="mb-3 col-md-12">
+                      <label for="current_password" class="form-label">Current Password</label>
+                      <input class="form-control" type="password" name="current_password" id="current_password" placeholder="Curent Password" required/>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="new_password" class="form-label">New Password</label>
+                      <input class="form-control" type="password" name="new_password" id="new_password" placeholder="*********" required/>
+                    </div>
+                    <div class="mb-3 col-md-6">
+                      <label for="confirm_new_password" class="form-label">Confirm New Password</label>
+                      <input class="form-control" type="password" name="confirm_new_password" id="confirm_new_password" placeholder="**********" required/>
+                    </div>
+                  </div>
+                  <div class="form-check mb-3">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      name="accountActivation"
+                      id="accountActivation"
+                      required
+                    />
+                    <label class="form-check-label" for="accountActivation"
+                      >I confirm to change my password</label
+                    >
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-danger deactivate-account">Change Password</button>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    
 @endsection

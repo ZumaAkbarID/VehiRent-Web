@@ -1,5 +1,5 @@
 <textarea id="dummyTextErrors" cols="30" rows="10" hidden>
-    <ul class="list-unstyled">
+    <ul class="list-unstyled text-left">
         @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
         @endforeach

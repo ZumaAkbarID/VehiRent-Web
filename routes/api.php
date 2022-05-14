@@ -23,7 +23,7 @@ header('Accept: application/json');
 */
 
 Route::post('register', [APIAuthController::class, 'register']);
-Route::post('verify/{token}', [APIAuthController::class, 'verifyAccount']);
+Route::post('verify', [APIAuthController::class, 'verifyAccount']);
 Route::post('token', [APIAuthController::class, 'token']);
 Route::post('reset', [APIAuthController::class, 'resetPassword']);
 Route::post('reset-check/{token}', [APIAuthController::class, 'resetPasswordCheck']);

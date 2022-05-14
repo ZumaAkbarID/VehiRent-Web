@@ -73,7 +73,20 @@ class BrandController extends Controller
             'brand_name' => 'required|string',
             'upload' => 'required|image|mimes:jpg,png,gif,jpeg|max:2048'
         ]);
+
         $validation['brand_slug'] = Str::slug($request->brand_name . ' ' . Type::find($request->type_id)->first()->type_name);
+
+        $request->merge(['brand_slug' => $validation['brand_slug']]);
+
+        $this->validate(
+            $request,
+            [
+                'brand_slug' => 'unique:brands,brand_slug'
+            ],
+            [
+                'brand_slug.unique' => 'Type ' . Type::find($request->type_id)->type_name . ' has already have brand ' . $request->brand_name
+            ]
+        );
 
         if ($request->hasFile('upload')) {
             $validation['brand_image'] = $request->file('upload')->storeAs('brand-logo', Str::slug($validation['brand_slug']));
@@ -113,16 +126,24 @@ class BrandController extends Controller
      */
     public function update(Request $request)
     {
-        if (Brand::where('brand_slug', Str::slug($request->brand_name . ' ' . Type::find($request->type_id)->first()->type_name))->where('id', '!=', $request->brand_id)->first()) {
-            abort(403);
-        }
-
         $validation = $request->validate([
             'brand_id' => 'required',
             'type_id' => 'required',
             'brand_name' => 'required|string'
         ]);
+
         $validation['brand_slug'] = Str::slug($request->brand_name . ' ' . Type::find($request->type_id)->first()->type_name);
+        $request->merge(['brand_slug' => $validation['brand_slug']]);
+
+        $this->validate(
+            $request,
+            [
+                'brand_slug' => 'unique:brands,brand_slug,' . $request->brand_id
+            ],
+            [
+                'brand_slug.unique' => 'Type ' . Type::find($request->type_id)->type_name . ' has already have brand ' . $request->brand_name
+            ]
+        );
 
         if ($request->hasFile('upload')) {
             $request->validate(['upload' => 'required|image|mimes:jpg,png,gif,jpeg|max:2048']);

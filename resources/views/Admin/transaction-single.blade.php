@@ -74,12 +74,12 @@
                     <td>Guarante</td>
                     <td class="py-3">
                       <ul class="list-unstyled">
-                        <li><a href="{{ asset('/storage/'.$transaction->guarante_rent_1) }}">Guarante 1</a></li>
+                        <li><a target="_blank" href="{{ asset('/storage/'.$transaction->guarante_rent_1) }}">Guarante 1</a></li>
                         @if (!is_null($transaction->guarante_rent_2))
-                        <li><a href="{{ asset('/storage/'.$transaction->guarante_rent_2) }}">Guarante 2</a></li>
+                        <li><a target="_blank" href="{{ asset('/storage/'.$transaction->guarante_rent_2) }}">Guarante 2</a></li>
                         @endif
                         @if (!is_null($transaction->guarante_rent_3))
-                        <li><a href="{{ asset('/storage/'.$transaction->guarante_rent_3) }}">Guarante 3</a></li>
+                        <li><a target="_blank" href="{{ asset('/storage/'.$transaction->guarante_rent_3) }}">Guarante 3</a></li>
                         @endif
                       </ul>
                     </td>
