@@ -39,7 +39,7 @@ class APIAuthController extends Controller
             'updated_at' => null
         ]);
 
-        Mail::send('Auth.Email.emailVerificationEmail', ['token' => $token, 'isMobile' => 1], function ($message) use ($request) {
+        Mail::send('Auth.Email.emailVerificationEmail', ['token' => $token, 'isMobile' => 1, 'client_ip_address' => $request->getClientIp()], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Email Verification Mail');
         });
@@ -146,7 +146,7 @@ class APIAuthController extends Controller
                 'updated_at' => null
             ]);
 
-            Mail::send('Auth.Email.emailVerificationEmail', ['token' => $token, 'isMobile' => 1], function ($message) use ($request) {
+            Mail::send('Auth.Email.emailVerificationEmail', ['token' => $token, 'isMobile' => 1, 'client_ip_address' => $request->getClientIp()], function ($message) use ($request) {
                 $message->to($request->email);
                 $message->subject('Mobile Change Password Verification');
             });
@@ -163,12 +163,12 @@ class APIAuthController extends Controller
             'updated_at' => null
         ]);
 
-        Mail::send('Auth.Email.emailResetPasswordEmail', ['token' => $token, 'isMobile' => 1], function ($message) use ($request) {
+        Mail::send('Auth.Email.emailResetPasswordEmail', ['token' => $token, 'isMobile' => 1, 'client_ip_address' => $request->getClientIp()], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Mobile Change Password Verification');
         });
 
-      	return response(['status' => 'Success', 'message' => 'A OTP code has been sent to your email']);
+        return response(['status' => 'Success', 'message' => 'A OTP code has been sent to your email']);
     }
 
     public function resetPasswordCheck($token)
