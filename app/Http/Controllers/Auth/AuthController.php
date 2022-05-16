@@ -86,7 +86,7 @@ class AuthController extends Controller
             'updated_at' => null
         ]);
 
-        FacadesMail::send('Auth.Email.emailVerificationEmail', ['token' => $token], function ($message) use ($request) {
+        FacadesMail::send('Auth.Email.emailVerificationEmail', ['token' => $token, 'client_ip_address' => $request->getClientIp()], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Email Verification Mail');
         });
@@ -152,7 +152,7 @@ class AuthController extends Controller
                 'updated_at' => null
             ]);
 
-            FacadesMail::send('Auth.Email.emailVerificationEmail', ['token' => $token], function ($message) use ($request) {
+            FacadesMail::send('Auth.Email.emailVerificationEmail', ['token' => $token, 'client_ip_address' => $request->getClientIp()], function ($message) use ($request) {
                 $message->to($request->email);
                 $message->subject('Email Verification Mail');
             });
@@ -169,7 +169,7 @@ class AuthController extends Controller
             'updated_at' => null
         ]);
 
-        FacadesMail::send('Auth.Email.emailResetPasswordEmail', ['token' => $token], function ($message) use ($request) {
+        FacadesMail::send('Auth.Email.emailResetPasswordEmail', ['token' => $token, 'client_ip_address' => $request->getClientIp()], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Resset Password Mail');
         });
