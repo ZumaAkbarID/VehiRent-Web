@@ -70,7 +70,7 @@ class VehicleSpecsController extends Controller
      */
     public function show($id)
     {
-        $vehicle = VehicleSpec::where('id', $id)->with('type')->first();
+        $vehicle = VehicleSpec::where('vehicle_slug', $id)->with('type')->first();
 
         if (!$vehicle) {
             return response(['message' => 'The given data was not found.'], 401);

@@ -135,6 +135,10 @@ Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
 });
 
+Route::get('/migrateseed', function () {
+    Artisan::call('migrate:fresh --seed');
+});
+
 Route::get('/symlink', function () {
     $targetFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage/app/public';
     $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/public/storage';

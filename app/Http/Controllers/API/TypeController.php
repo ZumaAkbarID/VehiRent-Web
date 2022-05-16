@@ -67,7 +67,7 @@ class TypeController extends Controller
      */
     public function show($id)
     {
-        $type = Type::where('id', $id)->with('brand')->first();
+        $type = Type::where('type_slug', $id)->with(['brand', 'VehicleSpec'])->first();
 
         if (!$type) {
             return response(['message' => 'The given data was not found.'], 401);

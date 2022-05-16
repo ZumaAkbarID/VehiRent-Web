@@ -132,7 +132,7 @@ class APIAuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response(['status' => 'Failed', 'Invalid Credentials'], 401);
+            return response(['status' => 'Failed', 'message' => 'Invalid Credentials'], 401);
         }
 
         if (is_null($user->email_verified_at)) {
@@ -141,7 +141,7 @@ class APIAuthController extends Controller
             UserVerify::create([
                 'user_id' => $user->id,
                 'token' => $token,
-                'description' => 'Mobile Change Password Verification',
+                'description' => 'Mobile Email verification',
                 'status' => 'Available',
                 'updated_at' => null
             ]);
@@ -168,7 +168,7 @@ class APIAuthController extends Controller
             $message->subject('Mobile Change Password Verification');
         });
 
-        return redirect()->back()->with('success', 'A password reset confirmation has been sent to your email');
+      	return response(['status' => 'Success', 'message' => 'A OTP code has been sent to your email']);
     }
 
     public function resetPasswordCheck($token)

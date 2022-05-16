@@ -4,6 +4,26 @@
     <title>@if(!is_null($title)) {{ $title }} @else @php config('app.name'); @endphp @endif</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Primary Meta Tags -->
+  <meta name="title" content="{{ $title }}">
+  <meta name="description" content="{{ config('app.name') }} since 2022 specializing in the rental of cars, motorcyle, bicyle and commercial vehicles in The Java. With offices in The Jepara and Krasak, {{ config('app.name') }} is one of the larger rental companies in the region. For both individuals and companies {{ config('app.name') }} offers a solution for almost all (temporary) traffic requirements.">
+  <meta name="author" content="{{ $title }}">
+  <link rel="shortcut icon" href="{{ url('/') }}/assets/favicon.png" type="image/x-icon">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ url('/') }}">
+  <meta property="og:title" content="{{ $title }}">
+  <meta property="og:description" content="{{ config('app.name') }} since 2022 specializing in the rental of cars, motorcyle, bicyle and commercial vehicles in The Java. With offices in The Jepara and Krasak, {{ config('app.name') }} is one of the larger rental companies in the region. For both individuals and companies {{ config('app.name') }} offers a solution for almost all (temporary) traffic requirements.">
+  <meta property="og:image" content="{{ url('/') }}/assets/main/images/ferrari.jpg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="{{ url('/') }}">
+  <meta property="twitter:title" content="{{ $title }}">
+  <meta property="twitter:description" content="{{ config('app.name') }} since 2022 specializing in the rental of cars, motorcyle, bicyle and commercial vehicles in The Java. With offices in The Jepara and Krasak, {{ config('app.name') }} is one of the larger rental companies in the region. For both individuals and companies {{ config('app.name') }} offers a solution for almost all (temporary) traffic requirements.">
+  <meta property="twitter:image" content="{{ url('/') }}/assets/main/images/ferrari.jpg">
     
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">

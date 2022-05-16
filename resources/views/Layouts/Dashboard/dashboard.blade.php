@@ -41,6 +41,8 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="/assets/sneat/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/assets/sneat/vendor/libs/apex-charts/apex-charts.css" />
 
@@ -53,6 +55,8 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/assets/sneat/js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
   </head>
 
   <body>

@@ -58,7 +58,7 @@ class BrandController extends Controller
      */
     public function show($id)
     {
-        $brand = Brand::where('id', $id)->with('type')->first();
+        $brand = Brand::where('brand_slug', $id)->with(['type', 'vehicleSpec'])->first();
 
         if (!$brand) {
             return response(['message' => 'The given data was not found.'], 401);

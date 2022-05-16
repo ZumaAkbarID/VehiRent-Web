@@ -3,13 +3,13 @@
       <div class="row mb-5">
         <div class="col-md">
           <div class="ftco-footer-widget mb-4">
-            <h2 class="ftco-heading-2"><a href="#" class="logo">Source<span> Of Fortune</span></a></h2>
+            <h2 class="ftco-heading-2"><a href="/" class="logo">Source<span style="color: #fff;"> Of Fortune</span></a></h2>
             <p>Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking.</p>
-            <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+            <!-- <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
               <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
               <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
               <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-            </ul>
+            </ul> -->
           </div>
         </div>
         <div class="col-md">
