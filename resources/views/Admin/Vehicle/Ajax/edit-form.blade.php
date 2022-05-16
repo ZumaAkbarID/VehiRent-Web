@@ -139,7 +139,7 @@
             <input type="hidden" name="oldImage" value="{{ $vehicle->vehicle_image }}">
             <img
               src="{{ asset('/storage/'.$vehicle->vehicle_image) }}"
-              alt="user-avatar"
+              alt="vehicle-image"
               class="d-block rounded"
               height="100"
               width="100"

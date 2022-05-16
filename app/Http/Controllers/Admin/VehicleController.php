@@ -87,7 +87,7 @@ class VehicleController extends Controller
         $validation['vehicle_status'] = 'Available';
 
         if ($request->hasFile('upload')) {
-            $validation['vehicle_image'] = $request->file('upload')->storeAs('vehicle-image', $validation['vehicle_slug'] . Str::slug($request->number_plate));
+            $validation['vehicle_image'] = $request->file('upload')->storeAs('vehicle-image', $validation['vehicle_slug'] . Str::slug('-' . $request->number_plate));
         }
 
         VehicleSpec::create($validation);
@@ -152,8 +152,10 @@ class VehicleController extends Controller
 
         if ($request->hasFile('upload')) {
             $request->validate(['upload' => 'required|image|mimes:jpg,png,gif,jpeg|max:2048']);
-            $validation['vehicle_image'] = $request->file('upload')->storeAs('vehicle-image', $validation['vehicle_slug'] . Str::slug($request->number_plate));
-            Storage::delete($request->oldImage);
+            if (Storage::exists($request->oldImage)) {
+                Storage::delete($request->oldImage);
+            }
+            $validation['vehicle_image'] = $request->file('upload')->storeAs('vehicle-image', $validation['vehicle_slug'] . Str::slug('-' . $request->number_plate));
         } else {
             $validation['vehicle_image'] = $request->oldImage;
         }

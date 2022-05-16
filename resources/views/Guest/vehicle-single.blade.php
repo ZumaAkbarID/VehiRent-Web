@@ -160,7 +160,7 @@
                           <span class="cat">{{ $item->brand->brand_name }}</span>
                           <p class="price ml-auto">Rp.{{ number_format($item->rent_price,2,',','.') }} <span>/day</span></p>
                       </div>
-                      <p class="d-flex mb-0 d-block"><a href="{{ route('rentalNow', $vehicle->vehicle_slug) }}" class="btn btn-primary py-2 mr-1">Rental now</a> <a href="{{ route('vehicleSingle', $vehicle->vehicle_slug) }}" class="btn btn-secondary py-2 ml-1">Details</a></p>
+                      <p class="d-flex mb-0 d-block"><a href="{{ route('rentalNow', $item->vehicle_slug) }}" class="btn btn-primary py-2 mr-1">Rental now</a> <a href="{{ route('vehicleSingle', $item->vehicle_slug) }}" class="btn btn-secondary py-2 ml-1">Details</a></p>
                   </div>
               </div>
           </div>
