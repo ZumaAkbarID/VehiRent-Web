@@ -414,6 +414,9 @@
             $.get("{{ route('AdminCreateVehicleForm') }}", {}, function(data, status) {
                 $('#modal-section').empty().html(data);
                 $('#modalDialog').modal('show');
+                $(document).ready(function() {
+                    $('#summernote').summernote();
+                });
             }).fail(function(data){
                   Swal.fire({
                     icon: 'error',
@@ -491,6 +494,9 @@
             $.get("/admin/vehicle/edit/"+id, {}, function(data, status) {
                 $('#modal-section').empty().html(data);
                 $('#modalDialog').modal('show');
+                $(document).ready(function() {
+                    $('#summernote').summernote();
+                });
             }).fail(function(data){
                   Swal.fire({
                     icon: 'error',

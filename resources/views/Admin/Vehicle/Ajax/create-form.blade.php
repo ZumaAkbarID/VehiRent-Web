@@ -112,7 +112,7 @@
             <textarea
               class="form-control"
               name="vehicle_description" 
-              id="vehicle_description" 
+              id="summernote" 
               required
               placeholder="HTML Support"
               autofocus

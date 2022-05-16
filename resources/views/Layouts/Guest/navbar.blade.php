@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-      <img src="/assets/main/images/Cyan.png" width="100px">
+      <img src="/assets/icon.png" width="100px">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="oi oi-menu"></span> Menu
       </button>
@@ -15,12 +15,12 @@
         </ul>
         <ul class="navbar-nav mr-auto">
           @auth   
-          <li class="nav-item"><a href="{{ route('redirects') }}" class="nav-link btn btn-secondary btn-sm py-1 px-3">Dashboard</a></li>
+          <li class="nav-item"><a href="{{ route('redirects') }}" class="nav-link btn btn-secondary btn-sm py-1 px-3" style="color: #fff !important;">Dashboard</a></li>
           <li class="nav-item"><a href="{{ route('logout') }}" class="nav-link btn btn-sm py-1 px-3">Logout</a></li>
           @endauth
           @if (!auth()->check())
           <li class="nav-item"><a href="{{ route('register') }}" class="nav-link btn btn-sm py-1 px-3">Register</a></li>
-          <li class="nav-item"><a href="{{ route('login') }}" class="nav-link btn btn-secondary btn-sm py-1 px-3">Login</a></li>
+          <li class="nav-item"><a href="{{ route('login') }}" class="nav-link btn btn-secondary btn-sm py-1 px-3" style="color: #fff !important;">Login</a></li>
           @endif
         </ul>
       </div>

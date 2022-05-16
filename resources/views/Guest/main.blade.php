@@ -9,7 +9,7 @@
             <div class="text w-100 text-center mb-md-5 pb-md-5">
               <h1 class="mb-4">Fast &amp; Easy Way To Rent A Car</h1>
               <p style="font-size: 18px;">Source of fortune for everyone</p>
-              <a href="https://www.youtube.com/watch?v=V_Gb83pGhe0" class="icon-wrap popup-youtube d-flex align-items-center mt-4 justify-content-center">
+              <a href="https://www.youtube.com/watch?v=0FcU9xT-qqA" class="icon-wrap popup-youtube d-flex align-items-center mt-4 justify-content-center">
                   <div class="icon d-flex align-items-center justify-content-center">
                       <span class="ion-ios-play"></span>
                   </div>
@@ -69,8 +69,8 @@
       <div class="container">
           <div class="row justify-content-center">
         <div class="col-md-12 heading-section text-center ftco-animate mb-5">
-            <span class="subheading">What we offer</span>
-          <h2 class="mb-2">Feeatured Vehicles</h2>
+            <span class="subheading" style="color:#000035;">What we offer</span>
+          <h2 class="mb-2">Featured Vehicles</h2>
         </div>
       </div>
           <div class="row">
@@ -138,7 +138,7 @@
                   </div>
                   <div class="col-md-3">
                       <div class="services services-2 w-100 text-center">
-              <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-transportation"></span></div>
+              <div class="icon d-flex align-items-center justify-content-center"><i class="fa-solid fa-wallet text-white fs-2"></i></div>
               <div class="text w-100">
               <h3 class="heading mb-2">Cheap</h3>
               <p>The prices we offer are very affordable so they are pocket friendly.</p>

@@ -18,9 +18,9 @@ class PaymentController extends Controller
     public function get_user_invoice()
     {
         if (request()->limit) {
-            return Rental::with(['payment', 'vehicleSpec'])->where('user_id', auth('sanctum')->user()->id)->limit(request()->limit)->get();
+            return (sizeof(Rental::with(['payment', 'vehicleSpec'])->where('user_id', auth('sanctum')->user()->id)->limit(request()->limit)->get()) == 0) ? response(['status' => 'Info', 'message' => 'Payment not found']) : Rental::with(['payment', 'vehicleSpec'])->where('user_id', auth('sanctum')->user()->id)->limit(request()->limit)->get();
         } else {
-            return Rental::with(['payment', 'vehicleSpec'])->where('user_id', auth('sanctum')->user()->id)->get();
+            return (sizeof(Rental::with(['payment', 'vehicleSpec'])->where('user_id', auth('sanctum')->user()->id)->get()) == 0) ? response(['status' => 'Info', 'message' => 'Payment not found']) : Rental::with(['payment', 'vehicleSpec'])->where('user_id', auth('sanctum')->user()->id)->get();
         }
     }
 
