@@ -147,8 +147,8 @@ class BrandController extends Controller
 
         if ($request->hasFile('upload')) {
             $request->validate(['upload' => 'required|image|mimes:jpg,png,gif,jpeg|max:2048']);
-            $validation['brand_image'] = $request->file('upload')->storeAs('brand-logo', $validation['brand_slug']);
             Storage::delete($request->oldImage);
+            $validation['brand_image'] = $request->file('upload')->storeAs('brand-logo', $validation['brand_slug']);
         } else {
             $validation['brand_image'] = $request->oldImage;
         }

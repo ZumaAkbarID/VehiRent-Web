@@ -23,14 +23,14 @@ class ActionController extends Controller
         if (!request()->ajax()) {
             return redirect()->to(route('rentalAction'));
         }
-        return view('Admin.RentalAction.ajax.main-table', [
-            'rental' => Rental::with(['vehicleSpec', 'payment', 'user'])->where('transaction_code', str_replace('#', '', urldecode(request()->search)))->first()
+        return view('Admin.RentalAction.Ajax.main-table', [
+            'rental' => Rental::with(['vehicleSpec', 'payment', 'user'])->where('transaction_code', 'like', '%' . str_replace('#', '', urldecode(request()->search)) . '%')->first()
         ]);
     }
 
     public function edit($id)
     {
-        return view('Admin.RentalAction.ajax.edit-form', [
+        return view('Admin.RentalAction.Ajax.edit-form', [
             'rental' => Rental::with(['vehicleSpec', 'payment', 'user'])->find($id)
         ]);
     }
