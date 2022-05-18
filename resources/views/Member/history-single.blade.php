@@ -23,15 +23,15 @@
                   </tr>
                   <tr>
                     <td>Vehicle Brand</td>
-                    <td class="py-3"><a href="/brand/{{ $brand->brand_slug }}">{{ $brand->brand_name }}</a></td>
+                    <td class="py-3">{{ $brand->brand_name }}</td>
                   </tr>
                   <tr>
                     <td>Vehicle Type</td>
-                    <td class="py-3"><a href="/type/{{ $brand->type->type_slug }}">{{ $brand->type->type_name }}</a></td>
+                    <td class="py-3">{{ $brand->type->type_name }}</td>
                   </tr>
                   <tr>
                     <td>Vehicle Name</td>
-                    <td class="py-3"><a href="/brand/{{ $brand->brand_slug.'/'.$vehicle->vehicle_slug }}">{{ $vehicle->vehicle_name }}</a></td>
+                    <td class="py-3">{{ $vehicle->vehicle_name }}</td>
                   </tr>
                   <tr>
                     <td>Vehicle Picture</td>
@@ -54,11 +54,11 @@
                   </tr>
                   @endif
                   <tr>
-                    <td>Start Rental</td>
+                    <td>Start Book/Rental</td>
                     <td class="py-3">{{ date('D d-M-Y H:i:s', strtotime($transaction->start_rent_date)) }}</td>
                   </tr>
                   <tr>
-                    <td>End Rental</td>
+                    <td>End Book/Rental</td>
                     <td class="py-3">{{ date('D d-M-Y H:i:s', strtotime($transaction->end_rent_date)) }}</td>
                   </tr>
                   @if (!is_null($transaction->vehicle_picked)) 

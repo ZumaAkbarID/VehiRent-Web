@@ -51,7 +51,7 @@ class DashboardController extends Controller
     {
         $transaction = Rental::where('transaction_code', $transaction_code)->with(['vehicleSpec', 'payment'])->first();
 
-        if ($transaction->user_id !== auth()->user()->id) {
+        if ((int) $transaction->user_id !== (int) auth()->user()->id) {
             return redirect('/history');
         }
 

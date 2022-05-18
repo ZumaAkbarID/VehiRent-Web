@@ -181,8 +181,8 @@ hr {
                             <input type="hidden" name="id_vehicle" value="{{ $vehicle->id }}" required>
                             <div class="col-md-6 mb-4">
                                 <label for="start_rent_date">Start Rental Date <span class="text-danger" style="font-size: 12px">required</span></label>
-                                <input type="date" name="start_date" id="start_rent_date" class="form-control form-control-sm" required>
-                                <input type="hidden" name="start_rent_date" id="startDate" value="" required>
+                                <input type="date" name="start_date" id="start_rent_date" class="form-control form-control-sm" required min="{{ date('Y-m-d') }}">
+                                <input type="hidden" name="start_rent_date" id="startDate" value="" required min="{{ date('Y-m-d') }}">
                             </div>
                             <div class="col-md-6 mb-4">
                                 <label for="end_rent_date">End Rental Date <span class="text-danger" style="font-size: 12px">required</span></label>

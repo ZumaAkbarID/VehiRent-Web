@@ -64,6 +64,7 @@
 
     @include('Layouts.Guest.footer')
     
+    @include('Partials.alert')
   
 
   <!-- loader -->
