@@ -120,29 +120,6 @@ class RentalController extends Controller
                 'end_book_date' => $request->end_rent_date,
                 'status_book' => 'Booked',
             ]);
-        }
-
-        $startDate = strtotime($request->start_rent_date);
-        $endDate = strtotime($request->end_rent_date);
-
-        $timeDiff = abs($startDate - $endDate);
-        $numberDays = $timeDiff / 86400;
-        $numberDays = intval($numberDays);
-
-        $sentMail = Mail::send('Email.emailInvoice', [
-            'client_ip_address' => $request->getClientIp(),
-            'transaction_code' => $trxCode,
-            'status' => 'Unpaid',
-            'vehicle' => $vehicle->first(),
-            'numberDays' => $numberDays,
-            'user' => auth('sanctum')->user(),
-            'rental' => $query
-        ], function ($message) use ($request) {
-            $message->to(auth('sanctum')->user()->email);
-            $message->subject('Rental Invoice');
-        });
-
-        if ($sentMail) {
             return response(['message' => 'Success.', 'invoice_code' => $trxCode], 200);
         } else {
             return response(['message' => 'Server error cannot create rental.'], 500);
