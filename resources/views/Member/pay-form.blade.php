@@ -12,7 +12,10 @@
             <div class="row">
                 <div class="col-lg-4 col-sm-12">
                     <ul class="list-unstyled">
-                        <li>Cara Bayar</li>
+                        <li><b>How To Pay</b></li>
+			<li>1. Insert your name</li>
+			<li>2. Upload payment confirmation receipt</li>
+			<li>3. And then press the submit payment button to pay</li>
                     </ul>
                 </div>
                 <div class="col-lg-8 col-sm-12">
@@ -37,8 +40,8 @@
                         <div class="row">
                             <div class="col-lg-6 col-sm-12">
                                 <div class="form-group mb-3">
-                                    <label for="payer_name">Payer Name</label>
-                                    <input type="text" name="payer_name" id="payer_name" value="" class="form-control" required placeholder="Name who pay">
+                                    <label for="payer_name">Name</label>
+                                    <input type="text" name="payer_name" id="payer_name" value="" class="form-control" required placeholder="Your Name">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12">

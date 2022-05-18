@@ -22,7 +22,7 @@ class CreateRentalsTable extends Migration
             $table->dateTime('end_rent_date');
             $table->dateTime('vehicle_picked')->nullable();
             $table->dateTime('vehicle_returned')->nullable();
-            $table->enum('status', ['Approved', 'Rejected', 'Returned', 'Completed', 'In Use', 'Not Restored', 'Not Picked']);
+            $table->enum('status', ['Book', 'Rejected', 'Returned', 'Completed', 'In Use', 'Not Restored', 'Not Picked']);
             $table->string('reason')->nullable();
             $table->string('guarante_rent_1');
             $table->string('guarante_rent_2')->nullable();

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booked;
 use App\Models\Rental;
 use App\Models\User;
 use App\Models\VehicleSpec;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -47,11 +49,26 @@ class RentalController extends Controller
             'totalAmount' => 'required'
         ]);
 
-        $vehicle = VehicleSpec::where('vehicle_slug', $vehicle_slug);
+        $vehicle = VehicleSpec::with(['brand', 'type'])->where('vehicle_slug', $vehicle_slug);
         if (!$vehicle->first()) {
-            return response(['message' => 'Data vehicle was not found.'], 401);
+            return response(['status' => 'Failed', 'message' => 'Data vehicle was not found.'], 401);
         } else if (!$vehicle->where('vehicle_status', 'Available')->first()) {
-            return response(['message' => 'Vehicle not available to rental.'], 401);
+            return response(['status' => 'Failed', 'message' => 'Vehicle not available to rental.'], 401);
+        }
+
+        $bookList = Booked::where('id_vehicle', $request->id_vehicle)->where('status_book', 'Booked')->get();
+        if (sizeof($bookList) !== 0) {
+            foreach ($bookList as $book) {
+                if ($book->start_book_date <= $request->start_rent_date && $book->end_book_date >= $request->end_rent_date) {
+                    return response(['status' => 'Failed', 'message' => "This Vehicle has been booked for " . date('D d M Y', strtotime($book->start_book_date)) . " until " . date('D d M Y', strtotime($book->end_book_date)) . ". You can search other day or vehicle"], 401);
+                } else if ($request->end_rent_date == $book->end_book_date || $request->start_rent_date == $book->start_book_date || $request->end_rent_date == $book->start_book_date || $request->start_rent_date == $book->end_book_date) {
+                    return response(['status' => 'Failed', 'message' => "This Vehicle has been booked for " . date('D d M Y', strtotime($book->start_book_date)) . " until " . date('D d M Y', strtotime($book->end_book_date)) . ". You can search other day or vehicle"], 401);
+                } else if ($book->start_book_date < $request->start_rent_date && $book->end_book_date > $request->start_rent_date) {
+                    return response(['status' => 'Failed', 'message' => "This Vehicle has been booked for " . date('D d M Y', strtotime($book->start_book_date)) . " until " . date('D d M Y', strtotime($book->end_book_date)) . ". You can search other day or vehicle"], 401);
+                } else if ($book->start_book_date < $request->end_rent_date && $book->end_book_date > $request->end_rent_date) {
+                    return response(['status' => 'Failed', 'message' => "This Vehicle has been booked for " . date('D d M Y', strtotime($book->start_book_date)) . " until " . date('D d M Y', strtotime($book->end_book_date)) . ". You can search other day or vehicle"], 401);
+                }
+            }
         }
 
         // Create Code
@@ -66,7 +83,21 @@ class RentalController extends Controller
         $query->id_vehicle = $vehicle->first()->id;
         $query->start_rent_date = $request->start_rent_date;
         $query->end_rent_date = $request->end_rent_date;
-        $query->status = 'Not Picked';
+
+        if (date('Y-m-d') == $request->start_rent_date) {
+            $isBooked = false;
+        } else if (strtotime(date('Y-m-d')) < strtotime($request->start_rent_date)) {
+            $isBooked = true;
+        } else {
+            return response(['status' => 'Failed', 'message' => "Rent date must be highter than now!"], 401);
+        }
+
+        if ($isBooked) {
+            $query->status = 'Booked';
+        } else {
+            $query->status = 'Not Picked';
+            $vehicle->where('vehicle_status', 'Available')->update(['vehicle_status' => 'Not Available']);
+        }
 
         if ($request->hasFile('guarante_rent_1')) {
             $query->guarante_rent_1 = $request->file('guarante_rent_1')->storeAs('guarante-ktp', 'KTP-' . date('d-m-y-h-i-s') . '-' . Str::slug(auth('sanctum')->user()->name) . '.' . $request->file('guarante_rent_1')->getClientOriginalExtension());
@@ -78,8 +109,40 @@ class RentalController extends Controller
             $this->validate($request, ['guarante_rent_3' => 'required|file|mimes:jpg,png,jpeg,pdf']);
         }
         $query->rent_price = $request->totalAmount;
+        $query->save();
 
-        if ($query->save() && $vehicle->where('vehicle_status', 'Available')->first()->update(['vehicle_status' => 'Not Available'])) {
+        if ($isBooked) {
+            Booked::create([
+                'id_rental' => $query->id,
+                'id_vehicle' => $vehicle->first()->id,
+                'id_user' => auth('sanctum')->user()->id,
+                'start_book_date' => $request->start_rent_date,
+                'end_book_date' => $request->end_rent_date,
+                'status_book' => 'Booked',
+            ]);
+        }
+
+        $startDate = strtotime($request->start_rent_date);
+        $endDate = strtotime($request->end_rent_date);
+
+        $timeDiff = abs($startDate - $endDate);
+        $numberDays = $timeDiff / 86400;
+        $numberDays = intval($numberDays);
+
+        $sentMail = Mail::send('Email.emailInvoice', [
+            'client_ip_address' => $request->getClientIp(),
+            'transaction_code' => $trxCode,
+            'status' => 'Unpaid',
+            'vehicle' => $vehicle->first(),
+            'numberDays' => $numberDays,
+            'user' => auth('sanctum')->user(),
+            'rental' => $query
+        ], function ($message) use ($request) {
+            $message->to(auth('sanctum')->user()->email);
+            $message->subject('Rental Invoice');
+        });
+
+        if ($sentMail) {
             return response(['message' => 'Success.', 'invoice_code' => $trxCode], 200);
         } else {
             return response(['message' => 'Server error cannot create rental.'], 500);

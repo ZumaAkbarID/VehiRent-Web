@@ -195,6 +195,10 @@ class APIAuthController extends Controller
             $updatePassword = User::where('id', $verifyUser->user_id)->update(['password' => Hash::make($request->password)]);
             if ($updatePassword) {
                 $verifyUser->update(['token' => time(), 'status' => 'Expire',]);
+                Mail::send('Email.emailChangePasswordEmail', ['client_ip_address' => $request->getClientIp()], function ($message) use ($request) {
+                    $message->to($request->email);
+                    $message->subject('Resset Password Mail');
+                });
                 return response(['status' => 'Success', 'message' => 'Your password has been successfully updated']);
             }
             return response(['status' => 'Failed', 'message' => 'Your password failed to update'], 500);

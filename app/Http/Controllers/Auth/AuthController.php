@@ -205,6 +205,10 @@ class AuthController extends Controller
             $updatePassword = User::where('id', $verifyUser->user_id)->update(['password' => Hash::make($request->password)]);
             if ($updatePassword) {
                 $verifyUser->update(['status' => 'Expire',]);
+                FacadesMail::send('Email.emailChangePasswordEmail', ['client_ip_address' => $request->getClientIp()], function ($message) use ($request) {
+                    $message->to($request->email);
+                    $message->subject('Resset Password Mail');
+                });
                 return redirect('/auth/login')->with('success', 'Your password has been successfully updated');
             }
             return redirect('/auth/login')->with('error', 'Your password failed to update');
