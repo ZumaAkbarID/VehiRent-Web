@@ -22,6 +22,7 @@
             <form id="formAuthentication" class="mb-3" action="{{ route('save-password') }}" method="POST">
             @csrf
             <input type="hidden" name="tkn" value="{{ $token }}">
+            <input type="hidden" name="email" value="{{ $user->email }}">
               <div class="mb-3">
                 <label for="password" class="form-label">New Password</label>
                 <input

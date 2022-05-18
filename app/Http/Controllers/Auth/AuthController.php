@@ -179,14 +179,15 @@ class AuthController extends Controller
 
     public function verifyResetPassword($token)
     {
-        $verifyUser = UserVerify::where('token', $token)->where('status', '!=', 'Available')->first();
+        $verifyUser = UserVerify::where('token', $token)->where('status', '=', 'Available')->first();
 
         $message = 'Sorry your token cannot be identified.';
 
         if (!is_null($verifyUser)) {
             $data = [
                 'title' => 'Create New Password',
-                'token' => $token
+                'token' => $token,
+                'user' => User::find($verifyUser->user_id)
             ];
             return view('Auth.create-password', $data);
         }
